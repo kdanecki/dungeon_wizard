@@ -121,6 +121,8 @@ public:
 		TArray<FDoorInfo> Doors;
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* Mesh;
+	UPROPERTY(VisibleAnywhere)
+		int number;
 	//UPROPERTY(EditAnywhere)
 		//UStaticMesh* RoomMesh;
 	//UPROPERTY(EditAnywhere)

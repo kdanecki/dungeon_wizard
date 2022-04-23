@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Room.h"
 #include "Passage.h"
+#include "Item.h"
 
 #include "DungeonGenerator.generated.h"
 
@@ -35,6 +36,9 @@ public:
 		int RoomsLeft;
 	UPROPERTY(EditAnywhere)
 		UMaterialInterface* RedMaterial;
+	UPROPERTY(EditAnywhere)
+		TArray<TSubclassOf<AItem>> ItemsToSpawn;
+
 
 	UFUNCTION(BlueprintImplementableEvent)
 		float RandomFloat(float Min, float Max);

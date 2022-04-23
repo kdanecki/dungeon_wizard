@@ -9,7 +9,7 @@ APassage::APassage()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	bReplicates = true;
 	Mesh = CreateDefaultSubobject<USplineMeshComponent>(TEXT("Mesh"));
 	SetRootComponent(Mesh);
 	//Mesh->SetupAttachment(RootComponent);
@@ -22,6 +22,13 @@ void APassage::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void APassage::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(APassage, MeshParams);
 }
 
 // Called every frame
@@ -46,3 +53,8 @@ void APassage::CreatePassage(FVector EndWorldLocation, FVector EndDirection)
 	Mesh->RegisterComponent();
 	
 }*/
+
+void APassage::OnRep_MeshParams()
+{
+	Mesh->SetStartAndEnd(MeshParams.Start, MeshParams.StartTangent, MeshParams.End, MeshParams.EndTangent);
+}

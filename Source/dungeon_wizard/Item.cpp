@@ -1,0 +1,156 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "Item.h"
+/*
+Uclass::Uclass()
+{
+	class_id = class_cnt++;
+	//classesTable[class_id].uclass = this;
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("%d "), class_id));
+	}
+}
+*/
+extern int game_started;
+// Sets default values
+int foofoo(const TCHAR* c, int b)
+{
+	const wchar_t *w = c;
+	FString f = "BP_Stone2";
+	FString f1 = "BP_Stone3";
+	FString f2 = "BP_Stone4";
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("%s "), w));
+		b+=3;
+	}
+	else return -1;
+	if (!wcscmp(w, *f)) b += 10;
+	if (!wcscmp(w, *f1)) b += 100;
+	if (!wcscmp(w, *f2)) b += 200;
+
+	for (int i = 0; i < 10; i++)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("%d %d"), w[i], f.GetCharArray()[i]));
+	}
+
+	b+=2;
+	return b;
+}
+
+AItem::AItem()
+{
+	//create_elements();
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
+	CollisionEnabled = true;
+	ResourceType = TEXT("not defined");
+	CanBePickedUp = true;
+	if (game_started)
+	{
+		//ResourceType = TEXT("lalala");
+		if (GEngine)
+		{
+		/*	FName name = this->GetFName();
+			FString s = name.GetPlainNameString();
+			
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, s);
+		//	int b = foofoo(*s, 1);  
+		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("%d "), b));
+			size_t cnt;
+			char n[128];
+			size_t size = 2 * (s.Len() + 1);
+			wcstombs_s(&cnt, n, size, *s, size - 1);
+			Detail = new Resource(n, 1);
+			classesTable[1].resource = Detail; 
+			Detail->ue = this->GetClass();*/
+		}
+//		auto ResourceTypeAnsi = StringCast<ANSICHAR>(*ResourceType);
+		
+	}
+}
+
+
+
+// Called when the game starts or when spawned
+void AItem::BeginPlay()
+{
+	Super::BeginPlay();
+	//UE_LOG(LogTemp, Warning, TEXT("actor %s"), FString::Printf("test"));
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, ResourceType);
+	}
+	if (HasAuthority())
+	{
+	//	MySetActorEnableCollision(false);
+	}
+}
+
+void AItem::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AItem, CollisionEnabled);
+	DOREPLIFETIME(AItem, Weight);
+	
+}
+
+// Called every frame
+void AItem::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GEngine && HasAuthority())
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("%s"), CollisionEnabled ? TEXT("true") : TEXT("false")));
+	}
+	else if (GEngine)
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Orange, FString::Printf(TEXT("%s"), CollisionEnabled ? TEXT("true") : TEXT("false")));
+	}
+}
+
+void AItem::SetDefaults(int Quantity)
+{
+	Detail = new Resource(TCHAR_TO_UTF8(*ResourceType), Quantity);
+	Detail->ue = this->GetClass();
+}
+
+int AItem::GetQuantity()
+{
+	if (Detail)
+	{
+		return Detail->quantity;
+	}
+	return -1;
+}
+
+void AItem::MySetActorEnableCollision(bool Enabled)
+{
+	CollisionEnabled = Enabled;
+	SetActorEnableCollision(CollisionEnabled);
+	if (GEngine)
+	{
+	//	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("%s"), Enabled ? TEXT("true") : TEXT("false")));
+	}
+}
+
+void AItem::OnRep_CollisionEnabled()
+{
+	/*if (HasAuthority())
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("updated")));
+		}
+	}
+	else if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("updated")));
+	}*/
+	SetActorEnableCollision(CollisionEnabled);
+	
+}
