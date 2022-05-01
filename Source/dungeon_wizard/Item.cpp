@@ -48,7 +48,14 @@ AItem::AItem()
 	bReplicates = true;
 	CollisionEnabled = true;
 	ResourceType = TEXT("not defined");
+	ResourceId = -1;
 	CanBePickedUp = true;
+	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
+	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Widget"));
+	StaticMesh->SetupAttachment(RootComponent);
+	WidgetComponent->SetupAttachment(StaticMesh);
+	WidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	WidgetComponent->SetDrawAtDesiredSize(true);
 	if (game_started)
 	{
 		//ResourceType = TEXT("lalala");
@@ -115,7 +122,7 @@ void AItem::Tick(float DeltaTime)
 
 void AItem::SetDefaults(int Quantity)
 {
-	Detail = new Resource(TCHAR_TO_UTF8(*ResourceType), Quantity);
+	Detail = new Resource((Element_type)ResourceId, Quantity);
 	Detail->ue = this->GetClass();
 }
 
@@ -123,7 +130,7 @@ int AItem::GetQuantity()
 {
 	if (Detail)
 	{
-		return Detail->quantity;
+		return Detail->props.quantity;
 	}
 	return -1;
 }

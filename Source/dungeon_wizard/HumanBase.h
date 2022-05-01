@@ -10,6 +10,8 @@
 #include "Clothes.h"
 #include "ContainerBase.h"
 
+#include "alchemik/mixtures/mixture.h"
+
 #include "HumanBase.generated.h"
 
 
@@ -87,14 +89,15 @@ public:
 
 
 	// skills
+	Skills* player_skills;
 	UPROPERTY(BlueprintReadWrite)
-		FSkills Skills;
+		FSkills UeSkills;
 	// Inventory
-protected:
+
 	UPROPERTY(Replicated)
 		float InventoryWeight;
 
-public:
+
 	UPROPERTY(BlueprintReadOnly, Replicated)
 		AItem* RightHand;
 	UPROPERTY(BlueprintReadOnly, Replicated)

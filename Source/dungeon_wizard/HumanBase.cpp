@@ -2,8 +2,9 @@
 
 
 #include "HumanBase.h"
-#include "alchemik/player.h"
+//#include "alchemik/player.h"
 #include <string>
+
 
 // Sets default values
 AHumanBase::AHumanBase()
@@ -12,15 +13,27 @@ AHumanBase::AHumanBase()
 	PrimaryActorTick.bCanEverTick = true;
 	//UpdateWidget = 0;
 
-	Skills.Carrying = 100;
-	Skills.WoodCutting = 10;
-	Skills.StoneGathering = 5;
-	Skills.Mining = 5;
-	Skills.Building = 25;
-	Skills.Fighting = 10;
-	Skills.FruitGathering = 20;
-	Skills.Foraging = 10;
-	Skills.Farming = 10;
+	UeSkills.Carrying = 100;
+	UeSkills.WoodCutting = 10;
+	UeSkills.StoneGathering = 5;
+	UeSkills.Mining = 5;
+	UeSkills.Building = 25;
+	UeSkills.Fighting = 10;
+	UeSkills.FruitGathering = 20;
+	UeSkills.Foraging = 10;
+	UeSkills.Farming = 10;
+
+	player_skills = new Skills();
+	player_skills->add(SK_RZEMIOSLO);
+	player_skills->add(SK_WALKA);
+	player_skills->add(SK_MAGIA);
+	player_skills->add(SK_ZIELARSTWO);
+	player_skills->add(SK_WIAZANIE);
+	player_skills->add(SK_KAMIENIARSTWO);
+	player_skills->add(SK_WEDKARSTWO);
+	player_skills->add(SK_HODOWLA);
+	player_skills->add(SK_ZDUNSTWO);
+
 
 	InventoryWeight = 0;
 
@@ -81,8 +94,7 @@ void AHumanBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis("MoveRight", this, &AHumanBase::MoveRight);
 	PlayerInputComponent->BindAxis("LookHorizontal", this, &AHumanBase::LookHorizontal);
 	PlayerInputComponent->BindAxis("LookVertical", this, &AHumanBase::LookVertical);
-	PlayerInputComponent->BindAction("LeftMouseButton", IE_Pressed, this, &AHumanBase::Action);
-	PlayerInputComponent->BindAction("RightMouseButton", IE_Pressed, this, &AHumanBase::SecondaryAction);
+	
 	PlayerInputComponent->BindAction("Tool0", IE_Pressed, this, &AHumanBase::RightSelectTool0);
 	PlayerInputComponent->BindAction("Tool1", IE_Pressed, this, &AHumanBase::RightSelectTool1);
 	PlayerInputComponent->BindAction("Tool2", IE_Pressed, this, &AHumanBase::RightSelectTool2);
@@ -95,7 +107,7 @@ void AHumanBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAction("LTool4", IE_Pressed, this, &AHumanBase::LeftSelectTool4);
 	PlayerInputComponent->BindAction("OpenInventory", IE_Pressed, this, &AHumanBase::OpenInventory);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Talk", IE_Pressed, this, &AHumanBase::Talk);
+	//PlayerInputComponent->BindAction("Talk", IE_Pressed, this, &AHumanBase::Talk);
 	PlayerInputComponent->BindAction("Drop", IE_Pressed, this, &AHumanBase::Drop);
 	PlayerInputComponent->BindAction("Drop2", IE_Pressed, this, &AHumanBase::Drop2);
 	//PlayerInputComponent->BindAction("Mix", IE_Pressed, this, &AHumanBase::Drop);
@@ -451,60 +463,12 @@ void AHumanBase::LookVertical(float value)
 
 void AHumanBase::Action()
 {
-	AItem* Item = Cast<AItem>(LookingAt);
-	if (Item)
-	{
-		if (Skills.Carrying >= InventoryWeight + Item->Weight)
-		{
-			if (!IsValid(RightHand))
-			{
-				RightPickUp(Item);
-			}
-			else
-			{
-				if (GEngine)
-				{
-					GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("already carrying")));
-				}
-			}
-		}
-		else
-		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("too heavy")));
-			}
-		}
-	}
+
 }
 
 void AHumanBase::SecondaryAction()
 {
-	AItem* Item = Cast<AItem>(LookingAt);
-	if (Item)
-	{
-		if (Skills.Carrying >= InventoryWeight + Item->Weight)
-		{
-			if (!IsValid(LeftHand))
-			{
-				LeftPickUp(Item);
-			}
-			else
-			{
-				if (GEngine)
-				{
-					GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("already carrying")));
-				}
-			}
-		}
-		else
-		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("too heavy")));
-			}
-		}
-	}
+
 
 }
 
@@ -616,20 +580,83 @@ void AHumanBase::OpenInventory()
 
 void AHumanBase::Craft(TArray<AItem*> Items, FString str)
 {
-	Player *p = new Player();
 	FActorSpawnParameters SpawnParams;
 	Resource** res_table = (Resource**) calloc(Items.Num(), sizeof(Resource*));
 	for (int i = 0; i < Items.Num(); i++)
 	{
 		res_table[i] = Items[i]->Detail;
 	}
+	Mix_source src(Items.Num(), res_table, player_skills, nullptr);
+	Mix_result result;
 	if (Items.Num() == 2)
 	{
-		Result * r = new Result;
-		r->res = nullptr;
-		//FString str1 = FString(ANSI_TO_TCHAR("nó¿ kamienny"));
-		int a = mix_skill(p->skills, TCHAR_TO_UTF8(*str), r, 2, res_table);
-		if (r->res)
+		int a = mix(&src, &result);
+		switch (a)
+		{
+		// bez skilla
+		case 0:
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("ERROR 0")));
+			}
+			break;
+		// za jakis czas
+		case 1:
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("ERROR 1")));
+			}
+			break;
+		// 
+		case 2:
+			if (result.mix_count > 0)
+			{
+				src.mix = result.mix_table[0];
+				int b = mix(&src, &result);
+				if (b == 0)
+				{
+					for (int i = 0; i < result.res_count; i++)
+					{
+						AItem* Item = GetWorld()->SpawnActor<AItem>(result.res[i]->ue, GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation(), SpawnParams);
+						Item->Detail = result.res[i];
+					}
+					for (int i = 0; i < Items.Num(); i++)
+					{
+						if (Items[i]->Detail->props.quantity < 1)
+						{
+							delete Items[i]->Detail;
+							Items[i]->Destroy();
+						}
+					}
+				}
+				else if (b == 1)
+				{
+					if (GEngine)
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("czekamy...")));
+					}
+				}
+				else
+				{
+					if (GEngine)
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("bu")));
+					}
+				}
+			}
+			else
+			{
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("ERROR no mixtures")));
+				}
+			}
+			break;
+		default:
+			break;
+		}
+
+		/*if (r->res)
 		{
 			AItem* Item = GetWorld()->SpawnActor<AItem>(r->res->ue, GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation(), SpawnParams);
 			Item->Detail = r->res;
@@ -652,7 +679,7 @@ void AHumanBase::Craft(TArray<AItem*> Items, FString str)
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("failed to craft")));
 			}
-		}
+		}*/
 	}
 	/*else if (Items.Num() == 1 && IsValid(Tools[0]))
 	{

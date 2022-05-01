@@ -76,12 +76,6 @@ void ADungeonGenerator::Tick(float DeltaTime)
 
 void ADungeonGenerator::Generate()
 {
-
-	
-	//TArray<APassage*> Passages;
-	//TArray<FDoorInfo> Doors;
-	//Rooms.SetNum(2);
-	//int RoomsLeft = 10;
 	FActorSpawnParameters RoomSpawnParams;
 	//FActorSpawnParameters PassSpawnParams;
 	ARoom * Starting = GetWorld()->SpawnActor<ARoom>(RoomTypes[/*RandomInt(0, RoomTypes.Num() - 1)*/3], GetActorLocation(), GetActorRotation(), RoomSpawnParams);
@@ -114,25 +108,6 @@ void ADungeonGenerator::Generate()
 		AItem * Item = GetWorld()->SpawnActor<AItem>(ItemsToSpawn[4], FVector(300, 0, 200 + 100 * 1), GetActorRotation(), SpawnParams);
 		Item->SetDefaults(10);
 	}
-	//Rooms[1] = GetWorld()->SpawnActor<ARoom>(RoomClass, GetActorLocation() + FVector(1500, 0 , 0), GetActorRotation(), SpawnParams);
-/*	FRoomSpawnInfo SpawnInfo;
-	SpawnInfo.XSize = RandomFloat(5, 10);
-	SpawnInfo.YSize = RandomFloat(5, 10);
-	SpawnInfo.ZSize = RandomFloat(3, 5);
-	Doors.Add(FDoorInfo(1, 4.0, 1.5, 2.0));
-	SpawnInfo.DoorsInfo.Add(FDoorInfo(1, 4.0, 1.5, 2.0));
-	Rooms[0]->CreateRoom(SpawnInfo);
-	SpawnInfo.XSize = RandomFloat(5, 10);
-	SpawnInfo.YSize = RandomFloat(5, 10);
-	SpawnInfo.ZSize = RandomFloat(3, 5);
-	SpawnInfo.DoorsInfo.Empty();
-	SpawnInfo.DoorsInfo.Add(FDoorInfo(3, 4.0, 1.5, 2.0));
-	Rooms[1]->CreateRoom(SpawnInfo);
-	
-	FRotator Rot(0, 90 * (Doors[0].WallNumber - 1), 0);
-	FVector Location = Rot.RotateVector(FVector(1, 0, 0)) * (float)(Rooms[0]->XSize / 0.02) + FVector(0, 0, Rooms[0]->ZSize / 0.02 - 5.0);
-	APassage* Passage = GetWorld()->SpawnActor<APassage>(PassageClass, Location, GetActorRotation(), SpawnParams);
-	Passage->CreatePassage(Rooms[1]->GetActorLocation(), FVector(100, 0, 0));*/
 }
 
 void ADungeonGenerator::FinishRoom(ARoom* Starting)

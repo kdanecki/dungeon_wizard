@@ -20,7 +20,7 @@ public:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString&ErrorMessage) override;
 
 	UPROPERTY(EditAnywhere)
-		TArray<TSubclassOf<AItem>> Resources;
+		TArray<TSubclassOf<AItem>> MyResources;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<ADungeonGenerator> Generator;
 

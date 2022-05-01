@@ -1,7 +1,11 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#pragma optimize("", off)
+//#pragma optimize("", off)
+#pragma once
 #include "dungeon_wizardGameModeBase.h"
+#include "alchemik/mixtures/resources.h"
+#include "alchemik/mixtures/mixture.h"
+//#include "alchemik/player.h"
 //#include "Item.h"
 
 /*
@@ -39,37 +43,26 @@ void Adungeon_wizardGameModeBase::InitGame(const FString& MapName, const FString
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("%d"), count));
 	}*/
 }
+
+
+
 void Adungeon_wizardGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-	create_elements();
-	for (int i = 0; i < Resources.Num(); i++)
+//	create_elements();
+	elements = new Elements();
+	mixtures = new Mixtures();
+
+	create_mixtures();
+	create_skills();
+
+	resources = new Resources();
+	for (int i = 0; i < MyResources.Num(); i++)
 	{
-		AItem * Item = Cast<AItem>(Resources[i]->GetDefaultObject());
-		FString s = Item->ResourceType;
-		if (GEngine)
-		{
-			//GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Blue, s);
-		}
-		
-		//size_t cnt;
-		//char n[128];
-		//size_t size = 2 * (s.Len() + 1);
-		//wcstombs_s(&cnt, n, size, *s, size - 1);
-		char* c = TCHAR_TO_UTF8(*s);
-		int a = strlen(c);
-		//c = StringCast<>(*s);
-		//int b = strlen(c);
-		//c = TCHAR_TO_OEM(*s);
-		//int d = strlen(c);
-		if (GEngine)
-		{
-			//GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("to utf 8 %d,"), a));
-		}
-		Resource *r = new Resource(c, -1);
-		r->ue = Resources[i];
-		//classesTable[i].resource = r;
-		
+		AItem * Item = Cast<AItem>(MyResources[i]->GetDefaultObject());
+		Resource *r = new Resource((Element_type)(Item->ResourceId), -1);
+		r->ue = MyResources[i];
+		resources->add(r);
 	}
 	FActorSpawnParameters SpawnParams;
 	GetWorld()->SpawnActor<ADungeonGenerator>(Generator, FVector(0, 0, 0), FRotator(0, 0, 0), SpawnParams);

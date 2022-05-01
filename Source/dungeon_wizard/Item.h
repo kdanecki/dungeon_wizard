@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/WidgetComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Net/UnrealNetwork.h"
 
 #include "alchemik/mixtures/resources.h"
@@ -57,11 +59,19 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UWidgetComponent* WidgetComponent;
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* StaticMesh;
+
 	UFUNCTION(BlueprintCallable)
 	void SetDefaults(int Quantity);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		FString ResourceType;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int ResourceId;
+
 
 	UPROPERTY(BlueprintReadOnly)
 		bool CanBePickedUp;
