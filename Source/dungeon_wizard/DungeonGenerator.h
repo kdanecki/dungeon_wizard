@@ -88,7 +88,7 @@ public:
 	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActor);
 	APassage* ForceSpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize);
 	TArray<ARoom*> UnfinishedRooms;
-	TArray<ARoom*> SpawnedRooms;
+	//TArray<ARoom*> SpawnedRooms;
 
 
 	UPROPERTY(EditAnywhere)

@@ -105,6 +105,10 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<FDoorInfo> Doors;
 	UPROPERTY(EditAnywhere)
+		float Size;
+	UPROPERTY(VisibleAnywhere)
+		int BiomeIndex;
+	UPROPERTY(EditAnywhere)
 		USceneComponent* Root;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UStaticMeshComponent* Mesh;

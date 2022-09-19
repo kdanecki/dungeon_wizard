@@ -6,6 +6,7 @@
 //#include <fstream>
 //#include <direct.h>
 
+#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Foo.h"
 #include "alchemik/Boo.h"
@@ -48,45 +49,16 @@ void ADungeonGenerator::BeginPlay()
 // Called every frame
 void ADungeonGenerator::Tick(float DeltaTime)
 {
-	/*Super::Tick(DeltaTime);
-	if (GEngine)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("left: %d, num %d"), UnfinishedRooms.Num(), RoomsLeft));
-	}
-	int i = 0;
-	if (UnfinishedRooms.Num() > 0 && RoomsLeft > 0)
-	{
-		//if (i == 0)
-		//{
-			FinishRoom(UnfinishedRooms[0]);
-			RoomsLeft--;
-			i = 1;
-		//}
-		//else
-		//{
-		//	i = 0;
-		//}
 
-	}
-	else if (UnfinishedRooms.Num() > 0)
-	{
-		EndRoom(UnfinishedRooms[0]);
-	}
-	*/
 }
 
 void ADungeonGenerator::Generate()
 {
 	FActorSpawnParameters RoomSpawnParams;
-	//RoomSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	//FActorSpawnParameters PassSpawnParams;
 	ARoom * Starting = GetWorld()->SpawnActor<ARoom>(RoomTypes[/*RandomInt(0, RoomTypes.Num() - 1)*/1], GetActorLocation(), GetActorRotation(), RoomSpawnParams);
+	Starting->BiomeIndex = 0;
 	UnfinishedRooms.Add(Starting);
-	SpawnedRooms.Add(Starting);
-	if (GEngine)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("added %d"), UnfinishedRooms.Num()));
-	}
+	//SpawnedRooms.Add(Starting);
 	while (UnfinishedRooms.Num() > 0 && RoomsLeft > 0)
 	{
 		FinishRoom(UnfinishedRooms[0]);
@@ -109,6 +81,7 @@ void ADungeonGenerator::Generate()
 
 void ADungeonGenerator::FinishRoom(ARoom* Starting)
 {
+	// passages
 	FActorSpawnParameters RoomSpawnParams;
 	FActorSpawnParameters PassSpawnParams;
 	for (auto& Exit : Starting->Doors)
@@ -165,9 +138,17 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting)
 		if (CanSpawn)
 		{
 			ARoom * Room = GetWorld()->SpawnActor<ARoom>(RoomTypes[SelectedType], NextLocation, NextRotation, RoomSpawnParams);
+			if (RandomFloat(0, 1) > 0.5)
+			{
+				Room->BiomeIndex = Starting->BiomeIndex;
+			}
+			else
+			{
+				Room->BiomeIndex = RandomInt(0, Biomes.Num());
+			}
 			Room->number = RoomsLeft;
 			UnfinishedRooms.Add(Room);
-			SpawnedRooms.Add(Room);
+			//SpawnedRooms.Add(Room);
 			TArray<AActor*> IgnoredActors;
 			IgnoredActors.Add(Starting);
 			IgnoredActors.Add(Room);
@@ -179,42 +160,34 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting)
 		{
 			V = Rotation.RotateVector(Exit.Direction);
 			GetWorld()->SpawnActor<AActor>(BlockadeTypes[0], (Location + Rotation.RotateVector(Exit.Location)), (-V).ToOrientationRotator());
-			////APassage* Passage = GetWorld()->SpawnActor<APassage>(PassageTypes[0], Location + Rotation.RotateVector(Exit.Location), V.ToOrientationRotator(), PassSpawnParams);
-			//Passage->Mesh->SetStartAndEnd(FVector(0, 0, 0), FVector(100, 0, 0), FVector(100, 0, 0), FVector(100, 0, 0));
-			//Passage->Mesh->SetStartScale(Exit.Size);
-			//Passage->Mesh->SetEndScale(FVector2D(0.1, 0.1));
 		}
 		
 	}
-	TArray<UItemSpawner*> Components;
-	Starting->GetComponents<UItemSpawner>(Components);
-	
-	for (int i = 0; i < Components.Num(); i++)
+	// Biome
+	FBiome Biome = Biomes[Starting->BiomeIndex];
+	if (Biome.PossibleResources.Num() > 0)
 	{
-		UItemSpawner* Component = Components[i];
-		float Sum = 0;
-		for (auto& Item : Component->PossibleItems)
+		float sum = 0;
+		for (int i = 0; i < Biome.PossibleResources.Num(); i++)
 		{
-			Sum += Item.Value;
+			sum += Biome.PossibleResources[i].Rarity;
 		}
-		float Rand = RandomFloat(0, Sum);
-		for (auto& Item : Component->PossibleItems)
+		for (int i = 0; i < Starting->Size; i++)
 		{
-			Sum -= Item.Value;
-			if (Sum <= Rand)
+			float Random = RandomFloat(0, sum);
+			for (int i = 0; i < Biome.PossibleResources.Num(); i++)
 			{
-				if (IsValid(Item.Key))
-				{
-					AActor* NewActor = GetWorld()->SpawnActor<AActor>(Item.Key, Component->GetComponentLocation(), Component->GetComponentRotation());
-					if (AItem* NewItem = Cast<AItem>(NewActor))
-					{
-						NewItem->SetDefaults(RandomInt(1, 3));
-					}
-				}
-				break;
+
 			}
+			Biomes[Starting->BiomeIndex].PossibleResources[RandomInt(0, )]
+				FVector Center = Starting->GetActorLocation() + (Starting->Dimensions.Z) / 2.0;
+			TArray<AActor*> ActorsToIgnore;
+			UKismetMathLibrary::RandomUnitVectorInConeInDegrees()
+				UKismetSystemLibrary::LineTraceSingle(GetWorld(), Center, Center + FVect, TraceRotation, UEngineTypes::ConvertToTraceType(ECC_Camera), true, ActorsToIgnore, TraceVisibility, SweepResults, true, FLinearColor::Blue, FLinearColor::Red)
 		}
 	}
+	
+
 
 	UnfinishedRooms.Remove(Starting);
 }
@@ -262,7 +235,7 @@ void ADungeonGenerator::SpawnPassage(FVector Location, FVector StartTangent, FVe
 			APassage * Other = Cast<APassage>(HitResults[i].GetActor());
 			if (!Other)
 			{
-				CrossingsNumber--;
+			//	CrossingsNumber--;
 				continue;
 				if (GEngine)
 				{
@@ -294,7 +267,7 @@ void ADungeonGenerator::SpawnPassage(FVector Location, FVector StartTangent, FVe
 		}
 		if(Crossings.Num()> 0) ForceSpawnPassage(Location, StartTangent, (Crossings[0]->GetActorLocation() + Crossings[0]->GetActorRotation().RotateVector(Crossings[0]->Doors[1].Location)) - Location, Crossings[0]->GetActorRotation().RotateVector(Crossings[0]->Doors[1].Direction * -1000), StartSize, Crossings[0]->Doors[1].Size);
 		if(Crossings.Num() > 0) ForceSpawnPassage(Crossings[CrossingsNumber-1]->GetActorLocation() + Crossings[CrossingsNumber - 1]->GetActorRotation().RotateVector(Crossings[CrossingsNumber - 1]->Doors[0].Location), Crossings[CrossingsNumber - 1]->GetActorRotation().RotateVector(Crossings[CrossingsNumber - 1]->Doors[0].Direction * 1000), Location + End - (Crossings[CrossingsNumber - 1]->GetActorLocation() + Crossings[CrossingsNumber - 1]->GetActorRotation().RotateVector(Crossings[CrossingsNumber - 1]->Doors[0].Location)), EndTangent, Crossings[CrossingsNumber - 1]->Doors[0].Size, EndSize);
-		for (int i = 0; i < CrossingsNumber - 1; i++)
+		for (int i = 0; i < Crossings.Num() - 1; i++)
 		{
 			ForceSpawnPassage((Crossings[i]->GetActorLocation() + Crossings[i]->GetActorRotation().RotateVector(Crossings[i]->Doors[0].Location)), Crossings[i]->GetActorRotation().RotateVector(Crossings[i]->Doors[0].Direction * 1000), (Crossings[i + 1]->GetActorLocation() + Crossings[i + 1]->GetActorRotation().RotateVector(Crossings[i + 1]->Doors[1].Location) - Crossings[i]->GetActorLocation()), Crossings[i + 1]->GetActorRotation().RotateVector(Crossings[i + 1]->Doors[1].Direction * -1000), Crossings[i]->Doors[0].Size, Crossings[i+1]->Doors[1].Size);
 		}
@@ -302,10 +275,6 @@ void ADungeonGenerator::SpawnPassage(FVector Location, FVector StartTangent, FVe
 	else
 	{
 		ForceSpawnPassage(Location, StartTangent, End, EndTangent, StartSize, EndSize);
-		/*FActorSpawnParameters PassSpawnParams;
-		APassage* Passage = GetWorld()->SpawnActor<APassage>(PassageClass, Location, FRotator(0, 0, 0), PassSpawnParams);
-		Passage->MeshParams = FMeshParams(FVector(0, 0, 0), StartTangent, End, EndTangent, StartSize, EndSize);
-		Passage->OnRep_MeshParams();*/
 	}
 }
 

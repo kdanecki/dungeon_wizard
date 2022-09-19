@@ -15,6 +15,7 @@ ARoom::ARoom()
 	SetRootComponent(Root);
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(RootComponent);
+	Size = 1;
 }
 
 // Called when the game starts or when spawned
