@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "ItemSpawner.h"
 
 #include "Room.generated.h"
 
@@ -78,7 +79,8 @@ struct FDoorInfo
 		FVector Location;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FVector Direction;
-
+	UPROPERTY(EditAnywhere)
+		FVector2D Size;
 };
 
 UCLASS()
@@ -97,32 +99,19 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	/*
-	UPROPERTY(BlueprintReadWrite)
-		float XSize;
-	UPROPERTY(BlueprintReadWrite)
-		float YSize;
-	UPROPERTY(BlueprintReadWrite)
-		float ZSize;
-		*/
-	/*UFUNCTION(BlueprintCallable)
-		void CreateRoom(FRoomSpawnInfo RoomSpawnInfo);
-	/*UPROPERTY(EditAnywhere)
-		//UStaticMesh* WallMesh;
+
 	UPROPERTY(EditAnywhere)
-		UMaterialInterface* WallMaterial;
-	UPROPERTY(EditAnywhere)
-		UStaticMesh* FloorMesh;
-	UPROPERTY(EditAnywhere)
-		UMaterialInterface* FloorMaterial;*/
-	//UFUNCTION()
-		//void CreateRoom();
+		FVector Dimensions;
 	UPROPERTY(EditAnywhere)
 		TArray<FDoorInfo> Doors;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
+		USceneComponent* Root;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UStaticMeshComponent* Mesh;
 	UPROPERTY(VisibleAnywhere)
 		int number;
+	UPROPERTY(BlueprintReadWrite)
+		TArray<UItemSpawner*> ItemsToSpawn;
 	//UPROPERTY(EditAnywhere)
 		//UStaticMesh* RoomMesh;
 	//UPROPERTY(EditAnywhere)

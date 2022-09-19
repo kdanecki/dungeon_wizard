@@ -6,6 +6,14 @@
 #include "Item.h"
 #include "Tool.generated.h"
 
+UENUM(BlueprintType)
+enum class EToolType : uint8 {
+	PICKAXE,
+	SHOVEL,
+	SWORD
+};
+
+
 UCLASS()
 class DUNGEON_WIZARD_API ATool : public AItem
 {
@@ -25,4 +33,10 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		float Damage;
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UDamageType> DamageType;
+	UPROPERTY(EditAnywhere)
+		float Range;
+	UPROPERTY(EditAnywhere)
+		EToolType ToolType;
 };

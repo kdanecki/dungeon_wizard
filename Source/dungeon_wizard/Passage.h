@@ -20,13 +20,17 @@ struct FMeshParams
 		StartTangent = FVector(0, 0, 0);
 		End = FVector(0, 0, 0);
 		EndTangent = FVector(0, 0, 0);
+		StartSize = FVector2D(0, 0);
+		EndSize = FVector2D(0, 0);
 	}
-	FMeshParams(FVector Start1, FVector StartTangent1, FVector End1, FVector EndTangent1)
+	FMeshParams(FVector Start1, FVector StartTangent1, FVector End1, FVector EndTangent1, FVector2D StartSize1, FVector2D EndSize1)
 	{
 		Start = Start1;
 		StartTangent = StartTangent1;
 		End = End1;
 		EndTangent = EndTangent1;
+		StartSize = StartSize1;
+		EndSize = EndSize1;
 	}
 
 	UPROPERTY()
@@ -37,6 +41,10 @@ struct FMeshParams
 		FVector End;
 	UPROPERTY()
 		FVector EndTangent;
+	UPROPERTY()
+		FVector2D StartSize;
+	UPROPERTY()
+		FVector2D EndSize;
 };
 
 

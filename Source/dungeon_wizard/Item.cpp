@@ -46,13 +46,18 @@ AItem::AItem()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
-	CollisionEnabled = true;
+	PhysicsEnabled = true;
 	ResourceType = TEXT("not defined");
 	ResourceId = -1;
 	CanBePickedUp = true;
+	//RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component lol"));
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
+	StaticMesh->SetSimulatePhysics(true);
+	StaticMesh->SetIsReplicated(true);
+	RootComponent = StaticMesh;
 	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Widget"));
-	StaticMesh->SetupAttachment(RootComponent);
+	//StaticMesh->SetupAttachment(RootComponent);
+	//StaticMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 	WidgetComponent->SetupAttachment(StaticMesh);
 	WidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	WidgetComponent->SetDrawAtDesiredSize(true);
@@ -89,7 +94,7 @@ void AItem::BeginPlay()
 	//UE_LOG(LogTemp, Warning, TEXT("actor %s"), FString::Printf("test"));
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, ResourceType);
+	//	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, ResourceType);
 	}
 	if (HasAuthority())
 	{
@@ -101,7 +106,7 @@ void AItem::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimePro
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(AItem, CollisionEnabled);
+	DOREPLIFETIME(AItem, PhysicsEnabled);
 	DOREPLIFETIME(AItem, Weight);
 	
 }
@@ -135,18 +140,38 @@ int AItem::GetQuantity()
 	return -1;
 }
 
-void AItem::MySetActorEnableCollision(bool Enabled)
+void AItem::MySetActorEnableCollision(bool Enabled, FVector Direction)
 {
-	CollisionEnabled = Enabled;
-	SetActorEnableCollision(CollisionEnabled);
+	//CollisionEnabled = Enabled;
+	//SetActorEnableCollision(CollisionEnabled);
+	PhysicsEnabled = Enabled;
+	StaticMesh->SetSimulatePhysics(Enabled);
+	if (Enabled)
+	{
+		FTimerHandle UnusedHandle;
+		FTimerDelegate MyDelegate = FTimerDelegate::CreateUObject(this, &AItem::MyAddImpulse, Direction * 500 * StaticMesh->GetMass());
+		GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 0.01, false);
+	}
+	
+	//StaticMesh->SetSimulatePhysics(Enabled);
 	if (GEngine)
 	{
 	//	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("%s"), Enabled ? TEXT("true") : TEXT("false")));
 	}
 }
 
-void AItem::OnRep_CollisionEnabled()
+void AItem::MyAddImpulse(FVector Direction)
 {
+	StaticMesh->AddImpulse(Direction);
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("bum")));
+	}
+}
+
+void AItem::OnRep_PhysicsEnabled()
+{
+	StaticMesh->SetSimulatePhysics(PhysicsEnabled);
 	/*if (HasAuthority())
 	{
 		if (GEngine)
@@ -158,6 +183,6 @@ void AItem::OnRep_CollisionEnabled()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("updated")));
 	}*/
-	SetActorEnableCollision(CollisionEnabled);
+	//SetActorEnableCollision(CollisionEnabled);
 	
 }

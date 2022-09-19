@@ -7,8 +7,42 @@
 #include "Room.h"
 #include "Passage.h"
 #include "Item.h"
+#include "DrawDebugHelpers.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "NaturalResource.h"
 
 #include "DungeonGenerator.generated.h"
+
+USTRUCT(BlueprintType)
+struct FResourceInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<ANaturalResource> ResourceType;
+	UPROPERTY(EditAnywhere)
+		FVector ConeDirection;
+	UPROPERTY(EditAnywhere)
+		float ConeAngle;
+	UPROPERTY(EditAnywhere)
+		float Rarity;
+};
+
+USTRUCT(BlueprintType)
+struct FBiome
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+		FString Name;
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* RoomMaterial;
+	UPROPERTY(EditAnywhere)
+		TArray<FResourceInfo> PossibleResources;
+
+};
+
+
 
 UCLASS()
 class DUNGEON_WIZARD_API ADungeonGenerator : public AActor
@@ -27,11 +61,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnywhere)
+		TArray<FBiome> Biomes;
+	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<ARoom>> RoomTypes;
 	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<ARoom>> CrossingTypes;
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<APassage> PassageClass;
+		TArray<TSubclassOf<APassage>> PassageTypes;
+	UPROPERTY(EditAnywhere)
+		TArray<TSubclassOf<AActor>> BlockadeTypes;
 	UPROPERTY(EditAnywhere)
 		int RoomsLeft;
 	UPROPERTY(EditAnywhere)
@@ -47,8 +85,13 @@ public:
 	void Generate();
 	void FinishRoom(ARoom* Starting);
 	void EndRoom(ARoom* Starting);
-	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector RoomLocation, TArray<AActor*> IgnoreActor);
-	APassage* ForceSpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent);
+	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActor);
+	APassage* ForceSpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize);
 	TArray<ARoom*> UnfinishedRooms;
 	TArray<ARoom*> SpawnedRooms;
+
+
+	UPROPERTY(EditAnywhere)
+		TEnumAsByte<EDrawDebugTrace::Type> TraceVisibility;
+	
 };

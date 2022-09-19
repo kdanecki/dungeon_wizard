@@ -9,6 +9,8 @@
 #include "Item.h"
 #include "Clothes.h"
 #include "ContainerBase.h"
+#include "Consumable.h"
+#include "NaturalResource.h"
 
 #include "alchemik/mixtures/mixture.h"
 
@@ -86,7 +88,22 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintNativeEvent)
+		void Die();
+	// attributes
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated)
+		float HP;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated)
+		float MaxHP;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated)
+		float Nourishment;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Replicated)
+		float MaxNourishment;
+	UFUNCTION()
+		void ManageHunger();
 
 	// skills
 	Skills* player_skills;
@@ -104,7 +121,10 @@ public:
 		AItem* LeftHand;
 	UPROPERTY(BlueprintReadOnly, Replicated)
 		FInventory Clothes;
-	
+	UPROPERTY(ReplicatedUsing=OnRep_IgnoreArray)
+		TArray<TObjectPtr<AActor>> IgnoreArray;
+	UFUNCTION()
+		void OnRep_IgnoreArray();
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 		void RightPickUp(AItem* Item);
@@ -165,12 +185,26 @@ public:
 	// Actions
 	UPROPERTY(BlueprintReadWrite)
 		AActor* LookingAt;
+	UPROPERTY(BlueprintReadWrite)
+		FVector LookingAtLocation;
 
 	UFUNCTION()
 		void Action();
 	UFUNCTION()
 		void SecondaryAction();
-	
+
+	UFUNCTION(Server, Reliable)
+		void UseItem(AItem* Item);
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+		void Gather(ANaturalResource* Resource, ATool* Tool);
+	UFUNCTION(BlueprintImplementableEvent)
+		void GatherAnimation(ANaturalResource* Resource, ATool* Tool);
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+		void Attack(AActor* Enemy, ATool* Weapon);
+	UFUNCTION(BlueprintImplementableEvent)
+		void AttackAnimation(AActor* Enemy, ATool* Weapon);
+	UFUNCTION(Server, Reliable)
+		void Eat(AConsumable* Food);
 
 	virtual void Talk();
 	//UFUNCTION(BlueprintCallable)

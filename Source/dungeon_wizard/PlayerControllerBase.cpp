@@ -39,39 +39,83 @@ void APlayerControllerBase::SetupInputComponent()
 //s	InputComponent->BindAction("Jump", IE_Pressed, this, &APlayerControllerBase::SwitchModes);
 }
 
+
+//if (ATool* Tool = Cast<ATool>(Item))
+//{
+//	if (AHumanBase* Enemy = Cast<AHumanBase>(LookingAt))
+//	{
+//
+//	}
+//	if (ANaturalResource* Resource = Cast<ANaturalResource>(LookingAt))
+//	{
+//
+//	}
+//}
+
+
 void APlayerControllerBase::Action()
 {
-	AItem* Item = Cast<AItem>(PlayerPawn->LookingAt);
 	switch (ActionMode)
 	{
 	case EAction::NONE:
-		if (Item)
+	{
+		// item in hand
+		if (ATool* Tool = Cast<ATool>(PlayerPawn->RightHand))
 		{
-			if (PlayerPawn->UeSkills.Carrying >= PlayerPawn->InventoryWeight + Item->Weight)
+			if (AHumanBase* Enemy = Cast<AHumanBase>(PlayerPawn->LookingAt))
 			{
-				if (!IsValid(PlayerPawn->RightHand))
+				PlayerPawn->AttackAnimation(Enemy, Tool);
+			}
+			if (ANaturalResource* Resource = Cast<ANaturalResource>(PlayerPawn->LookingAt))
+			{
+				PlayerPawn->GatherAnimation(Resource, Tool);
+			}
+		}
+		else if (AConsumable* Food = Cast<AConsumable>(PlayerPawn->RightHand))
+		{
+			PlayerPawn->Eat(Food);
+			PlayerPawn->RightHand = nullptr;
+		}
+		// nothing in hand
+		else if (!IsValid(PlayerPawn->RightHand))
+		{
+			if (ANaturalResource* Resource = Cast<ANaturalResource>(PlayerPawn->LookingAt))
+			{
+				if (AResourceBase* Item = Resource->HandGather())
 				{
 					PlayerPawn->RightPickUp(Item);
+				}
+			}
+			else if (AItem* Item = Cast<AItem>(PlayerPawn->LookingAt))
+			{
+				if (PlayerPawn->UeSkills.Carrying >= PlayerPawn->InventoryWeight + Item->Weight)
+				{
+					if (!IsValid(PlayerPawn->RightHand))
+					{
+						PlayerPawn->RightPickUp(Item);
+					}
+					else
+					{
+						if (GEngine)
+						{
+							GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("already carrying")));
+						}
+					}
 				}
 				else
 				{
 					if (GEngine)
 					{
-						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("already carrying")));
+						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("too heavy")));
 					}
-				}
-			}
-			else
-			{
-				if (GEngine)
-				{
-					GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("too heavy")));
 				}
 			}
 		}
 		break;
+	}
 	case EAction::CRAFT:
-		if (Item)
+	{
+		if (AItem* Item = Cast<AItem>(PlayerPawn->LookingAt))
 		{
 			if (SelectedItems.Contains(Item))
 			{
@@ -87,6 +131,7 @@ void APlayerControllerBase::Action()
 			}
 		}
 		break;
+	}
 	default:
 		break;
 	}

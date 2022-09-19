@@ -4,7 +4,8 @@
 #include "HumanBase.h"
 //#include "alchemik/player.h"
 #include <string>
-
+#include "Components/CapsuleComponent.h"
+#include "Math/Vector.h"
 
 // Sets default values
 AHumanBase::AHumanBase()
@@ -34,7 +35,10 @@ AHumanBase::AHumanBase()
 	player_skills->add(SK_HODOWLA);
 	player_skills->add(SK_ZDUNSTWO);
 
-
+	HP = 100;
+	MaxHP = 100;
+	Nourishment = 50;
+	MaxNourishment = 100;
 	InventoryWeight = 0;
 
 	Hotbar.SetNum(5);
@@ -49,7 +53,9 @@ void AHumanBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	FTimerHandle UnusedHandle;
+	FTimerDelegate MyDelegate = FTimerDelegate::CreateUObject(this, &AHumanBase::ManageHunger);
+	GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 5, true);
 	
 
 	if (GEngine)
@@ -73,6 +79,11 @@ void AHumanBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifeti
 	DOREPLIFETIME(AHumanBase, Clothes);
 	DOREPLIFETIME(AHumanBase, Hotbar);
 	DOREPLIFETIME(AHumanBase, InventoryWeight);
+	DOREPLIFETIME(AHumanBase, IgnoreArray);
+	DOREPLIFETIME(AHumanBase, HP);
+	DOREPLIFETIME(AHumanBase, MaxHP);
+	DOREPLIFETIME(AHumanBase, Nourishment);
+	DOREPLIFETIME(AHumanBase, MaxNourishment);
 
 
 }
@@ -110,7 +121,54 @@ void AHumanBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	//PlayerInputComponent->BindAction("Talk", IE_Pressed, this, &AHumanBase::Talk);
 	PlayerInputComponent->BindAction("Drop", IE_Pressed, this, &AHumanBase::Drop);
 	PlayerInputComponent->BindAction("Drop2", IE_Pressed, this, &AHumanBase::Drop2);
-	//PlayerInputComponent->BindAction("Mix", IE_Pressed, this, &AHumanBase::Drop);
+	//PlayerInputComponent->BindAction("LeftMouseButton", IE_Pressed, this, AHumanBase::Action);
+	//PlayerInputComponent->BindAction("RightMouseButton", IE_Pressed, this, AHumanBase::SecondaryAction);
+}
+
+float AHumanBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	HP -= DamageAmount;
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("ouch %f"), DamageAmount));
+	}
+	if (HP < 0)
+	{
+		Die();
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("dead")));
+		}
+	}
+	return DamageAmount;
+}
+
+void AHumanBase::Die_Implementation()
+{
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetMesh()->SetSimulatePhysics(true);
+}
+
+void AHumanBase::ManageHunger()
+{
+	if (Nourishment > 5)
+	{
+		if (HP < MaxHP)
+		{
+			HP += 5;
+			if (HP > MaxHP)
+			{
+				HP = MaxHP;
+			}
+		}
+		Nourishment -= 5;
+	}
+	else
+	{
+		HP -= (5 - Nourishment);
+		Nourishment = 0;
+	}
+	
 }
 
 
@@ -120,9 +178,12 @@ void AHumanBase::RightPickUp_Implementation(AItem* Item)
 	{
 		InventoryWeight += Item->Weight;
 		RightHand = Item;
-		Item->AttachToActor(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		Item->SetActorRelativeLocation(FVector(0, 100, 0));
-		Item->MySetActorEnableCollision(false);
+		Item->MySetActorEnableCollision(false, FVector(0, 0, 0));
+		IgnoreArray.Add(Item);
+		this->GetCapsuleComponent()->IgnoreActorWhenMoving(Item, true);
+		Item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_rSocket"));
+		//Item->SetActorRelativeLocation(FVector(0, 0, 0));
+		//Item->MySetActorEnableCollision(false);
 		Item->CanBePickedUp = false;
 	}
 	else if (GEngine)
@@ -137,9 +198,12 @@ void AHumanBase::LeftPickUp_Implementation(AItem* Item)
 	{
 		InventoryWeight += Item->Weight;
 		LeftHand = Item;
-		Item->AttachToActor(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		Item->SetActorRelativeLocation(FVector(0, -100, 0));
-		Item->MySetActorEnableCollision(false);
+		Item->MySetActorEnableCollision(false, FVector(0, 0, 0));
+		IgnoreArray.Add(Item);
+		this->GetCapsuleComponent()->IgnoreActorWhenMoving(Item, true);
+		Item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+		//Item->SetActorRelativeLocation(FVector(0, 0, 0));
+		//Item->MySetActorEnableCollision(false);
 		Item->CanBePickedUp = false;
 	}
 	else
@@ -157,7 +221,13 @@ void AHumanBase::RightDrop_Implementation()
 	{
 		InventoryWeight -= RightHand->Weight;
 		RightHand->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		RightHand->MySetActorEnableCollision(true);
+		RightHand->SetActorLocation(RightHand->GetActorLocation() + GetActorForwardVector() * 100);
+		FTimerHandle UnusedHandle;
+		FTimerDelegate MyDelegate = FTimerDelegate::CreateUObject(RightHand, &AItem::MySetActorEnableCollision, true, (GetActorForwardVector()));
+		GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 0.01, false);
+		IgnoreArray.Remove(RightHand);
+		GetCapsuleComponent()->IgnoreActorWhenMoving(RightHand, false);
+		//RightHand->MySetActorEnableCollision(true);
 		RightHand->CanBePickedUp = true;
 		RightHand = nullptr;
 	}
@@ -169,7 +239,13 @@ void AHumanBase::LeftDrop_Implementation()
 	{
 		InventoryWeight -= LeftHand->Weight;
 		LeftHand->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		LeftHand->MySetActorEnableCollision(true);
+		LeftHand->SetActorLocation(LeftHand->GetActorLocation() + GetActorForwardVector() * 100);
+		FTimerHandle UnusedHandle;
+		FTimerDelegate MyDelegate = FTimerDelegate::CreateUObject(LeftHand, &AItem::MySetActorEnableCollision, true, (GetActorForwardVector()));
+		GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 0.01, false);
+		IgnoreArray.Remove(LeftHand);
+		GetCapsuleComponent()->IgnoreActorWhenMoving(LeftHand, false);
+		//LeftHand->MySetActorEnableCollision(true);
 		LeftHand->CanBePickedUp = true;
 		LeftHand = nullptr;
 	}
@@ -237,8 +313,8 @@ void AHumanBase::ChangeItemContainer_Implementation(AItem* Item, int NewId, ACon
 	else if (NewId == 1)
 	{
 		RightHand = Item;
-		Item->AttachToActor(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		Item->SetActorRelativeLocation(FVector(0, 100, 0));
+		Item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_rSocket"));
+		//Item->SetActorRelativeLocation(FVector(0, 100, 0));
 		//Clothes.Updater = !Clothes.Updater;
 		if (AContainerBase* Container = Cast<AContainerBase>(Item))
 		{
@@ -248,8 +324,8 @@ void AHumanBase::ChangeItemContainer_Implementation(AItem* Item, int NewId, ACon
 	else if (NewId == 2)
 	{
 		LeftHand = Item;
-		Item->AttachToActor(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		Item->SetActorRelativeLocation(FVector(0, -100, 0));
+		Item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("hand_lSocket"));
+		//Item->SetActorRelativeLocation(FVector(0, -100, 0));
 		//Clothes.Updater = !Clothes.Updater;
 		if (AContainerBase* Container = Cast<AContainerBase>(Item))
 		{
@@ -290,8 +366,8 @@ void AHumanBase::Equip_Implementation(AClothes* Item)
 		}
 		break;
 	}
-	Item->AttachToActor(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	Item->SetActorRelativeLocation(FVector(-100, 0, 0));
+	Item->AttachToComponent(this->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("backSocket"));
+	//Item->SetActorRelativeLocation(FVector(-100, 0, 0));
 }
 
 void AHumanBase::Drop2()
@@ -335,13 +411,25 @@ void AHumanBase::RightSelectServer_Implementation(int Index)
 	{
 		if (!IsValid(RightHand) && Hotbar[Index]->Items.Num() > 0)
 		{
-			RightHand = Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1];
-			Hotbar[Index]->RemoveItemFromInventory(Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1]);
+			ChangeItemContainer(Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1], 1, nullptr, 0, Hotbar[Index]);
+			//RightHand = Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1];
+			//Hotbar[Index]->RemoveItemFromInventory(Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1]);
 		}
 		else if (IsValid(RightHand))
 		{
-			Hotbar[Index]->AddItemToInventory(RightHand);
-			RightHand = nullptr;
+			if (Hotbar[Index]->CanContain(RightHand))
+			{
+				ChangeItemContainer(RightHand, 0, Hotbar[Index], 1, nullptr);
+				//Hotbar[Index]->AddItemToInventory(RightHand);
+				//RightHand = nullptr;
+			}
+			else
+			{
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("container full")));
+				}
+			}
 		}
 	}
 	else 
@@ -369,13 +457,25 @@ void AHumanBase::LeftSelectServer_Implementation(int Index)
 	{
 		if (!IsValid(LeftHand) && Hotbar[Index]->Items.Num() > 0)
 		{
-			LeftHand = Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1];
-			Hotbar[Index]->RemoveItemFromInventory(Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1]);
+			ChangeItemContainer(Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1], 2, nullptr, 0, Hotbar[Index]);
+			//LeftHand = Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1];
+			//Hotbar[Index]->RemoveItemFromInventory(Hotbar[Index]->Items[Hotbar[Index]->Items.Num() - 1]);
 		}
 		else if (IsValid(LeftHand))
 		{
-			Hotbar[Index]->AddItemToInventory(LeftHand);
-			LeftHand = nullptr;
+			if (Hotbar[Index]->CanContain(LeftHand))
+			{
+				ChangeItemContainer(LeftHand, 0, Hotbar[Index], 2, nullptr);
+				//Hotbar[Index]->AddItemToInventory(LeftHand);
+				//LeftHand = nullptr;
+			}
+			else
+			{
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("container full")));
+				}
+			}
 		}
 	}
 	else
@@ -470,6 +570,47 @@ void AHumanBase::SecondaryAction()
 {
 
 
+}
+
+void AHumanBase::UseItem_Implementation(AItem* Item)
+{
+	if (ATool* Tool = Cast<ATool>(Item))
+	{
+		if (AHumanBase* Enemy = Cast<AHumanBase>(LookingAt))
+		{
+
+		}
+		if (ANaturalResource* Resource = Cast<ANaturalResource>(LookingAt))
+		{
+
+		}
+	}
+}
+
+void AHumanBase::Gather_Implementation(ANaturalResource* Resource, ATool* Tool)
+{
+	if (FVector::Distance(GetActorLocation(), Resource->GetActorLocation()) <= Tool->Range)
+	{
+		Resource->Gather(Tool, LookingAtLocation);
+	}
+}
+
+void AHumanBase::Attack_Implementation(AActor* Enemy, ATool* Weapon)
+{
+	if (FVector::Distance(GetActorLocation(), Enemy->GetActorLocation()) <= Weapon->Range)
+	{
+		Enemy->TakeDamage(Weapon->Damage, FDamageEvent(Weapon->DamageType), Cast<APlayerController>(GetController()), Weapon);
+	}
+}
+
+void AHumanBase::Eat_Implementation(AConsumable* Food)
+{
+	Nourishment += Food->Nutrition;
+	if (Nourishment > MaxNourishment)
+	{
+		Nourishment = MaxNourishment;
+	}
+	Food->Destroy();
 }
 
 
@@ -738,4 +879,9 @@ void AHumanBase::RemoveFromHotbar_Implementation(AContainerBase* Container)
 			Hotbar[i] = nullptr;
 		}
 	}
+}
+
+void AHumanBase::OnRep_IgnoreArray()
+{
+	GetCapsuleComponent()->MoveIgnoreActors = IgnoreArray;
 }

@@ -57,4 +57,6 @@ void APassage::CreatePassage(FVector EndWorldLocation, FVector EndDirection)
 void APassage::OnRep_MeshParams()
 {
 	Mesh->SetStartAndEnd(MeshParams.Start, MeshParams.StartTangent, MeshParams.End, MeshParams.EndTangent);
+	Mesh->SetStartScale(MeshParams.StartSize);
+	Mesh->SetEndScale(MeshParams.EndSize);
 }

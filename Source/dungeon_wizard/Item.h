@@ -88,11 +88,13 @@ public:
 		int GetQuantity();
 	
 	UFUNCTION()
-		void MySetActorEnableCollision(bool Enabled);
-	UPROPERTY(ReplicatedUsing=OnRep_CollisionEnabled)
-		bool CollisionEnabled;
+		void MySetActorEnableCollision(bool Enabled, FVector Direction);
 	UFUNCTION()
-		void OnRep_CollisionEnabled();
+		void MyAddImpulse(FVector Direction);
+	UPROPERTY(ReplicatedUsing=OnRep_PhysicsEnabled)
+		bool PhysicsEnabled;
+	UFUNCTION()
+		void OnRep_PhysicsEnabled();
 
 
 
