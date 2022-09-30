@@ -10,7 +10,9 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine",
-				"GeometryFramework"
+				"GeometryFramework",
+				"CoreUObject",
+				"AIModule"
 			]
 		}
 	],
