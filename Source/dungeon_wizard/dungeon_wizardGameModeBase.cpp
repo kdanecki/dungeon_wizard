@@ -65,7 +65,7 @@ void Adungeon_wizardGameModeBase::BeginPlay()
 		resources->add(r);
 	}
 	FActorSpawnParameters SpawnParams;
-	GetWorld()->SpawnActor<ADungeonGenerator>(Generator, FVector(0, 0, 0), FRotator(0, 0, 0), SpawnParams);
+	GetWorld()->SpawnActor<ADungeonGenerator>(Generator, FVector(0, 0, 0), FRotator(0, 30, 0), SpawnParams);
 	int a = 10;
 	if (GEngine)
 	{

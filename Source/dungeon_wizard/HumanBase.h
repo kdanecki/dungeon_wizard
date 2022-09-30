@@ -201,7 +201,7 @@ public:
 		void GatherAnimation(ANaturalResource* Resource, ATool* Tool);
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 		void Attack(AActor* Enemy, ATool* Weapon);
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void AttackAnimation(AActor* Enemy, ATool* Weapon);
 	UFUNCTION(Server, Reliable)
 		void Eat(AConsumable* Food);

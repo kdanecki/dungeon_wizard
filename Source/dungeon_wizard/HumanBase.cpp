@@ -128,17 +128,9 @@ void AHumanBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 float AHumanBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	HP -= DamageAmount;
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("ouch %f"), DamageAmount));
-	}
-	if (HP < 0)
+	if (HP <= 0)
 	{
 		Die();
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("dead")));
-		}
 	}
 	return DamageAmount;
 }
@@ -151,7 +143,7 @@ void AHumanBase::Die_Implementation()
 
 void AHumanBase::ManageHunger()
 {
-	if (Nourishment > 5)
+	/*if (Nourishment > 5)
 	{
 		if (HP < MaxHP)
 		{
@@ -167,7 +159,7 @@ void AHumanBase::ManageHunger()
 	{
 		HP -= (5 - Nourishment);
 		Nourishment = 0;
-	}
+	}*/
 	
 }
 
@@ -597,9 +589,16 @@ void AHumanBase::Gather_Implementation(ANaturalResource* Resource, ATool* Tool)
 
 void AHumanBase::Attack_Implementation(AActor* Enemy, ATool* Weapon)
 {
-	if (FVector::Distance(GetActorLocation(), Enemy->GetActorLocation()) <= Weapon->Range)
+	if (IsValid(Weapon))
 	{
-		Enemy->TakeDamage(Weapon->Damage, FDamageEvent(Weapon->DamageType), Cast<APlayerController>(GetController()), Weapon);
+		if (FVector::Distance(GetActorLocation(), Enemy->GetActorLocation()) <= Weapon->Range)
+		{
+			Enemy->TakeDamage(Weapon->Damage, FDamageEvent(Weapon->DamageType), GetController(), Weapon);
+		}
+	}
+	else
+	{
+		Enemy->TakeDamage(10, FDamageEvent(), GetController(), this);
 	}
 }
 

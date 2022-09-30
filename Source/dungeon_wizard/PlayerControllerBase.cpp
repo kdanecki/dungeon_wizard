@@ -62,13 +62,13 @@ void APlayerControllerBase::Action()
 		// item in hand
 		if (ATool* Tool = Cast<ATool>(PlayerPawn->RightHand))
 		{
-			if (AHumanBase* Enemy = Cast<AHumanBase>(PlayerPawn->LookingAt))
-			{
-				PlayerPawn->AttackAnimation(Enemy, Tool);
-			}
 			if (ANaturalResource* Resource = Cast<ANaturalResource>(PlayerPawn->LookingAt))
 			{
 				PlayerPawn->GatherAnimation(Resource, Tool);
+			}
+			else
+			{
+				PlayerPawn->AttackAnimation(nullptr, Tool);
 			}
 		}
 		else if (AConsumable* Food = Cast<AConsumable>(PlayerPawn->RightHand))
