@@ -13,6 +13,7 @@
 #include "Faction.h"
 #include "HumanBase.h"
 #include "AICharacterController.h"
+#include "RoomSave.h"
 
 #include "DungeonGenerator.generated.h"
 
@@ -79,6 +80,10 @@ public:
 		TArray<TSubclassOf<AActor>> BlockadeTypes;
 	UPROPERTY(EditAnywhere)
 		int RoomsLeft;
+	UPROPERTY(VisibleAnywhere)
+		int RoomCount;
+	UPROPERTY(VisibleAnywhere)
+		FString GameName;
 	UPROPERTY(EditAnywhere)
 		int StartingRoom;
 	UPROPERTY(EditAnywhere)
@@ -98,7 +103,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		AAICharacterController* SpawnCharacter(TSubclassOf<AHumanBase> Race, FVector Location);
 	void Generate();
-	void FinishRoom(ARoom* Starting);
+	void FinishRoom(ARoom* Starting, URoomSave* Save);
 	void EndRoom(ARoom* Starting);
 	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActor, UMaterialInterface* Material);
 	APassage* ForceSpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, UMaterialInterface* Material);

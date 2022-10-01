@@ -104,6 +104,10 @@ public:
 		FVector Dimensions;
 	UPROPERTY(EditAnywhere)
 		TArray<FDoorInfo> Doors;
+	UPROPERTY(VisibleAnywhere)
+		int Index;
+	UPROPERTY(VisibleAnywhere)
+		TArray<int> NeighborsIndex;
 	UPROPERTY(EditAnywhere)
 		float Size;
 	UPROPERTY(VisibleAnywhere)

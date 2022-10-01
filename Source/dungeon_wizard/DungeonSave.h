@@ -22,5 +22,6 @@ public:
 		FString GameName;
 	UPROPERTY(BlueprintReadWrite)
 		int CurrentRoom;
+	int RoomCount;
 
 };

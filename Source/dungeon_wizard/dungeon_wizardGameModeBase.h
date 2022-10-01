@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "Item.h"
 #include "DungeonGenerator.h"
+#include "RoomSave.h"
 
 #include "dungeon_wizardGameModeBase.generated.h"
 
@@ -22,8 +23,16 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<AItem>> MyResources;
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<ADungeonGenerator> Generator;
+		TSubclassOf<ADungeonGenerator> GeneratorType;
+	ADungeonGenerator* Generator;
 
 protected:
 	virtual void BeginPlay() override;
+
+public:
+	TArray<int> LoadedRooms;
+	ARoom* SpawnRoomFromSave(URoomSave* RoomSave);
+	void LoadRoom(int Index, int Depth);
+	UPROPERTY()
+		FString GameName;
 };

@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#pragma optimize("", off)
+//#pragma optimize("", off)
 
 #include "DungeonGenerator.h"
 //#include <iostream>
@@ -9,6 +9,7 @@
 //#include "Kismet/KismetMathLibrary.h"
 //#include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
+#include "Kismet/GameplayStatics.h"
 #include "Foo.h"
 #include "alchemik/Boo.h"
 
@@ -18,6 +19,7 @@ ADungeonGenerator::ADungeonGenerator()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	TraceVisibility = EDrawDebugTrace::Persistent;
+	GameName = TEXT("");
 }
 
 //EDrawDebugTrace::Type TraceVisibility = EDrawDebugTrace::Persistent;
@@ -26,7 +28,7 @@ ADungeonGenerator::ADungeonGenerator()
 void ADungeonGenerator::BeginPlay()
 {
 	Super::BeginPlay();
-	Generate();
+	//Generate();
 	Foo *f = new Foo();
 	if (GEngine)
 	{
@@ -67,21 +69,43 @@ void ADungeonGenerator::Tick(float DeltaTime)
 
 void ADungeonGenerator::Generate()
 {
-	FActorSpawnParameters RoomSpawnParams;
+	if (URoomSave* Save = Cast<URoomSave>(UGameplayStatics::CreateSaveGameObject(URoomSave::StaticClass())))
+	{
+		Save->RoomType = RoomTypes[StartingRoom];
+		Save->Transform = FTransform(GetActorRotation(), GetActorLocation());
+		Save->BiomeIndex = StartingBiome;
+
+		if (UGameplayStatics::SaveGameToSlot(Save, GameName + FString::FromInt(0), 0))
+		{
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("Generated Successfully")));
+			}
+		}
+		else
+		{
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("Generation Failed")));
+			}
+		}
+	}
+
+	/*FActorSpawnParameters RoomSpawnParams;
 	ARoom * Starting = GetWorld()->SpawnActor<ARoom>(RoomTypes[StartingRoom], GetActorLocation(), GetActorRotation(), RoomSpawnParams);
 	Starting->BiomeIndex = StartingBiome;
 	UnfinishedRooms.Add(Starting);
 	//SpawnedRooms.Add(Starting);
 	while (UnfinishedRooms.Num() > 0 && RoomsLeft > 0)
 	{
-		FinishRoom(UnfinishedRooms[0]);
+	//	FinishRoom(UnfinishedRooms[0]);
 		RoomsLeft--;
 	}
 	while (UnfinishedRooms.Num() > 0)
 	{
 		EndRoom(UnfinishedRooms[0]);
 	}
-
+	*/
 	
 	FActorSpawnParameters SpawnParams;
 
@@ -92,11 +116,14 @@ void ADungeonGenerator::Generate()
 	}
 }
 
-void ADungeonGenerator::FinishRoom(ARoom* Starting)
+void ADungeonGenerator::FinishRoom(ARoom* Starting, URoomSave* Save)
 {
 	// passages
 	FActorSpawnParameters RoomSpawnParams;
 	FActorSpawnParameters PassSpawnParams;
+
+	Starting->Doors.RemoveAt(Save->FinishedDoor);
+
 	for (auto& Exit : Starting->Doors)
 	{
 		FVector Location = Starting->GetActorLocation();
@@ -169,7 +196,10 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting)
 
 		if (CanSpawn)
 		{
-			ARoom * Room = GetWorld()->SpawnActor<ARoom>(RoomTypes[SelectedType], NextLocation, NextRotation, RoomSpawnParams);
+			/*ARoom * Room = GetWorld()->SpawnActor<ARoom>(RoomTypes[SelectedType], NextLocation, NextRotation, RoomSpawnParams);
+			Room->Index = RoomCount++;
+			Room->NeighborsIndex.Add(Starting->Index);
+			Starting->NeighborsIndex.Add(Room->Index);
 			if (RandomFloat(0, 1) > 0.5)
 			{
 				Room->BiomeIndex = Starting->BiomeIndex;
@@ -177,21 +207,54 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting)
 			else
 			{
 				Room->BiomeIndex = RandomInt(0, Biomes.Num() - 1);
-			}
-			Room->number = RoomsLeft;
-			UnfinishedRooms.Add(Room);
-			//SpawnedRooms.Add(Room);
-			TArray<AActor*> IgnoredActors;
-			IgnoredActors.Add(Starting);
-			IgnoredActors.Add(Room);
-			UMaterialInterface* Material = Biomes[Starting->BiomeIndex].RoomMaterial;
-			if (RandomFloat(0, 1) >= 0.5)
+			}*/
+			//UMaterialInterface* Material = Biomes[Starting->BiomeIndex].RoomMaterial;
+			if (URoomSave* NewSave = Cast<URoomSave>(UGameplayStatics::CreateSaveGameObject(URoomSave::StaticClass())))
 			{
-				Material = Biomes[Room->BiomeIndex].RoomMaterial;
-			}
-			SpawnPassage(Location + Rotation.RotateVector(Exit.Location), Rotation.RotateVector(Exit.Direction * 1000), NextLocation + NextRotation.RotateVector(Room->Doors[SelectedDoor].Location) - (Location + Rotation.RotateVector(Exit.Location)), NextRotation.RotateVector(Room->Doors[SelectedDoor].Direction * -1000), Exit.Size, Room->Doors[SelectedDoor].Size, IgnoredActors, Material);
+				NewSave->RoomType = RoomTypes[SelectedType];
+				NewSave->Transform = FTransform(NextRotation, NextLocation);
+				if (RandomFloat(0, 1) > 0.5)
+				{
+					NewSave->BiomeIndex = Starting->BiomeIndex;
+				}
+				else
+				{
+					NewSave->BiomeIndex = RandomInt(0, Biomes.Num() - 1);
+				}
 
-			Room->Doors.RemoveAt(SelectedDoor);
+				/*if (RandomFloat(0, 1) >= 0.5)
+				{
+					Material = Biomes[NewSave->BiomeIndex].RoomMaterial;
+				}*/
+				NewSave->NextRooms.Add(Starting->Index);
+				Starting->NeighborsIndex.Add(RoomCount);
+
+				NewSave->FinishedDoor = SelectedDoor;
+
+				if (UGameplayStatics::SaveGameToSlot(NewSave, GameName + FString::FromInt(RoomCount++), 0))
+				{
+					
+				}
+				else
+				{
+					if (GEngine)
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("failed to save")));
+					}
+				}
+			}
+
+			//Room->number = RoomsLeft;
+			//UnfinishedRooms.Add(Room);
+			//SpawnedRooms.Add(Room);
+			//TArray<AActor*> IgnoredActors;
+			//IgnoredActors.Add(Starting);
+			//IgnoredActors.Add(Room);
+			
+
+			//SpawnPassage(Location + Rotation.RotateVector(Exit.Location), Rotation.RotateVector(Exit.Direction * 1000), NextLocation + NextRotation.RotateVector(Room->Doors[SelectedDoor].Location) - (Location + Rotation.RotateVector(Exit.Location)), NextRotation.RotateVector(Room->Doors[SelectedDoor].Direction * -1000), Exit.Size, Room->Doors[SelectedDoor].Size, IgnoredActors, Material);
+
+			//Room->Doors.RemoveAt(SelectedDoor);
 		}
 		else
 		{

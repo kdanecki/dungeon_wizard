@@ -78,9 +78,15 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		FTransform Transform;
 	UPROPERTY(BlueprintReadWrite)
+		int BiomeIndex;
+	UPROPERTY(BlueprintReadWrite)
+		bool IsFinished;
+	UPROPERTY(BlueprintReadWrite)
 		TArray<int> NextRooms;
 	UPROPERTY(BlueprintReadWrite)
 		TArray<FResourceSave> ResourcesInfo;
 	UPROPERTY(BlueprintReadWrite)
 		TArray<FItemSave> ItemsInfo;
+	UPROPERTY(BlueprintReadWrite)
+		int FinishedDoor;
 };

@@ -5,4 +5,8 @@
 
 URoomSave::URoomSave()
 {
+	RoomType = nullptr;
+	Transform = FTransform();
+	IsFinished = false;
+	
 }
