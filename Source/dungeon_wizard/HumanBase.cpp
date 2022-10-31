@@ -23,18 +23,7 @@ AHumanBase::AHumanBase()
 	UeSkills.FruitGathering = 20;
 	UeSkills.Foraging = 10;
 	UeSkills.Farming = 10;
-
-	player_skills = new Skills();
-	player_skills->add(SK_RZEMIOSLO);
-	player_skills->add(SK_WALKA);
-	player_skills->add(SK_MAGIA);
-	player_skills->add(SK_ZIELARSTWO);
-	player_skills->add(SK_WIAZANIE);
-	player_skills->add(SK_KAMIENIARSTWO);
-	player_skills->add(SK_WEDKARSTWO);
-	player_skills->add(SK_HODOWLA);
-	player_skills->add(SK_ZDUNSTWO);
-
+	
 	HP = 100;
 	MaxHP = 100;
 	Nourishment = 50;
@@ -62,7 +51,7 @@ void AHumanBase::BeginPlay()
 	{
 //		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("bla bla %f"), Skills.Carrying));
 	}
-	//auto s = bo("kamieñ", "jjj");
+	//auto s = bo("kamieï¿½", "jjj");
 	//int a = strlen(s);
 	if (GEngine)
 	{
@@ -642,7 +631,7 @@ void AHumanBase::OpenInventory()
 	}
 	FActorSpawnParameters SpawnParams;
 	GetWorld()->SpawnActor<AItem>(classesTable[1].resource->ue, GetActorLocation() + FVector(50, 0, 0), GetActorRotation(), SpawnParams);
-	/*for (int i = 0; i < Resources.Num(); i++)
+	for (int i = 0; i < Resources.Num(); i++)
 	{
 		if (Resources[i])
 		{
@@ -720,137 +709,7 @@ void AHumanBase::OpenInventory()
 
 void AHumanBase::Craft(TArray<AItem*> Items, FString str)
 {
-	FActorSpawnParameters SpawnParams;
-	Resource** res_table = (Resource**) calloc(Items.Num(), sizeof(Resource*));
-	for (int i = 0; i < Items.Num(); i++)
-	{
-		res_table[i] = Items[i]->Detail;
-	}
-	Mix_source src(Items.Num(), res_table, player_skills, nullptr);
-	Mix_result result;
-	if (Items.Num() == 2)
-	{
-		int a = mix(&src, &result);
-		switch (a)
-		{
-		// bez skilla
-		case 0:
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("ERROR 0")));
-			}
-			break;
-		// za jakis czas
-		case 1:
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("ERROR 1")));
-			}
-			break;
-		// 
-		case 2:
-			if (result.mix_count > 0)
-			{
-				src.mix = result.mix_table[0];
-				int b = mix(&src, &result);
-				if (b == 0)
-				{
-					for (int i = 0; i < result.res_count; i++)
-					{
-						AItem* Item = GetWorld()->SpawnActor<AItem>(result.res[i]->ue, GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation(), SpawnParams);
-						Item->Detail = result.res[i];
-					}
-					for (int i = 0; i < Items.Num(); i++)
-					{
-						if (Items[i]->Detail->props.quantity < 1)
-						{
-							delete Items[i]->Detail;
-							Items[i]->Destroy();
-						}
-					}
-				}
-				else if (b == 1)
-				{
-					if (GEngine)
-					{
-						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("czekamy...")));
-					}
-				}
-				else
-				{
-					if (GEngine)
-					{
-						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("bu")));
-					}
-				}
-			}
-			else
-			{
-				if (GEngine)
-				{
-					GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Red, FString::Printf(TEXT("ERROR no mixtures")));
-				}
-			}
-			break;
-		default:
-			break;
-		}
-
-		/*if (r->res)
-		{
-			AItem* Item = GetWorld()->SpawnActor<AItem>(r->res->ue, GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation(), SpawnParams);
-			Item->Detail = r->res;
-			//PickUp(Item);
-			if (Items[1]->Detail->quantity == 0)
-			{
-				Items[1]->Destroy();
-				Items.RemoveAt(1);
-
-			}
-			if (Items[0]->Detail->quantity == 0)
-			{
-				Items[0]->Destroy();
-				Items.RemoveAt(0);
-			}
-		}
-		else
-		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("failed to craft")));
-			}
-		}*/
-	}
-	/*else if (Items.Num() == 1 && IsValid(Tools[0]))
-	{
-		Resource *r = nullptr;// mix(Items[0]->Detail, Tools[0]->Detail, p->skills);
-		if (r)
-		{
-			AItem* Item = GetWorld()->SpawnActor<AItem>(r->ue, GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation(), SpawnParams);
-			Item->Detail = r;
-		}
-		else
-		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("can't craft")));
-			}
-		}
-	}*/
-	else if (Items.Num() > 2)
-	{
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("too many items to craft")));
-		}
-	}
-	else
-	{
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("too few items to craft")));
-		}
-	}
+	
 }
 
 void AHumanBase::AddToHotbar_Implementation(AContainerBase* Container, int Index)

@@ -14,6 +14,7 @@
 #include "HumanBase.h"
 #include "AICharacterController.h"
 #include "RoomSave.h"
+#include "PassagesSave.h"
 
 #include "DungeonGenerator.generated.h"
 
@@ -99,7 +100,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		int RandomInt(int Min, int Max);
 	UFUNCTION(BlueprintImplementableEvent)
-		void SpawnResource(FResourceInfo ResourceInfo, FVector Center, float Length, ARoom* Room);
+		void SpawnResource(FResourceInfo ResourceInfo, FVector Center, float Length, ARoom* Room, URoomSave* Save);
 	UFUNCTION(BlueprintImplementableEvent)
 		AAICharacterController* SpawnCharacter(TSubclassOf<AHumanBase> Race, FVector Location);
 	void Generate();
@@ -108,7 +109,9 @@ public:
 	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActor, UMaterialInterface* Material);
 	APassage* ForceSpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, UMaterialInterface* Material);
 	TArray<ARoom*> UnfinishedRooms;
-	//TArray<ARoom*> SpawnedRooms;
+	TArray<ARoom*> SpawnedRooms;
+	UPROPERTY()
+	UPassagesSave* PassagesSave;
 
 
 	UPROPERTY(EditAnywhere)

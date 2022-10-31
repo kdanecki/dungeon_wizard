@@ -45,13 +45,13 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<AItem*> SelectedItems;
 
+	UPROPERTY(BlueprintReadWrite)
+		int CurrentRoom;
+
 	UFUNCTION(Server, Reliable)
 		void SetActionMode(EAction Mode);
 	UFUNCTION(Client, Reliable)
 	void SwitchModes();
-
-	Mix_source* src;
-	Mix_result* result;
 
 	UFUNCTION(Server, Reliable)
 		void CheckOutcomes(const TArray<AItem*>& Items);

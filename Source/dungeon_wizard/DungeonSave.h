@@ -18,10 +18,11 @@ public:
 
 	UDungeonSave();
 
-	UPROPERTY(BlueprintReadWrite)
-		FString GameName;
+	//UPROPERTY(BlueprintReadWrite)
+		//FString GameName;
 	UPROPERTY(BlueprintReadWrite)
 		int CurrentRoom;
-	int RoomCount;
+	UPROPERTY(BlueprintReadWrite)
+		int RoomCount;
 
 };

@@ -35,7 +35,7 @@ public:
 		TArray<EToolType> EffectiveTools;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AResourceBase> ResourceType;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int ResourcesLeft;
 
 	UFUNCTION(BlueprintImplementableEvent)

@@ -5,7 +5,7 @@
 
 UDungeonSave::UDungeonSave()
 {
-	GameName = TEXT("Game");
+//	GameName = TEXT("Game");
 	CurrentRoom = 0;
 	RoomCount = 0;
 }

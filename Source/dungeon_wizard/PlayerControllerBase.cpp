@@ -6,9 +6,8 @@
 APlayerControllerBase::APlayerControllerBase()
 {
 	PlayerPawn = nullptr;
+	CurrentRoom = 0;
 	ActionMode = EAction::NONE;
-	src = nullptr;
-	result = nullptr;
 }
 
 void APlayerControllerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -201,88 +200,11 @@ void APlayerControllerBase::SwitchModes_Implementation()
 
 void APlayerControllerBase::CheckOutcomes_Implementation(const TArray<AItem*>& Items)
 {
-	Outcomes.Empty();
-	Resource** res_table = (Resource**)calloc(Items.Num(), sizeof(Resource*));
-	for (int i = 0; i < Items.Num(); i++)
-	{
-		res_table[i] = Items[i]->Detail;
-	}
-	if (src)
-	{
-		delete src;
-	}
-	if (result)
-	{
-		delete result;
-	}
-	src = new Mix_source(Items.Num(), res_table, PlayerPawn->player_skills, nullptr);
-	result = new Mix_result();
-	int a = mix(src, result);
-	if (a == 2)
-	{
-		if (result->mix_count > 0)
-		{
-			for (int j = 0; j < result->mix_count; j++)
-			{
-				Outcomes.Add(result->mix_table[j]->res[0]->ue);
-				if (GEngine)
-				{
-					GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("outcome")));
-				}
-			}
-		}
-		else
-		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("this shouldn't happen")));
-			}
-		}
-	}
-	else
-	{
-		if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("can't craft")));
-		}
-	}
-	OnRep_Outcomes();
 }
 
 void APlayerControllerBase::Craft_Implementation(int Index, const TArray<AItem*>& Items)
 {
-	if (Outcomes.Num() > Index)
-	{
-		src->mix = result->mix_table[Index];
-		int b = mix(src, result);
-		if (b == 0)
-		{
-			FActorSpawnParameters SpawnParams;
-			for (int i = 0; i < result->res_count; i++)
-			{
-				AItem* Item = GetWorld()->SpawnActor<AItem>(result->res[i]->ue, PlayerPawn->GetActorLocation() + PlayerPawn->GetActorForwardVector() * 100, PlayerPawn->GetActorRotation(), SpawnParams);
-				Item->Detail = result->res[i];
-			}
-			for (int i = 0; i < Items.Num(); i++)
-			{
-				if (Items[i]->Detail->props.quantity < 1)
-				{
-					delete Items[i]->Detail;
-					Items[i]->Destroy();
-				}
-			}
-		}
-		else if (b ==1)
-		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("waiting")));
-			}
-		}
-	}
-	Outcomes.Empty();
-	OnRep_Outcomes();
-	SwitchModes();
+
 }
 
 /*void APlayerControllerBase::ActionCraft()

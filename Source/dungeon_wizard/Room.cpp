@@ -15,6 +15,10 @@ ARoom::ARoom()
 	SetRootComponent(Root);
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(RootComponent);
+	Collision = CreateDefaultSubobject<UBoxComponent>(TEXT("collision"));
+	Collision->SetupAttachment(RootComponent);
+	Collision->InitBoxExtent(Dimensions / 2.0);
+	Collision->OnComponentBeginOverlap.AddDynamic(this, &ARoom::OnBoxBeginOverlap);
 	Size = 0;
 }
 
@@ -32,10 +36,27 @@ void ARoom::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+void ARoom::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (AItem* Item = Cast<AItem>(OtherActor))
+	{
+		if (IsValid(Item->CurrentRoom))
+		{
+			Item->CurrentRoom->Items.Remove(Item);
+		}
+		
+		Item->CurrentRoom = this;
+		Items.AddUnique(Item);
+	}
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("overlap")));
+	}
+}
 /*
 void ARoom::CreateRoom()
 {
-/*	UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(this);
+	UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(this);
 	Mesh->SetupAttachment(RootComponent);
 	Mesh->SetStaticMesh(RoomMesh);
 	Mesh->SetRelativeLocation(FVector(0, 0, 0));
@@ -82,7 +103,7 @@ void ARoom::CreateRoom(FRoomSpawnInfo RoomSpawnInfo)
 		}
 		FRotator Rot(0, 90 * (i - 1), 0);
 		FVector Location = Rot.RotateVector(FVector(1, 0, 0)) * (float)(WallDistance / 0.02) + FVector(0, 0, Z / 0.02 - 5.0);
-		/*if (GEngine)
+		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 100.0f, FColor::Blue, FString::Printf(TEXT("%f, %f, %f, %f"), Rot.RotateVector(FVector(1, 0, 0)).X, Rot.RotateVector(FVector(1, 0, 0)).Y, Rot.RotateVector(FVector(1, 0, 0)).Z, (float)(WallDistance / 0.02)));
 		}
@@ -158,7 +179,7 @@ void ARoom::CreateRoom(FRoomSpawnInfo RoomSpawnInfo)
 			Mesh->SetWorldScale3D(FVector(0.1, (WallLength - (DoorsOnWall[DoorsOnWall.Num()-1].Location + DoorsOnWall[DoorsOnWall.Num()-1].XSize / 2.0)), Z));
 			Mesh->RegisterComponent();
 		}
-	}/*
+	}
 	// x minus
 	Mesh = NewObject<UStaticMeshComponent>(this);
 	Mesh->SetupAttachment(RootComponent);

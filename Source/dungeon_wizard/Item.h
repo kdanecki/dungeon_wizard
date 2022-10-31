@@ -8,8 +8,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "Net/UnrealNetwork.h"
 
-#include "alchemik/mixtures/resources.h"
-
 #include "Item.generated.h"
 
 /*class Uclass
@@ -38,6 +36,7 @@ struct FMoje
 	int b;
 	Resource * Det;
 };*/
+class ARoom;
 
 UCLASS()
 class DUNGEON_WIZARD_API AItem : public AActor
@@ -71,7 +70,7 @@ public:
 		FString ResourceType;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		int ResourceId;
-
+	ARoom* CurrentRoom;
 
 	UPROPERTY(BlueprintReadOnly)
 		bool CanBePickedUp;
@@ -83,7 +82,7 @@ public:
 	//UPROPERTY(EditAnywhere)
 	//	TMap<Element_type, int> MyMap;
 
-	Resource * Detail;
+	void * Detail;
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 		int GetQuantity();
 	

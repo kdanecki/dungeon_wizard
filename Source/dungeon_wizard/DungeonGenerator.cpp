@@ -10,8 +10,7 @@
 //#include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Kismet/GameplayStatics.h"
-#include "Foo.h"
-#include "alchemik/Boo.h"
+#include "DungeonSave.h"
 
 // Sets default values
 ADungeonGenerator::ADungeonGenerator()
@@ -29,24 +28,6 @@ void ADungeonGenerator::BeginPlay()
 {
 	Super::BeginPlay();
 	//Generate();
-	Foo *f = new Foo();
-	if (GEngine)
-	{
-	//	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("%f"), f->a));
-	}
-	if (GEngine)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("bar: %f"), f->bar1->b));
-	}
-	if (GEngine)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("boo: %d"), f->booo->bo));
-	}
-	Boo *b = new Boo(20);
-	if (GEngine)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("%d"), b->bo));
-	}
 }
 
 // Called every frame
@@ -69,6 +50,12 @@ void ADungeonGenerator::Tick(float DeltaTime)
 
 void ADungeonGenerator::Generate()
 {
+	FActorSpawnParameters RoomSpawnParams;
+	ARoom* Starting = GetWorld()->SpawnActor<ARoom>(RoomTypes[StartingRoom], GetActorLocation(), GetActorRotation(), RoomSpawnParams);
+	Starting->Doors.Insert(FDoorInfo(), 0);
+	Starting->BiomeIndex = StartingBiome;
+	SpawnedRooms.Add(Starting);
+
 	if (URoomSave* Save = Cast<URoomSave>(UGameplayStatics::CreateSaveGameObject(URoomSave::StaticClass())))
 	{
 		Save->RoomType = RoomTypes[StartingRoom];
@@ -90,25 +77,35 @@ void ADungeonGenerator::Generate()
 			}
 		}
 	}
-
-	/*FActorSpawnParameters RoomSpawnParams;
-	ARoom * Starting = GetWorld()->SpawnActor<ARoom>(RoomTypes[StartingRoom], GetActorLocation(), GetActorRotation(), RoomSpawnParams);
-	Starting->BiomeIndex = StartingBiome;
-	UnfinishedRooms.Add(Starting);
-	//SpawnedRooms.Add(Starting);
-	while (UnfinishedRooms.Num() > 0 && RoomsLeft > 0)
+	if (UDungeonSave* DungeonSave = Cast<UDungeonSave>(UGameplayStatics::CreateSaveGameObject(UDungeonSave::StaticClass())))
 	{
-	//	FinishRoom(UnfinishedRooms[0]);
-		RoomsLeft--;
+		DungeonSave->RoomCount = 1;
+		DungeonSave->CurrentRoom = 0;
+		if (UGameplayStatics::SaveGameToSlot(DungeonSave, GameName, 0))
+		{
+		}
 	}
-	while (UnfinishedRooms.Num() > 0)
+	PassagesSave = Cast<UPassagesSave>(UGameplayStatics::CreateSaveGameObject(UPassagesSave::StaticClass()));
+	if (IsValid(PassagesSave))
 	{
-		EndRoom(UnfinishedRooms[0]);
+		UGameplayStatics::SaveGameToSlot(PassagesSave, GameName + FString("Passages"), 0);
 	}
-	*/
+	if (IsValid(PassagesSave))
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("valid")));
+		}
+	}
+	else
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("invalid")));
+		}
+	}
 	
 	FActorSpawnParameters SpawnParams;
-
 	for (int i = 0; i < 1; i++)
 	{
 		AItem * Item = GetWorld()->SpawnActor<AItem>(ItemsToSpawn[4], FVector(300, 0, 200 + 100 * 1), GetActorRotation(), SpawnParams);
@@ -116,202 +113,219 @@ void ADungeonGenerator::Generate()
 	}
 }
 
-void ADungeonGenerator::FinishRoom(ARoom* Starting, URoomSave* Save)
+void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 {
 	// passages
-	FActorSpawnParameters RoomSpawnParams;
+	
 	FActorSpawnParameters PassSpawnParams;
 
-	Starting->Doors.RemoveAt(Save->FinishedDoor);
 
-	for (auto& Exit : Starting->Doors)
-	{
-		FVector Location = Starting->GetActorLocation();
-		FRotator Rotation = Starting->GetActorRotation();
-
-		int SelectedType = RandomInt(0, RoomTypes.Num() - 1);
-		FVector Dimensions = RoomTypes[SelectedType].GetDefaultObject()->Dimensions;
-		int SelectedDoor = RandomInt(0, RoomTypes[SelectedType].GetDefaultObject()->Doors.Num() - 1);
-		FDoorInfo NextExit = RoomTypes[SelectedType].GetDefaultObject()->Doors[SelectedDoor];
-
-		float PassageLength = 400 + RandomFloat(0, 2000); //200 + (0, 2000)
-
-		FVector sel = RoomTypes[SelectedType].GetDefaultObject()->Doors[SelectedDoor].Direction;
-		FVector V = Rotation.RotateVector(Exit.Direction);
-		float cos = FVector::DotProduct(NextExit.Direction, -V);
-		float rad = FMath::Acos(cos);
-		FVector axis = FVector::CrossProduct(NextExit.Direction, -V);
-		axis.Normalize();
-		FVector V1 = FVector(1, 0, 0);
-		FVector V2 = V1.RotateAngleAxis(FMath::RadiansToDegrees(rad), axis);
-		
-		FRotator NextRotation = V2.ToOrientationRotator() + FRotator(0, RandomFloat(-90 * (PassageLength / ((Dimensions.Length() + Starting->Dimensions.Length()) / 2.0)), 90 * (PassageLength / ((Dimensions.Length() + Starting->Dimensions.Length()) / 2.0))), 0);
-
-		
-		
-		float Weight = RandomFloat(0.4, 0.6);
-		float OffsetLength = RandomFloat(-PassageLength / 2.0, PassageLength / 2.0);
-		FVector Offset = Rotation.RotateVector(FRotator(0, 90, 0).RotateVector(Exit.Direction) * OffsetLength * Weight) - NextRotation.RotateVector(FRotator(0, 90, 0).RotateVector(NextExit.Direction) * OffsetLength * (1 - Weight)) + FVector(0, 0, RandomFloat(-PassageLength / 3.0, PassageLength / 5.0));
-		FVector NextLocation = Location + Rotation.RotateVector(Exit.Location + Exit.Direction * PassageLength * Weight) - NextRotation.RotateVector(NextExit.Location + NextExit.Direction * PassageLength * (1 - Weight)) + Offset;
-		
-
-		bool CanSpawn = true;
-		TArray<FHitResult> SweepResults1;
-		TArray<AActor*> ActorsToIgnore;
-		ActorsToIgnore.Add(Starting);
-		bool Hit = UKismetSystemLibrary::BoxTraceMulti(GetWorld(), NextLocation - FVector(10, 10, (10 - Dimensions.Z / 2.0)), NextLocation + FVector(10, 10, 10 + Dimensions.Z / 2.0), FVector(Dimensions.X * 0.5, Dimensions.Y * 0.5, Dimensions.Z * 0.5), NextRotation, UEngineTypes::ConvertToTraceType(ECC_Camera), true, ActorsToIgnore, TraceVisibility, SweepResults1, true, FLinearColor::Gray, FLinearColor::Yellow);
-		if (SweepResults1.Num() > 0)
+	Starting1->Doors.RemoveAt(Save->FinishedDoor);
+	TWeakObjectPtr<ADungeonGenerator> Generator = this;
+	//TWeakObjectPtr<URoomSave> Save = Save;
+	TWeakObjectPtr<ARoom> Starting = Starting1;
+//	AsyncTask(ENamedThreads::AnyHiPriThreadNormalTask, [Starting, Generator, Save] ()
+//	{
+		FActorSpawnParameters RoomSpawnParams;
+		for (auto& Exit : Starting->Doors)
 		{
-			CanSpawn = false;
-		}
+			FVector Location = Starting->GetActorLocation();
+			FRotator Rotation = Starting->GetActorRotation();
 
-		TArray<FHitResult> SweepResults;
-		FRotator TraceRotation = (NextLocation - Location).ToOrientationRotator();
-		Hit = UKismetSystemLibrary::BoxTraceMulti(GetWorld(), Location + FVector(0, 0, 200), NextLocation + FVector(0, 0, 200), FVector(300, 300, 400), TraceRotation, UEngineTypes::ConvertToTraceType(ECC_Camera), true, ActorsToIgnore, TraceVisibility, SweepResults, true, FLinearColor::Blue, FLinearColor::Red);
-		if (CanSpawn)
-		{
-			for (int i = 0; i < SweepResults.Num(); i++)
+			int SelectedType = Generator->RandomInt(0, Generator->RoomTypes.Num() - 1);
+			FVector Dimensions = Generator->RoomTypes[SelectedType].GetDefaultObject()->Dimensions;
+			int SelectedDoor = Generator->RandomInt(0, Generator->RoomTypes[SelectedType].GetDefaultObject()->Doors.Num() - 1);
+			FDoorInfo NextExit = Generator->RoomTypes[SelectedType].GetDefaultObject()->Doors[SelectedDoor];
+
+			float PassageLength = 400 + Generator->RandomFloat(0, 2000); //200 + (0, 2000)
+
+			FVector sel = Generator->RoomTypes[SelectedType].GetDefaultObject()->Doors[SelectedDoor].Direction;
+			FVector V = Rotation.RotateVector(Exit.Direction);
+			float cos = FVector::DotProduct(NextExit.Direction, -V);
+			float rad = FMath::Acos(cos);
+			FVector axis = FVector::CrossProduct(NextExit.Direction, -V);
+			axis.Normalize();
+			FVector V1 = FVector(1, 0, 0);
+			FVector V2 = V1.RotateAngleAxis(FMath::RadiansToDegrees(rad), axis);
+		
+			FRotator NextRotation = V2.ToOrientationRotator() + FRotator(0, Generator->RandomFloat(-90 * (PassageLength / ((Dimensions.Length() + Starting->Dimensions.Length()) / 2.0)), 90 * (PassageLength / ((Dimensions.Length() + Starting->Dimensions.Length()) / 2.0))), 0);
+
+		
+		
+			float Weight = Generator->RandomFloat(0.4, 0.6);
+			float OffsetLength = Generator->RandomFloat(-PassageLength / 2.0, PassageLength / 2.0);
+			FVector Offset = Rotation.RotateVector(FRotator(0, 90, 0).RotateVector(Exit.Direction) * OffsetLength * Weight) - NextRotation.RotateVector(FRotator(0, 90, 0).RotateVector(NextExit.Direction) * OffsetLength * (1 - Weight)) + FVector(0, 0, Generator->RandomFloat(-PassageLength / 3.0, PassageLength / 5.0));
+			FVector NextLocation = Location + Rotation.RotateVector(Exit.Location + Exit.Direction * PassageLength * Weight) - NextRotation.RotateVector(NextExit.Location + NextExit.Direction * PassageLength * (1 - Weight)) + Offset;
+		
+
+			bool CanSpawn = true;
+			TArray<FHitResult> SweepResults1;
+			TArray<AActor*> ActorsToIgnore;
+			ActorsToIgnore.Add(Starting.Get());
+			bool Hit = UKismetSystemLibrary::BoxTraceMulti(Generator->GetWorld(), NextLocation - FVector(10, 10, (10 - Dimensions.Z / 2.0)), NextLocation + FVector(10, 10, 10 + Dimensions.Z / 2.0), FVector(Dimensions.X * 0.5, Dimensions.Y * 0.5, Dimensions.Z * 0.5), NextRotation, UEngineTypes::ConvertToTraceType(ECC_Camera), true, ActorsToIgnore, Generator->TraceVisibility, SweepResults1, true, FLinearColor::Gray, FLinearColor::Yellow);
+			if (SweepResults1.Num() > 0)
 			{
-				if (SweepResults[i].GetActor())
+				CanSpawn = false;
+			}
+
+			TArray<FHitResult> SweepResults;
+			FRotator TraceRotation = (NextLocation - Location).ToOrientationRotator();
+			Hit = UKismetSystemLibrary::BoxTraceMulti(Generator->GetWorld(), Location + FVector(0, 0, 200), NextLocation + FVector(0, 0, 200), FVector(300, 300, 400), TraceRotation, UEngineTypes::ConvertToTraceType(ECC_Camera), true, ActorsToIgnore, Generator->TraceVisibility, SweepResults, true, FLinearColor::Blue, FLinearColor::Red);
+			if (CanSpawn)
+			{
+				for (int i = 0; i < SweepResults.Num(); i++)
 				{
-					if (SweepResults[i].GetActor()->IsA(ARoom::StaticClass()))
+					if (SweepResults[i].GetActor())
 					{
-						CanSpawn = false;
+						if (SweepResults[i].GetActor()->IsA(ARoom::StaticClass()))
+						{
+							CanSpawn = false;
+							if (GEngine)
+							{
+								//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, SweepResults[i].GetActor()->GetActorLabel());
+							}
+							break;
+						}
+						else
+						{
+							if (GEngine)
+							{
+								//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("crossing")));
+							}
+						}
+					}
+				}
+			}
+
+			if (CanSpawn)
+			{
+			//	AsyncTask(ENamedThreads::GameThread, [Generator, SelectedType, NextLocation, NextRotation, Location, Rotation, RoomSpawnParams, SelectedDoor, Exit, Save, Starting]()
+			//	{
+					ARoom * Room = Generator->GetWorld()->SpawnActor<ARoom>(Generator->RoomTypes[SelectedType], NextLocation, NextRotation, RoomSpawnParams);
+					Generator->SpawnedRooms.Add(Room);
+					Room->Index = Generator->RoomCount;
+					if (Generator->SpawnedRooms.Num() != Generator->RoomCount + 1)
+					{
 						if (GEngine)
 						{
-							//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, SweepResults[i].GetActor()->GetActorLabel());
+							GEngine->AddOnScreenDebugMessage(-1, 1000.0f, FColor::Red, FString::Printf(TEXT("Index not matching room count")));
 						}
-						break;
+					}
+					Room->NeighborsIndex.Add(Starting->Index);
+					Starting->NeighborsIndex.Add(Room->Index);
+					if (Generator->RandomFloat(0, 1) > 0.5)
+					{
+						Room->BiomeIndex = Starting->BiomeIndex;
 					}
 					else
 					{
-						if (GEngine)
+						Room->BiomeIndex = Generator->RandomInt(0, Generator->Biomes.Num() - 1);
+					}
+					UMaterialInterface* Material = Generator->Biomes[Starting->BiomeIndex].RoomMaterial;
+					if (URoomSave* NewSave = Cast<URoomSave>(UGameplayStatics::CreateSaveGameObject(URoomSave::StaticClass())))
+					{
+						NewSave->RoomType = Generator->RoomTypes[SelectedType];
+						NewSave->Transform = FTransform(NextRotation, NextLocation);
+						NewSave->BiomeIndex = Room->BiomeIndex;
+
+						if (Generator->RandomFloat(0, 1) >= 0.5)
 						{
-							//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("crossing")));
+							Material = Generator->Biomes[NewSave->BiomeIndex].RoomMaterial;
+						}
+						NewSave->NextRooms.Add(Starting->Index);
+						Save->NextRooms.Add(Generator->RoomCount);
+
+						NewSave->FinishedDoor = SelectedDoor;
+
+						if (UGameplayStatics::SaveGameToSlot(NewSave, Generator->GameName + FString::FromInt(Generator->RoomCount++), 0))
+						{
+					
+						}
+						else
+						{
+							if (GEngine)
+							{
+								GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("failed to save")));
+							}
 						}
 					}
-				}
-			}
-		}
 
-		if (CanSpawn)
-		{
-			/*ARoom * Room = GetWorld()->SpawnActor<ARoom>(RoomTypes[SelectedType], NextLocation, NextRotation, RoomSpawnParams);
-			Room->Index = RoomCount++;
-			Room->NeighborsIndex.Add(Starting->Index);
-			Starting->NeighborsIndex.Add(Room->Index);
-			if (RandomFloat(0, 1) > 0.5)
-			{
-				Room->BiomeIndex = Starting->BiomeIndex;
+					//Room->number = RoomsLeft;
+					//UnfinishedRooms.Add(Room);
+					//SpawnedRooms.Add(Room);
+					TArray<AActor*> IgnoredActors;
+					IgnoredActors.Add(Starting.Get());
+					IgnoredActors.Add(Room);
+			
+
+					Generator->SpawnPassage(Location + Rotation.RotateVector(Exit.Location), Rotation.RotateVector(Exit.Direction * 1000), NextLocation + NextRotation.RotateVector(Room->Doors[SelectedDoor].Location) - (Location + Rotation.RotateVector(Exit.Location)), NextRotation.RotateVector(Room->Doors[SelectedDoor].Direction * -1000), Exit.Size, Room->Doors[SelectedDoor].Size, IgnoredActors, Material);
+
+					//Room->Doors.RemoveAt(SelectedDoor);
+					//});
 			}
 			else
 			{
-				Room->BiomeIndex = RandomInt(0, Biomes.Num() - 1);
-			}*/
-			//UMaterialInterface* Material = Biomes[Starting->BiomeIndex].RoomMaterial;
-			if (URoomSave* NewSave = Cast<URoomSave>(UGameplayStatics::CreateSaveGameObject(URoomSave::StaticClass())))
-			{
-				NewSave->RoomType = RoomTypes[SelectedType];
-				NewSave->Transform = FTransform(NextRotation, NextLocation);
-				if (RandomFloat(0, 1) > 0.5)
-				{
-					NewSave->BiomeIndex = Starting->BiomeIndex;
-				}
-				else
-				{
-					NewSave->BiomeIndex = RandomInt(0, Biomes.Num() - 1);
-				}
-
-				/*if (RandomFloat(0, 1) >= 0.5)
-				{
-					Material = Biomes[NewSave->BiomeIndex].RoomMaterial;
-				}*/
-				NewSave->NextRooms.Add(Starting->Index);
-				Starting->NeighborsIndex.Add(RoomCount);
-
-				NewSave->FinishedDoor = SelectedDoor;
-
-				if (UGameplayStatics::SaveGameToSlot(NewSave, GameName + FString::FromInt(RoomCount++), 0))
-				{
-					
-				}
-				else
-				{
-					if (GEngine)
-					{
-						GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("failed to save")));
-					}
-				}
+				//AsyncTask(ENamedThreads::GameThread, [Exit, Rotation, Generator, Location]
+				//{
+					V = Rotation.RotateVector(Exit.Direction);
+					Generator->GetWorld()->SpawnActor<AActor>(Generator->BlockadeTypes[0], (Location + Rotation.RotateVector(Exit.Location)), (-V).ToOrientationRotator());
+				//});
 			}
-
-			//Room->number = RoomsLeft;
-			//UnfinishedRooms.Add(Room);
-			//SpawnedRooms.Add(Room);
-			//TArray<AActor*> IgnoredActors;
-			//IgnoredActors.Add(Starting);
-			//IgnoredActors.Add(Room);
-			
-
-			//SpawnPassage(Location + Rotation.RotateVector(Exit.Location), Rotation.RotateVector(Exit.Direction * 1000), NextLocation + NextRotation.RotateVector(Room->Doors[SelectedDoor].Location) - (Location + Rotation.RotateVector(Exit.Location)), NextRotation.RotateVector(Room->Doors[SelectedDoor].Direction * -1000), Exit.Size, Room->Doors[SelectedDoor].Size, IgnoredActors, Material);
-
-			//Room->Doors.RemoveAt(SelectedDoor);
-		}
-		else
-		{
-			V = Rotation.RotateVector(Exit.Direction);
-			GetWorld()->SpawnActor<AActor>(BlockadeTypes[0], (Location + Rotation.RotateVector(Exit.Location)), (-V).ToOrientationRotator());
-		}
 		
-	}
-	// Faction
-	if (RandomFloat(0, 0.5) > 0.9)
-	{
-		AFaction *Faction = GetWorld()->SpawnActor<AFaction>(FactionType, Starting->GetActorLocation(), FRotator(0, 0, 0));
-		int num = RandomInt(1, 5);
-		int RaceIndex = RandomInt(0, Races.Num() - 1);
-		for (int i = 0; i < num; i++)
-		{
-			AAICharacterController* Controller = SpawnCharacter(Races[RaceIndex], Starting->GetActorLocation() + FVector(RandomFloat(-300, 300), RandomFloat(-300, 300), 200));
-			Faction->Members.Add(Controller);
-			Controller->Faction = Faction;
 		}
-	}
-
-
-	// Biome
-	FBiome Biome = Biomes[Starting->BiomeIndex];
-	Starting->Mesh->SetMaterial(0, Biome.RoomMaterial);
-	if (Biome.PossibleResources.Num() > 0)
-	{
-		float Sum = 0;
-		for (int i = 0; i < Biome.PossibleResources.Num(); i++)
-		{
-			Sum += Biome.PossibleResources[i].Rarity;
-		}
-		while (Starting->Size > 0)
-		{
-			float Rand = RandomFloat(0, Sum);
-			for (auto& Resource : Biome.PossibleResources)
+		//AsyncTask(ENamedThreads::GameThread, [Generator, Starting, Save]
+		//{
+			// Faction
+			/*if (Generator->RandomFloat(0, 0.5) > 0.9)
 			{
-				Sum -= Resource.Rarity;
-				if (Sum <= Rand)
+				AFaction *Faction = Generator->GetWorld()->SpawnActor<AFaction>(Generator->FactionType, Starting->GetActorLocation(), FRotator(0, 0, 0));
+				int num = Generator->RandomInt(1, 5);
+				int RaceIndex = Generator->RandomInt(0, Generator->Races.Num() - 1);
+				for (int i = 0; i < num; i++)
 				{
-					/*FVector V = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(Resource.ConeDirection, Resource.ConeAngle);
-					TArray<AActor*> ActorsToIgnore;
-					FHitResult HitResult;
-					FVector Center = Starting->GetActorLocation() + (Starting->Dimensions.Z) / 2.0;
-					UKismetSystemLibrary::LineTraceSingle(GetWorld(), Center, Center + V * Starting->Dimensions.Length(), UEngineTypes::ConvertToTraceType(ECC_Camera), true, ActorsToIgnore, TraceVisibility, HitResult, false, FLinearColor::Blue, FLinearColor::Red);*/
-					SpawnResource(Resource, Starting->GetActorLocation() + FVector(0, 0, (Starting->Dimensions.Z) / 2.0), Starting->Dimensions.Length() / 2.0, Starting);
-					break;
+					AAICharacterController* Controller = Generator->SpawnCharacter(Generator->Races[RaceIndex], Starting->GetActorLocation() + FVector(Generator->RandomFloat(-300, 300), Generator->RandomFloat(-300, 300), 200));
+					Faction->Members.Add(Controller);
+					Controller->Faction = Faction;
 				}
 			}
-			Starting->Size -= 1;
-		}
-	}
-	
 
 
-	UnfinishedRooms.Remove(Starting);
+			// Biome
+			FBiome Biome = Generator->Biomes[Starting->BiomeIndex];
+			Starting->Mesh->SetMaterial(0, Biome.RoomMaterial);
+			if (Biome.PossibleResources.Num() > 0)
+			{
+				float Sum = 0;
+				for (int i = 0; i < Biome.PossibleResources.Num(); i++)
+				{
+					Sum += Biome.PossibleResources[i].Rarity;
+				}
+				while (Starting->Size > 0)
+				{
+					float Rand = Generator->RandomFloat(0, Sum);
+					for (auto& Resource : Biome.PossibleResources)
+					{
+						Sum -= Resource.Rarity;
+						if (Sum <= Rand)
+						{
+							start comment  FVector V = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(Resource.ConeDirection, Resource.ConeAngle);
+							TArray<AActor*> ActorsToIgnore;
+							FHitResult HitResult;
+							FVector Center = Starting->GetActorLocation() + (Starting->Dimensions.Z) / 2.0;
+							UKismetSystemLibrary::LineTraceSingle(GetWorld(), Center, Center + V * Starting->Dimensions.Length(), UEngineTypes::ConvertToTraceType(ECC_Camera), true, ActorsToIgnore, TraceVisibility, HitResult, false, FLinearColor::Blue, FLinearColor::Red); end comment
+							Generator->SpawnResource(Resource, Starting->GetActorLocation() + FVector(0, 0, (Starting->Dimensions.Z) / 2.0), Starting->Dimensions.Length() / 2.0, Starting.Get(), Save.Get());
+							break;
+						}
+					}
+					Starting->Size -= 1;
+				}
+			}*/
+			Save->IsFinished = true;
+
+
+			Generator->UnfinishedRooms.Remove(Starting.Get());
+		//});
+	//});
 }
 
 void ADungeonGenerator::EndRoom(ARoom* Starting)
@@ -407,6 +421,7 @@ APassage* ADungeonGenerator::ForceSpawnPassage(FVector Location, FVector StartTa
 	Passage->Mesh->SetMaterial(0, Material);
 	Passage->MeshParams = FMeshParams(FVector(0, 0, 0), StartTangent, End, EndTangent, StartSize, EndSize);
 	Passage->OnRep_MeshParams();
+	PassagesSave->PassagesInfo.Add(FPassageSave(Passage));
 	return Passage;
 }
 

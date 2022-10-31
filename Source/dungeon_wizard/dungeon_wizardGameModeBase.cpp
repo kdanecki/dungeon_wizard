@@ -1,50 +1,16 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 //#pragma optimize("", off)
-#pragma once
 #include "dungeon_wizardGameModeBase.h"
-#include "alchemik/mixtures/resources.h"
-#include "alchemik/mixtures/mixture.h"
 #include "DungeonSave.h"
-
+#include "dungeon_wizardGameStateBase.h"
 #include "Kismet/GameplayStatics.h"
-//#include "alchemik/player.h"
-//#include "Item.h"
-
-/*
-class Uclass
-{
-public:
-	static int class_cnt;
-	Uclass();
-	int class_id;
-};*/
-
-//int Uclass::class_cnt;
-int game_started = 0;
-
+#include "GameFramework/PlayerState.h"
+#include "PlayerControllerBase.h"
 
 void Adungeon_wizardGameModeBase::InitGame(const FString& MapName, const FString& Options, FString&ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
-	//Uclass::class_cnt = 0;
-	game_started = 1;
-	/*int count = 0;
-	for (TObjectIterator<UClass> It; It; ++It)
-	{
-		if (It->IsChildOf(AItem::StaticClass()) && !It->HasAnyClassFlags(CLASS_Abstract))
-		{
-			count++;
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, It->GetName());
-			}
-		}
-	}
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("%d"), count));
-	}*/
 }
 
 
@@ -52,98 +18,285 @@ void Adungeon_wizardGameModeBase::InitGame(const FString& MapName, const FString
 void Adungeon_wizardGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-//	create_elements();
-	elements = new Elements();
-	mixtures = new Mixtures();
-
-	create_mixtures();
-	create_skills();
-
-	resources = new Resources();
-	for (int i = 0; i < MyResources.Num(); i++)
-	{
-		AItem * Item = Cast<AItem>(MyResources[i]->GetDefaultObject());
-		Resource *r = new Resource((Element_type)(Item->ResourceId), -1);
-		r->ue = MyResources[i];
-		resources->add(r);
-	}
 	FActorSpawnParameters SpawnParams;
-	//FString TestString = FString::Printf(TEXT("Game"));
 	GameName = TEXT("Game");
 	Generator = GetWorld()->SpawnActor<ADungeonGenerator>(GeneratorType, FVector(0, 0, 0), FRotator(0, 0, 0), SpawnParams);
 	Generator->GameName = GameName;
 	if (UDungeonSave* LoadedGame = Cast<UDungeonSave>(UGameplayStatics::LoadGameFromSlot(GameName, 0)))
 	{
+		Generator->SpawnedRooms.SetNum(LoadedGame->RoomCount);
 		Generator->RoomCount = LoadedGame->RoomCount;
-		LoadRoom(LoadedGame->CurrentRoom, 3);
-		/*if (URoomSave* LoadedRoom = Cast<URoomSave>(UGameplayStatics::LoadGameFromSlot(GameName + FString::FromInt(LoadedGame->CurrentRoom), 0)))
+		for (int i = 0; i < LoadedGame->RoomCount; i++)
 		{
-			SpawnRoomFromSave(LoadedRoom, 3);
-		}*/
-		// The operation was successful, so LoadedGame now contains the data we saved earlier.
-		//UE_LOG(LogTemp, Warning, TEXT("LOADED: %s"), *LoadedGame->PlayerName);
+			if (URoomSave* LoadedRoom = Cast<URoomSave>(UGameplayStatics::LoadGameFromSlot(GameName + FString::FromInt(i), 0)))
+			{
+				Generator->SpawnedRooms[i] = SpawnRoomFromSave(LoadedRoom);
+				Generator->SpawnedRooms[i]->NeighborsIndex = LoadedRoom->NextRooms;
+				Generator->SpawnedRooms[i]->Index = i;
+			}
+			else
+			{
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 1000.0f, FColor::Red, FString::Printf(TEXT("save doen't exist")));
+				}
+			}
+		}
+		if (UPassagesSave* PassagesSave = Cast<UPassagesSave>(UGameplayStatics::LoadGameFromSlot(GameName + FString("Passages"), 0)))
+		{
+			Generator->PassagesSave = PassagesSave;
+			for (FPassageSave Info : PassagesSave->PassagesInfo)
+			{
+				APassage* Passage = GetWorld()->SpawnActor<APassage>(Info.PassageType, Info.Transform, SpawnParams);
+				Passage->Mesh->SetMaterial(0, Info.Material);
+				Passage->MeshParams = Info.MeshParams;
+				Passage->OnRep_MeshParams();
+			}
+		}
 	}
 	else
 	{
 		Generator->Generate();
 		Generator->RoomCount = 1;
-		LoadRoom(0, 3);
 	}
-	int a = 10;
-	if (GEngine)
+	FTimerHandle UnusedHandle;
+	FTimerDelegate MyDelegate = FTimerDelegate::CreateUObject(this, &Adungeon_wizardGameModeBase::RoomLoader);
+	GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 2, true);
+}
+
+void Adungeon_wizardGameModeBase::Tick(float DeltaTime)
+{
+
+}
+
+void Adungeon_wizardGameModeBase::RoomLoader()
+{
+	if (NeedToBeLoaded.Num() > 0)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("%d"), a));
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("loaded %d"), NeedToBeLoaded[0]));
+		}
+		LoadRoom(NeedToBeLoaded[0], 0);
+		NeedToBeLoaded.RemoveAt(0);
+	}
+	
+}
+
+void Adungeon_wizardGameModeBase::AddRooms(int Index, int Depth)
+{
+	if (!RoomsToLoad.Contains(Index))
+	{
+		RoomsToLoad.Add(Index);
+		if (Depth > 0)
+		{
+			for (int i : Generator->SpawnedRooms[Index]->NeighborsIndex)
+			{
+				AddRooms(i, Depth - 1);
+			}
+		}
 	}
 }
 
 ARoom* Adungeon_wizardGameModeBase::SpawnRoomFromSave(URoomSave* RoomSave)
 {
 	ARoom * Room = GetWorld()->SpawnActor<ARoom>(RoomSave->RoomType, RoomSave->Transform);
-	if (RoomSave->IsFinished)
-	{
-		for (FResourceSave Info : RoomSave->ResourcesInfo)
-		{
-			ANaturalResource* Resource = GetWorld()->SpawnActor<ANaturalResource>(Info.ResourceType, Info.Transform);
-			Resource->ResourcesLeft = Info.ResourcesLeft;
-			Resource->UpdateMesh(FVector(0, 0, 0), Info.ResourcesLeft);
-		}
-		for (FItemSave Info : RoomSave->ItemsInfo)
-		{
-			AItem* Item = GetWorld()->SpawnActor<AItem>(Info.ItemType, Info.Transform);
-
-		}
-		Room->Mesh->SetMaterial(0, Generator->Biomes[RoomSave->BiomeIndex].RoomMaterial);
-	}
-	else
-	{
-		Generator->FinishRoom(Room, RoomSave);
-	}
 	return Room;
+}
+
+void Adungeon_wizardGameModeBase::UpdateRooms()
+{
+	TWeakObjectPtr<Adungeon_wizardGameModeBase> GM = this;
+	AsyncTask(ENamedThreads::AnyHiPriThreadNormalTask, [GM] ()
+	{
+		TArray<APlayerState*> Array = GM->GameState->PlayerArray;
+		GM->RoomsToLoad.Empty();
+		for (APlayerState* PlayerState : Array)
+		{
+			if (APlayerControllerBase* Controller = Cast<APlayerControllerBase>(PlayerState->GetPlayerController()))
+			{
+				GM->AddRooms(Controller->CurrentRoom, GM->LoadDistance);
+			}
+		}
+		for (int i = GM->LoadedRooms.Num() - 1; i >= 0; i--)
+		{
+			bool ShouldUnload = true;
+			for (int j : GM->RoomsToLoad)
+			{
+				if (GM->LoadedRooms[i] == j)
+				{
+					ShouldUnload = false;
+					break;
+				}
+			}
+			if (ShouldUnload)
+			{
+				int index = GM->LoadedRooms[i];
+				AsyncTask(ENamedThreads::GameThread, [GM, index]()
+					{
+						GM->NeedToBeLoaded.Remove(index);
+						GM->UnloadRoom(index);
+					});
+			}
+		}
+		for (int i : GM->RoomsToLoad)
+		{
+			bool IsLoaded = false;
+			for (int j : GM->LoadedRooms)
+			{
+				if (i == j)
+				{
+					IsLoaded = true;
+					break;
+				}
+			}
+			if (!IsLoaded)
+			{
+				AsyncTask(ENamedThreads::GameThread, [GM, i]()
+					{
+						GM->NeedToBeLoaded.Add(i);
+					});
+			}
+		}
+	});
 }
 
 void Adungeon_wizardGameModeBase::LoadRoom(int Index, int Depth)
 {
 	if (!LoadedRooms.Contains(Index))
 	{
-		if (URoomSave* LoadedRoom = Cast<URoomSave>(UGameplayStatics::LoadGameFromSlot(GameName + FString::FromInt(Index), 0)))
+		FAsyncLoadGameFromSlotDelegate LoadedDelegate;
+		LoadedDelegate.BindUObject(this, &Adungeon_wizardGameModeBase::SpawnLoaded, Index);
+		UGameplayStatics::AsyncLoadGameFromSlot(GameName + FString::FromInt(Index), 0, LoadedDelegate);
+	}
+}
+
+void Adungeon_wizardGameModeBase::SpawnLoaded(const FString& SlotName, const int32 UserIndex, USaveGame* LoadedGame, int Index)
+{
+	URoomSave* LoadedRoom = Cast<URoomSave>(LoadedGame);
+	if (LoadedRoom->IsFinished)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		if (GEngine)
 		{
-			ARoom* Room = SpawnRoomFromSave(LoadedRoom);
-			LoadedRooms.Add(Index);
-			if (Depth > 0)
-			{
-				for (int i : Room->NeighborsIndex)
-				{
-					LoadRoom(i, Depth - 1);
-				}
-			}
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::FromInt(LoadedRoom->ResourcesInfo.Num() + LoadedRoom->ItemsInfo.Num()));
 		}
-		else
+		for (FResourceSave Info : LoadedRoom->ResourcesInfo)
+		{
+			ANaturalResource* Resource = GetWorld()->SpawnActor<ANaturalResource>(Info.ResourceType, Info.Transform, SpawnParams);
+			Resource->ResourcesLeft = Info.ResourcesLeft;
+			Resource->UpdateMesh(FVector(0, 0, 0), Info.ResourcesLeft);
+			Generator->SpawnedRooms[Index]->NaturalResources.Add(Resource);
+		}
+		for (FItemSave Info : LoadedRoom->ItemsInfo)
 		{
 			if (GEngine)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 1000.0f, FColor::Red, FString::Printf(TEXT("ERROR: room save doesn't exist")));
+				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("item")));
+			}
+			if (Info.CanBePickedUp)
+			{
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("spawn")));
+				}
+				AItem* Item = GetWorld()->SpawnActor<AItem>(Info.ItemType, Info.Transform, SpawnParams);
+				Item->SetActorScale3D(FVector(1, 1, 1));
+				Item->CanBePickedUp = Info.CanBePickedUp;
+				Item->CurrentRoom = Generator->SpawnedRooms[Index];
+				Generator->SpawnedRooms[Index]->Items.AddUnique(Item);
 			}
 		}
+		Generator->SpawnedRooms[Index]->Mesh->SetMaterial(0, Generator->Biomes[LoadedRoom->BiomeIndex].RoomMaterial);
+	}
+	else
+	{
+		Generator->FinishRoom(Generator->SpawnedRooms[Index], LoadedRoom);
+		if (!UGameplayStatics::SaveGameToSlot(LoadedRoom, GameName + FString::FromInt(Index), 0))
+		{
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("failed to save")));
+			}
+		}
+	}
+	LoadedRooms.Add(Index);
+}
 
+void Adungeon_wizardGameModeBase::UnloadRoom(int Index)
+{
+	SaveRoom(Index);
+	ARoom* Room = Generator->SpawnedRooms[Index];
+	for (ANaturalResource * Resource : Room->NaturalResources)
+	{
+		Resource->Destroy();
+	}
+	for (AItem * Item : Room->Items)
+	{
+		Item->Destroy();
+	}
+	Room->NaturalResources.Empty();
+	Room->Items.Empty();
+	LoadedRooms.Remove(Index);
+}
+
+void Adungeon_wizardGameModeBase::SaveRoom(int Index)
+{
+	ARoom* Room = Generator->SpawnedRooms[Index];
+	if (URoomSave * Save = Cast<URoomSave>(UGameplayStatics::LoadGameFromSlot(GameName + FString::FromInt(Index), 0)))
+	{
+		Save->ResourcesInfo.Empty();
+		Save->ItemsInfo.Empty();
+		for (ANaturalResource* Resource : Room->NaturalResources)
+		{
+			if (IsValid(Resource))
+			{
+				Save->ResourcesInfo.Add(FResourceSave(Resource));
+			}
+			
+		}
+		for (AItem * Item : Room->Items)
+		{
+			if (IsValid(Item))
+			{
+				Save->ItemsInfo.Add(FItemSave(Item));
+			}
+		}
+		UGameplayStatics::SaveGameToSlot(Save, GameName + FString::FromInt(Index), 0);
+	}
+}
+
+void Adungeon_wizardGameModeBase::SaveGame()
+{
+	for (int RoomIndex : LoadedRooms)
+	{
+		SaveRoom(RoomIndex);
+	}
+	if (UGameplayStatics::SaveGameToSlot(Generator->PassagesSave, GameName + FString("Passages"), 0))
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::FromInt(Generator->PassagesSave->PassagesInfo.Num()));
+		}
+	}
+	else
+	{
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("failed to save passages")));
+		}
+	}
+	if (UDungeonSave* LoadedGame = Cast<UDungeonSave>(UGameplayStatics::LoadGameFromSlot(GameName, 0)))
+	{
+		LoadedGame->RoomCount = Generator->RoomCount;
+		
+		if (UGameplayStatics::SaveGameToSlot(LoadedGame, GameName, 0))
+		{
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("saved")));
+			}
+		}
 	}
 }

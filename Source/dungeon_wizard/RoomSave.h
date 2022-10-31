@@ -17,6 +17,16 @@ struct FResourceSave
 {
 	GENERATED_BODY()
 
+	FResourceSave()
+	{}
+
+	FResourceSave(ANaturalResource* Resource)
+	{
+		ResourceType = Resource->GetClass();
+		Transform = Resource->GetActorTransform();
+		ResourcesLeft = Resource->ResourcesLeft;
+	}
+
 	UPROPERTY(BlueprintReadWrite)
 		TSubclassOf<ANaturalResource> ResourceType;
 	UPROPERTY(BlueprintReadWrite)
@@ -30,10 +40,24 @@ struct FItemSave
 {
 	GENERATED_BODY()
 
+	FItemSave()
+	{
+		CanBePickedUp = true;
+	}
+
+	FItemSave(AItem* Item)
+	{
+		ItemType = Item->GetClass();
+		Transform = Item->GetActorTransform();
+		CanBePickedUp = Item->CanBePickedUp;
+	}
+
 	UPROPERTY(BlueprintReadWrite)
 		TSubclassOf<AItem> ItemType;
 	UPROPERTY(BlueprintReadWrite)
 		FTransform Transform;
+	UPROPERTY(BlueprintReadWrite)
+		bool CanBePickedUp;
 };
 
 USTRUCT(BlueprintType)

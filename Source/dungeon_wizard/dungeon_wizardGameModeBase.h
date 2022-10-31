@@ -13,6 +13,14 @@
 /**
  * 
  */
+
+UENUM()
+enum ELoadingStatus
+{
+	Idle,
+	Loading
+};
+
 UCLASS()
 class DUNGEON_WIZARD_API Adungeon_wizardGameModeBase : public AGameModeBase
 {
@@ -25,14 +33,32 @@ public:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<ADungeonGenerator> GeneratorType;
 	ADungeonGenerator* Generator;
+	UPROPERTY(EditAnywhere)
+		int LoadDistance;
 
 protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Tick(float DeltaTime) override;
+
+	ELoadingStatus LoadingStatus = ELoadingStatus::Idle;
+	
+	void RoomLoader();
 	TArray<int> LoadedRooms;
+	TArray<int> RoomsToLoad;
+	TArray<int> NeedToBeLoaded;
+	void AddRooms(int Index, int Depth);
+//	TArray<ARoom*> SpawnedRooms;
 	ARoom* SpawnRoomFromSave(URoomSave* RoomSave);
+	UFUNCTION(BlueprintCallable)
+	void UpdateRooms();
 	void LoadRoom(int Index, int Depth);
+	void SpawnLoaded(const FString& SlotName, const int32 UserIndex, USaveGame* LoadedGame, int Index);
+	void UnloadRoom(int Index);
+	void SaveRoom(int Index);
+	UFUNCTION(BlueprintCallable)
+		void SaveGame();
 	UPROPERTY()
 		FString GameName;
 };

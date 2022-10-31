@@ -15,7 +15,7 @@ Uclass::Uclass()
 */
 extern int game_started;
 // Sets default values
-int foofoo(const TCHAR* c, int b)
+/*int foofoo(const TCHAR* c, int b)
 {
 	const wchar_t *w = c;
 	FString f = "BP_Stone2";
@@ -39,7 +39,7 @@ int foofoo(const TCHAR* c, int b)
 	b+=2;
 	return b;
 }
-
+*/
 AItem::AItem()
 {
 	//create_elements();
@@ -127,16 +127,10 @@ void AItem::Tick(float DeltaTime)
 
 void AItem::SetDefaults(int Quantity)
 {
-	Detail = new Resource((Element_type)ResourceId, Quantity);
-	Detail->ue = this->GetClass();
 }
 
 int AItem::GetQuantity()
 {
-	if (Detail)
-	{
-		return Detail->props.quantity;
-	}
 	return -1;
 }
 

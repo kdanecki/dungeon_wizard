@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 #include "ItemSpawner.h"
+#include "NaturalResource.h"
+#include "Item.h"
 
 #include "Room.generated.h"
 
@@ -104,7 +107,7 @@ public:
 		FVector Dimensions;
 	UPROPERTY(EditAnywhere)
 		TArray<FDoorInfo> Doors;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		int Index;
 	UPROPERTY(VisibleAnywhere)
 		TArray<int> NeighborsIndex;
@@ -116,10 +119,19 @@ public:
 		USceneComponent* Root;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		UStaticMeshComponent* Mesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UBoxComponent* Collision;
+	UFUNCTION()
+		void OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 	UPROPERTY(VisibleAnywhere)
 		int number;
 	UPROPERTY(BlueprintReadWrite)
 		TArray<UItemSpawner*> ItemsToSpawn;
+	TArray<AItem*> Items;
+	UPROPERTY(BlueprintReadOnly)
+	TArray<ANaturalResource*> NaturalResources;
+
 	//UPROPERTY(EditAnywhere)
 		//UStaticMesh* RoomMesh;
 	//UPROPERTY(EditAnywhere)

@@ -12,8 +12,6 @@
 #include "Consumable.h"
 #include "NaturalResource.h"
 
-#include "alchemik/mixtures/mixture.h"
-
 #include "HumanBase.generated.h"
 
 
@@ -106,7 +104,6 @@ public:
 		void ManageHunger();
 
 	// skills
-	Skills* player_skills;
 	UPROPERTY(BlueprintReadWrite)
 		FSkills UeSkills;
 	// Inventory
