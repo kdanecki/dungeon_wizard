@@ -113,19 +113,14 @@ void ADungeonGenerator::Generate()
 	}
 }
 
-void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
+void ADungeonGenerator::FinishRoom(ARoom* Starting1/*, URoomSave* Save1*/)
 {
-	// passages
-	
 	FActorSpawnParameters PassSpawnParams;
-
-
-	Starting1->Doors.RemoveAt(Save->FinishedDoor);
 	TWeakObjectPtr<ADungeonGenerator> Generator = this;
-	//TWeakObjectPtr<URoomSave> Save = Save;
 	TWeakObjectPtr<ARoom> Starting = Starting1;
-//	AsyncTask(ENamedThreads::AnyHiPriThreadNormalTask, [Starting, Generator, Save] ()
-//	{
+	LoadingTasks = Starting->Doors.Num();
+	AsyncTask(ENamedThreads::AnyHiPriThreadNormalTask, [Starting, Generator] ()
+	{
 		FActorSpawnParameters RoomSpawnParams;
 		for (auto& Exit : Starting->Doors)
 		{
@@ -149,15 +144,12 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 			FVector V2 = V1.RotateAngleAxis(FMath::RadiansToDegrees(rad), axis);
 		
 			FRotator NextRotation = V2.ToOrientationRotator() + FRotator(0, Generator->RandomFloat(-90 * (PassageLength / ((Dimensions.Length() + Starting->Dimensions.Length()) / 2.0)), 90 * (PassageLength / ((Dimensions.Length() + Starting->Dimensions.Length()) / 2.0))), 0);
-
-		
-		
+			
 			float Weight = Generator->RandomFloat(0.4, 0.6);
 			float OffsetLength = Generator->RandomFloat(-PassageLength / 2.0, PassageLength / 2.0);
 			FVector Offset = Rotation.RotateVector(FRotator(0, 90, 0).RotateVector(Exit.Direction) * OffsetLength * Weight) - NextRotation.RotateVector(FRotator(0, 90, 0).RotateVector(NextExit.Direction) * OffsetLength * (1 - Weight)) + FVector(0, 0, Generator->RandomFloat(-PassageLength / 3.0, PassageLength / 5.0));
 			FVector NextLocation = Location + Rotation.RotateVector(Exit.Location + Exit.Direction * PassageLength * Weight) - NextRotation.RotateVector(NextExit.Location + NextExit.Direction * PassageLength * (1 - Weight)) + Offset;
-		
-
+			
 			bool CanSpawn = true;
 			TArray<FHitResult> SweepResults1;
 			TArray<AActor*> ActorsToIgnore;
@@ -199,8 +191,8 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 
 			if (CanSpawn)
 			{
-			//	AsyncTask(ENamedThreads::GameThread, [Generator, SelectedType, NextLocation, NextRotation, Location, Rotation, RoomSpawnParams, SelectedDoor, Exit, Save, Starting]()
-			//	{
+				AsyncTask(ENamedThreads::GameThread, [Generator, SelectedType, NextLocation, NextRotation, Location, Rotation, RoomSpawnParams, SelectedDoor, Exit, Starting]()
+				{
 					ARoom * Room = Generator->GetWorld()->SpawnActor<ARoom>(Generator->RoomTypes[SelectedType], NextLocation, NextRotation, RoomSpawnParams);
 					Generator->SpawnedRooms.Add(Room);
 					Room->Index = Generator->RoomCount;
@@ -222,7 +214,7 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 						Room->BiomeIndex = Generator->RandomInt(0, Generator->Biomes.Num() - 1);
 					}
 					UMaterialInterface* Material = Generator->Biomes[Starting->BiomeIndex].RoomMaterial;
-					if (URoomSave* NewSave = Cast<URoomSave>(UGameplayStatics::CreateSaveGameObject(URoomSave::StaticClass())))
+					/*if (URoomSave* NewSave = Cast<URoomSave>(UGameplayStatics::CreateSaveGameObject(URoomSave::StaticClass())))
 					{
 						NewSave->RoomType = Generator->RoomTypes[SelectedType];
 						NewSave->Transform = FTransform(NextRotation, NextLocation);
@@ -233,7 +225,7 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 							Material = Generator->Biomes[NewSave->BiomeIndex].RoomMaterial;
 						}
 						NewSave->NextRooms.Add(Starting->Index);
-						Save->NextRooms.Add(Generator->RoomCount);
+		//				Save->NextRooms.Add(Generator->RoomCount);
 
 						NewSave->FinishedDoor = SelectedDoor;
 
@@ -248,7 +240,7 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 								GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("failed to save")));
 							}
 						}
-					}
+					}*/
 
 					//Room->number = RoomsLeft;
 					//UnfinishedRooms.Add(Room);
@@ -259,17 +251,26 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 			
 
 					Generator->SpawnPassage(Location + Rotation.RotateVector(Exit.Location), Rotation.RotateVector(Exit.Direction * 1000), NextLocation + NextRotation.RotateVector(Room->Doors[SelectedDoor].Location) - (Location + Rotation.RotateVector(Exit.Location)), NextRotation.RotateVector(Room->Doors[SelectedDoor].Direction * -1000), Exit.Size, Room->Doors[SelectedDoor].Size, IgnoredActors, Material);
-
+					Generator->LoadingTasks -= 1;
+					if (Generator->LoadingTasks == 0)
+					{
+						Generator->LoadingStatus = Idle;
+					}
 					//Room->Doors.RemoveAt(SelectedDoor);
-					//});
+					});
 			}
 			else
 			{
-				//AsyncTask(ENamedThreads::GameThread, [Exit, Rotation, Generator, Location]
-				//{
-					V = Rotation.RotateVector(Exit.Direction);
+				AsyncTask(ENamedThreads::GameThread, [Exit, Rotation, Generator, Location]
+				{
+					FVector V = Rotation.RotateVector(Exit.Direction);
 					Generator->GetWorld()->SpawnActor<AActor>(Generator->BlockadeTypes[0], (Location + Rotation.RotateVector(Exit.Location)), (-V).ToOrientationRotator());
-				//});
+					Generator->LoadingTasks -=1;
+					if (Generator->LoadingTasks == 0)
+					{
+						Generator->LoadingStatus = Idle;
+					}
+				});
 			}
 		
 		}
@@ -320,12 +321,9 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting1, URoomSave* Save)
 					Starting->Size -= 1;
 				}
 			}*/
-			Save->IsFinished = true;
-
-
 			Generator->UnfinishedRooms.Remove(Starting.Get());
 		//});
-	//});
+	});
 }
 
 void ADungeonGenerator::EndRoom(ARoom* Starting)

@@ -14,12 +14,6 @@
  * 
  */
 
-UENUM()
-enum ELoadingStatus
-{
-	Idle,
-	Loading
-};
 
 UCLASS()
 class DUNGEON_WIZARD_API Adungeon_wizardGameModeBase : public AGameModeBase
@@ -42,7 +36,7 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	ELoadingStatus LoadingStatus = ELoadingStatus::Idle;
+	
 	
 	void RoomLoader();
 	TArray<int> LoadedRooms;

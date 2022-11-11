@@ -11,6 +11,7 @@ ARoom::ARoom()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
+	IsUnfinished = true;
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("inherited"));
 	SetRootComponent(Root);
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
@@ -50,7 +51,7 @@ void ARoom::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Other
 	}
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("overlap")));
+		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString("overlapped") + OtherActor->GetActorLabel());
 	}
 }
 /*

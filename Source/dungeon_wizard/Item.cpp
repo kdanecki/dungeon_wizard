@@ -13,7 +13,6 @@ Uclass::Uclass()
 	}
 }
 */
-extern int game_started;
 // Sets default values
 /*int foofoo(const TCHAR* c, int b)
 {
@@ -61,8 +60,7 @@ AItem::AItem()
 	WidgetComponent->SetupAttachment(StaticMesh);
 	WidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	WidgetComponent->SetDrawAtDesiredSize(true);
-	if (game_started)
-	{
+	
 		//ResourceType = TEXT("lalala");
 		if (GEngine)
 		{
@@ -81,8 +79,7 @@ AItem::AItem()
 			Detail->ue = this->GetClass();*/
 		}
 //		auto ResourceTypeAnsi = StringCast<ANSICHAR>(*ResourceType);
-		
-	}
+	
 }
 
 

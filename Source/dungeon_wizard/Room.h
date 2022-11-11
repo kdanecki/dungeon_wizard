@@ -111,6 +111,7 @@ public:
 		int Index;
 	UPROPERTY(VisibleAnywhere)
 		TArray<int> NeighborsIndex;
+	bool IsUnfinished;
 	UPROPERTY(EditAnywhere)
 		float Size;
 	UPROPERTY(VisibleAnywhere)

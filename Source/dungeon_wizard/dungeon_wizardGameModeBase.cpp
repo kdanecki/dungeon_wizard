@@ -61,7 +61,10 @@ void Adungeon_wizardGameModeBase::BeginPlay()
 	}
 	FTimerHandle UnusedHandle;
 	FTimerDelegate MyDelegate = FTimerDelegate::CreateUObject(this, &Adungeon_wizardGameModeBase::RoomLoader);
-	GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 2, true);
+	GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 1, true, 0.5);
+	FTimerHandle UnusedHandle2;
+	FTimerDelegate MyDelegate2 = FTimerDelegate::CreateUObject(this, &Adungeon_wizardGameModeBase::UpdateRooms);
+	GetWorldTimerManager().SetTimer(UnusedHandle2, MyDelegate2, 1, true);
 }
 
 void Adungeon_wizardGameModeBase::Tick(float DeltaTime)
@@ -71,7 +74,7 @@ void Adungeon_wizardGameModeBase::Tick(float DeltaTime)
 
 void Adungeon_wizardGameModeBase::RoomLoader()
 {
-	if (NeedToBeLoaded.Num() > 0)
+	if (NeedToBeLoaded.Num() > 0 && Generator->LoadingStatus == Idle)
 	{
 		if (GEngine)
 		{
@@ -101,70 +104,77 @@ void Adungeon_wizardGameModeBase::AddRooms(int Index, int Depth)
 ARoom* Adungeon_wizardGameModeBase::SpawnRoomFromSave(URoomSave* RoomSave)
 {
 	ARoom * Room = GetWorld()->SpawnActor<ARoom>(RoomSave->RoomType, RoomSave->Transform);
+	Room->IsUnfinished = !RoomSave->IsFinished;
 	return Room;
 }
 
 void Adungeon_wizardGameModeBase::UpdateRooms()
 {
-	TWeakObjectPtr<Adungeon_wizardGameModeBase> GM = this;
-	AsyncTask(ENamedThreads::AnyHiPriThreadNormalTask, [GM] ()
-	{
-		TArray<APlayerState*> Array = GM->GameState->PlayerArray;
-		GM->RoomsToLoad.Empty();
-		for (APlayerState* PlayerState : Array)
-		{
-			if (APlayerControllerBase* Controller = Cast<APlayerControllerBase>(PlayerState->GetPlayerController()))
+	Adungeon_wizardGameModeBase* GM = this;
+	//AsyncTask(ENamedThreads::AnyHiPriThreadNormalTask, [GM] ()
+	//{
+			TArray<APlayerState*> Array = GM->GameState->PlayerArray;
+			GM->RoomsToLoad.Empty();
+			for (APlayerState* PlayerState : Array)
 			{
-				GM->AddRooms(Controller->CurrentRoom, GM->LoadDistance);
-			}
-		}
-		for (int i = GM->LoadedRooms.Num() - 1; i >= 0; i--)
-		{
-			bool ShouldUnload = true;
-			for (int j : GM->RoomsToLoad)
-			{
-				if (GM->LoadedRooms[i] == j)
+				if (APlayerControllerBase* Controller = Cast<APlayerControllerBase>(PlayerState->GetPlayerController()))
 				{
-					ShouldUnload = false;
-					break;
+					GM->AddRooms(Controller->CurrentRoom, GM->LoadDistance);
 				}
 			}
-			if (ShouldUnload)
+			for (int i = GM->LoadedRooms.Num() - 1; i >= 0; i--)
 			{
-				int index = GM->LoadedRooms[i];
-				AsyncTask(ENamedThreads::GameThread, [GM, index]()
-					{
-						GM->NeedToBeLoaded.Remove(index);
-						GM->UnloadRoom(index);
-					});
-			}
-		}
-		for (int i : GM->RoomsToLoad)
-		{
-			bool IsLoaded = false;
-			for (int j : GM->LoadedRooms)
-			{
-				if (i == j)
+				bool ShouldUnload = true;
+				for (int j : GM->RoomsToLoad)
 				{
-					IsLoaded = true;
-					break;
+					if (GM->LoadedRooms[i] == j)
+					{
+						ShouldUnload = false;
+						break;
+					}
+				}
+				if (ShouldUnload)
+				{
+					int index = GM->LoadedRooms[i];
+					//AsyncTask(ENamedThreads::GameThread, [GM, index]()
+					//	{
+					//		GM->NeedToBeLoaded.Remove(index);
+							GM->UnloadRoom(index);
+						if(GEngine)
+						{
+							GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Magenta, TEXT("update rooms"));
+						}
+					//	});
 				}
 			}
-			if (!IsLoaded)
+			for (int i : GM->RoomsToLoad)
 			{
-				AsyncTask(ENamedThreads::GameThread, [GM, i]()
+				bool IsLoaded = false;
+				for (int j : GM->LoadedRooms)
+				{
+					if (i == j)
 					{
-						GM->NeedToBeLoaded.Add(i);
-					});
+						IsLoaded = true;
+						break;
+					}
+				}
+				if (!IsLoaded)
+				{
+					//AsyncTask(ENamedThreads::GameThread, [GM, i]()
+					//	{
+							GM->NeedToBeLoaded.Add(i);
+					//	});
+				}
 			}
-		}
-	});
+		
+	//});
 }
 
 void Adungeon_wizardGameModeBase::LoadRoom(int Index, int Depth)
 {
 	if (!LoadedRooms.Contains(Index))
 	{
+		Generator->LoadingStatus = Loading;
 		FAsyncLoadGameFromSlotDelegate LoadedDelegate;
 		LoadedDelegate.BindUObject(this, &Adungeon_wizardGameModeBase::SpawnLoaded, Index);
 		UGameplayStatics::AsyncLoadGameFromSlot(GameName + FString::FromInt(Index), 0, LoadedDelegate);
@@ -209,10 +219,12 @@ void Adungeon_wizardGameModeBase::SpawnLoaded(const FString& SlotName, const int
 			}
 		}
 		Generator->SpawnedRooms[Index]->Mesh->SetMaterial(0, Generator->Biomes[LoadedRoom->BiomeIndex].RoomMaterial);
+		Generator->LoadingStatus = Idle;
 	}
 	else
 	{
-		Generator->FinishRoom(Generator->SpawnedRooms[Index], LoadedRoom);
+		Generator->SpawnedRooms[Index]->Doors.RemoveAt(LoadedRoom->FinishedDoor);
+		Generator->FinishRoom(Generator->SpawnedRooms[Index]);
 		if (!UGameplayStatics::SaveGameToSlot(LoadedRoom, GameName + FString::FromInt(Index), 0))
 		{
 			if (GEngine)
@@ -246,6 +258,7 @@ void Adungeon_wizardGameModeBase::SaveRoom(int Index)
 	ARoom* Room = Generator->SpawnedRooms[Index];
 	if (URoomSave * Save = Cast<URoomSave>(UGameplayStatics::LoadGameFromSlot(GameName + FString::FromInt(Index), 0)))
 	{
+		Save->IsFinished = !Room->IsUnfinished;
 		Save->ResourcesInfo.Empty();
 		Save->ItemsInfo.Empty();
 		for (ANaturalResource* Resource : Room->NaturalResources)

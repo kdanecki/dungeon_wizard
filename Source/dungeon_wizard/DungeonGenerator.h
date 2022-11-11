@@ -47,7 +47,12 @@ struct FBiome
 
 };
 
-
+UENUM()
+enum ELoadingStatus
+{
+	Idle,
+	Loading
+};
 
 UCLASS()
 class DUNGEON_WIZARD_API ADungeonGenerator : public AActor
@@ -104,12 +109,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		AAICharacterController* SpawnCharacter(TSubclassOf<AHumanBase> Race, FVector Location);
 	void Generate();
-	void FinishRoom(ARoom* Starting, URoomSave* Save);
+	void FinishRoom(ARoom* Starting/*, URoomSave* Save*/);
 	void EndRoom(ARoom* Starting);
 	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActor, UMaterialInterface* Material);
 	APassage* ForceSpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, UMaterialInterface* Material);
 	TArray<ARoom*> UnfinishedRooms;
 	TArray<ARoom*> SpawnedRooms;
+	ELoadingStatus LoadingStatus = ELoadingStatus::Idle;
+	int LoadingTasks = 0;
 	UPROPERTY()
 	UPassagesSave* PassagesSave;
 
