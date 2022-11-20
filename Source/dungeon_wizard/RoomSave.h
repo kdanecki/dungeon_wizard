@@ -12,28 +12,6 @@
 
 #include "RoomSave.generated.h"
 
-USTRUCT(BlueprintType)
-struct FResourceSave
-{
-	GENERATED_BODY()
-
-	FResourceSave()
-	{}
-
-	FResourceSave(ANaturalResource* Resource)
-	{
-		ResourceType = Resource->GetClass();
-		Transform = Resource->GetActorTransform();
-		ResourcesLeft = Resource->ResourcesLeft;
-	}
-
-	UPROPERTY(BlueprintReadWrite)
-		TSubclassOf<ANaturalResource> ResourceType;
-	UPROPERTY(BlueprintReadWrite)
-		FTransform Transform;
-	UPROPERTY(BlueprintReadWrite)
-		int ResourcesLeft;
-};
 
 USTRUCT(BlueprintType)
 struct FItemSave

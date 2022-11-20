@@ -15,23 +15,11 @@
 #include "AICharacterController.h"
 #include "RoomSave.h"
 #include "PassagesSave.h"
+#include "Blockade.h"
 
 #include "DungeonGenerator.generated.h"
 
-USTRUCT(BlueprintType)
-struct FResourceInfo
-{
-	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		TSubclassOf<ANaturalResource> ResourceType;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		FVector ConeDirection;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float ConeAngle;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		float Rarity;
-};
 
 USTRUCT(BlueprintType)
 struct FBiome
@@ -83,7 +71,7 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<APassage>> PassageTypes;
 	UPROPERTY(EditAnywhere)
-		TArray<TSubclassOf<AActor>> BlockadeTypes;
+		TArray<TSubclassOf<ABlockade>> BlockadeTypes;
 	UPROPERTY(EditAnywhere)
 		int RoomsLeft;
 	UPROPERTY(VisibleAnywhere)
@@ -105,14 +93,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		int RandomInt(int Min, int Max);
 	UFUNCTION(BlueprintImplementableEvent)
-		void SpawnResource(FResourceInfo ResourceInfo, FVector Center, float Length, ARoom* Room, URoomSave* Save);
+		void SpawnResource(FResourceInfo ResourceInfo, FVector Center, float Length, ARoom* Room);
 	UFUNCTION(BlueprintImplementableEvent)
 		AAICharacterController* SpawnCharacter(TSubclassOf<AHumanBase> Race, FVector Location);
-	void Generate();
+	void Generate(TArray<int>& LoadedRooms);
 	void FinishRoom(ARoom* Starting/*, URoomSave* Save*/);
 	void EndRoom(ARoom* Starting);
 	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActor, UMaterialInterface* Material);
-	APassage* ForceSpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, UMaterialInterface* Material);
+	APassage* ForceSpawnPassage(int Type, FVector Location, FRotator Rotation, UMaterialInterface* Material);
 	TArray<ARoom*> UnfinishedRooms;
 	TArray<ARoom*> SpawnedRooms;
 	ELoadingStatus LoadingStatus = ELoadingStatus::Idle;
@@ -125,3 +113,4 @@ public:
 		TEnumAsByte<EDrawDebugTrace::Type> TraceVisibility;
 	
 };
+

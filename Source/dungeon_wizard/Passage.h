@@ -72,7 +72,10 @@ public:
 		UStaticMesh* FloorMesh;
 	UPROPERTY(EditAnywhere)
 		UMaterialInterface* FloorMaterial;
-
+	UPROPERTY(EditAnywhere)
+		FVector Length;
+	UPROPERTY(EditAnywhere)
+		float Angle;
 	UPROPERTY(ReplicatedUsing=OnRep_MeshParams)
 		FMeshParams MeshParams;
 	UFUNCTION()

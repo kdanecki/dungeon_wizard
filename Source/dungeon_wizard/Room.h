@@ -12,6 +12,29 @@
 
 #include "Room.generated.h"
 
+
+USTRUCT(BlueprintType)
+struct FResourceSave
+{
+	GENERATED_BODY()
+
+	FResourceSave()
+	{}
+
+	FResourceSave(ANaturalResource* Resource)
+	{
+		ResourceType = Resource->GetClass();
+		Transform = Resource->GetActorTransform();
+		ResourcesLeft = Resource->ResourcesLeft;
+	}
+
+	UPROPERTY(BlueprintReadWrite)
+	TSubclassOf<ANaturalResource> ResourceType;
+	UPROPERTY(BlueprintReadWrite)
+	FTransform Transform;
+	UPROPERTY(BlueprintReadWrite)
+	int ResourcesLeft;
+};
 /*
 USTRUCT(BlueprintType)
 struct FDoorInfo
@@ -86,6 +109,21 @@ struct FDoorInfo
 		FVector2D Size;
 };
 
+USTRUCT(BlueprintType)
+struct FResourceInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<ANaturalResource> ResourceType;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FVector ConeDirection;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float ConeAngle;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float Rarity;
+};
+
 UCLASS()
 class DUNGEON_WIZARD_API ARoom : public AActor
 {
@@ -111,8 +149,9 @@ public:
 		int Index;
 	UPROPERTY(VisibleAnywhere)
 		TArray<int> NeighborsIndex;
-	bool IsUnfinished;
-	UPROPERTY(EditAnywhere)
+	bool IsFinished;
+	int FinishedDoor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float Size;
 	UPROPERTY(VisibleAnywhere)
 		int BiomeIndex;
@@ -129,6 +168,11 @@ public:
 		int number;
 	UPROPERTY(BlueprintReadWrite)
 		TArray<UItemSpawner*> ItemsToSpawn;
+	UFUNCTION(BlueprintImplementableEvent)
+		void GenerateResources(const TArray<FResourceInfo>& PossibleResources);
+	UFUNCTION(BlueprintImplementableEvent)
+		void LoadResources(const TArray<FResourceSave>& LoadedResources);
+	UPROPERTY(BlueprintReadOnly)
 	TArray<AItem*> Items;
 	UPROPERTY(BlueprintReadOnly)
 	TArray<ANaturalResource*> NaturalResources;

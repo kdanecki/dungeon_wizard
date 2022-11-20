@@ -39,6 +39,7 @@ public:
 	
 	
 	void RoomLoader();
+	UPROPERTY(VisibleAnywhere)
 	TArray<int> LoadedRooms;
 	TArray<int> RoomsToLoad;
 	TArray<int> NeedToBeLoaded;
@@ -51,6 +52,8 @@ public:
 	void SpawnLoaded(const FString& SlotName, const int32 UserIndex, USaveGame* LoadedGame, int Index);
 	void UnloadRoom(int Index);
 	void SaveRoom(int Index);
+	void SaveAllRooms();
+	void SavePassages();
 	UFUNCTION(BlueprintCallable)
 		void SaveGame();
 	UPROPERTY()

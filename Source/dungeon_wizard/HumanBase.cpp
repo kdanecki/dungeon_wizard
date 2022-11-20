@@ -132,7 +132,7 @@ void AHumanBase::Die_Implementation()
 
 void AHumanBase::ManageHunger()
 {
-	/*if (Nourishment > 5)
+	if (Nourishment > 5)
 	{
 		if (HP < MaxHP)
 		{
@@ -146,9 +146,9 @@ void AHumanBase::ManageHunger()
 	}
 	else
 	{
-		HP -= (5 - Nourishment);
+	//	HP -= (5 - Nourishment);
 		Nourishment = 0;
-	}*/
+	}
 	
 }
 
