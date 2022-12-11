@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Item.h"
+#include "ToolBase.h"
 #include "Clothes.generated.h"
 
 /**
@@ -23,7 +23,7 @@ enum class EBodyPart : uint8
 };
 
 UCLASS()
-class DUNGEON_WIZARD_API AClothes : public AItem
+class DUNGEON_WIZARD_API AClothes : public AToolBase
 {
 	GENERATED_BODY()
 

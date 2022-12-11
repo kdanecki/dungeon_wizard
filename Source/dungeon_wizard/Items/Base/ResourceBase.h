@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Item.h"
+#include "../../mixtures/element.h"
+
 #include "ResourceBase.generated.h"
 
 UCLASS()
@@ -24,6 +26,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	Element* Detail;
 
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

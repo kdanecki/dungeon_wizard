@@ -3,19 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Item.h"
+#include "ToolBase.h"
 #include "Tool.generated.h"
 
-UENUM(BlueprintType)
-enum class EToolType : uint8 {
-	PICKAXE,
-	SHOVEL,
-	SWORD
-};
-
-
 UCLASS()
-class DUNGEON_WIZARD_API ATool : public AItem
+class DUNGEON_WIZARD_API ATool : public AToolBase
 {
 	GENERATED_BODY()
 	

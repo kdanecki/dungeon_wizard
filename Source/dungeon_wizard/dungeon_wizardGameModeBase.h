@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "Item.h"
+#include "Items/Base/Item.h"
 #include "DungeonGenerator.h"
 #include "RoomSave.h"
 

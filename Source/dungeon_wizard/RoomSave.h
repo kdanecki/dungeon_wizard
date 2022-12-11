@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
 #include "Room.h"
-#include "Item.h"
 #include "NaturalResource.h"
 #include "Faction.h"
 #include "HumanBase.h"

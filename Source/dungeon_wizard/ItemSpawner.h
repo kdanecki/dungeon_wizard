@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
-#include "Item.h"
+#include "Items/Base/Item.h"
 
 #include "ItemSpawner.generated.h"
 

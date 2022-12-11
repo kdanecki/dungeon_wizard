@@ -8,7 +8,7 @@
 #include "Components/BoxComponent.h"
 #include "ItemSpawner.h"
 #include "NaturalResource.h"
-#include "Item.h"
+#include "Items/Base/Item.h"
 
 #include "Room.generated.h"
 

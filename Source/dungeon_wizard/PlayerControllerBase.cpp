@@ -3,11 +3,18 @@
 
 #include "PlayerControllerBase.h"
 
+#include "AIHelpers.h"
+#include "Items/Derived/Hammer.h"
+#include "Items/Derived/HammerHandle.h"
+#include "Items/Derived/HammerHead.h"
+
 APlayerControllerBase::APlayerControllerBase()
 {
 	PlayerPawn = nullptr;
 	CurrentRoom = 0;
 	ActionMode = EAction::NONE;
+	//KnownTools.Add(AHammer::StaticClass());
+	//KnownTools.Append(AHammer::StaticClass()->GetDefaultObject<AHammer>()->RequiredParts);
 }
 
 void APlayerControllerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -16,7 +23,7 @@ void APlayerControllerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 
 	DOREPLIFETIME(APlayerControllerBase, ActionMode)
 	DOREPLIFETIME(APlayerControllerBase, PlayerPawn)
-	DOREPLIFETIME_CONDITION(APlayerControllerBase, Outcomes, COND_OwnerOnly)
+//	DOREPLIFETIME_CONDITION(APlayerControllerBase, Outcomes, COND_OwnerOnly)
 
 }
 
@@ -116,7 +123,8 @@ void APlayerControllerBase::Action()
 	{
 		if (AItem* Item = Cast<AItem>(PlayerPawn->LookingAt))
 		{
-			if (SelectedItems.Contains(Item))
+			ItemSelected(Item);
+			/*if (SelectedItems.Contains(Item))
 			{
 				SelectedItems.Remove(Item);
 				Item->WidgetComponent->SetVisibility(false);
@@ -127,14 +135,13 @@ void APlayerControllerBase::Action()
 				SelectedItems.Add(Item);
 				Item->WidgetComponent->SetVisibility(true);
 				CheckOutcomes(SelectedItems);
-			}
+			}*/
 		}
 		break;
 	}
 	default:
 		break;
 	}
-
 }
 
 void APlayerControllerBase::SecondaryAction()
@@ -166,6 +173,84 @@ void APlayerControllerBase::SecondaryAction()
 	}
 }
 
+void APlayerControllerBase::ItemSelected(AItem* Item)
+{
+	if (SelectedItems.Num() > 0)
+	{
+		if (Cast<AResourceBase>(SelectedItems[0]))
+		{
+			SelectedTools.Add(Item);
+			UpdateWidget();
+		}
+		else if (Cast<AItemPart>(SelectedItems[0]))
+		{
+			if (AItemPart* Part = Cast<AItemPart>(Item))
+			{
+				if (RequiredParts.Contains(Part->GetClass()))
+				{
+					SelectedItems.Add(Part);
+					RequiredParts.Remove(Part->GetClass());
+					if (RequiredParts.Num() == 0)
+					{
+						CanCraft = true;
+						UpdateWidget();
+					}
+				}
+				else
+				{
+					if (GEngine)
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Magenta, TEXT("parts don't match"));
+					}
+				}
+			}
+			else
+			{
+				if (GEngine)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Magenta, TEXT("can't add material to part"));
+				}
+			}
+			
+		}
+	}
+	else
+	{
+		SelectedItems.Add(Item);
+		if (AResourceBase* Resource = Cast<AResourceBase>(Item))
+		{
+			UpdateWidget();
+		}
+		else if (AItemPart* Part = Cast<AItemPart>(Item))
+		{
+			CraftingItem = Part->PartOf;
+			RequiredParts = CraftingItem->GetDefaultObject<AToolBase>()->RequiredParts;
+			RequiredParts.Remove(Part->GetClass());
+			
+			UpdateWidget();
+		}
+	}
+}
+
+void APlayerControllerBase::CraftItem(int Index, const TArray<AItemPart*>& ItemParts)
+{
+	FActorSpawnParameters SpawnParameters;
+	AToolBase* Tool = GetWorld()->SpawnActor<AToolBase>(KnownTools[Index], PlayerPawn->GetActorLocation() + FVector(100, 0, 0), PlayerPawn->GetActorRotation(), SpawnParameters);
+	Tool->Craft(ItemParts);
+}
+
+void APlayerControllerBase::CraftPart(int Index, AResourceBase* Resource)
+{
+	if (Skladnik* skladnik = KnownItemParts[Index]->GetDefaultObject<AItemPart>()->MixFunction(Resource->Detail))
+	{
+		FActorSpawnParameters SpawnParameters;
+		AItemPart* Part = GetWorld()->SpawnActor<AItemPart>(KnownItemParts[Index], PlayerPawn->GetActorLocation() + FVector(100, 0, 0), PlayerPawn->GetActorRotation(), SpawnParameters);
+		Part->Stats = FPartStats(skladnik->quality, skladnik->wytrzymalosc, skladnik->latwosc_uzycia);
+		Part->Details = skladnik;
+		Resource->Destroy();
+	}
+}
+
 void APlayerControllerBase::SetActionMode_Implementation(EAction Mode)
 {
 	ActionMode = Mode;
@@ -175,6 +260,8 @@ void APlayerControllerBase::SwitchModes_Implementation()
 {
 	if (ActionMode == EAction::NONE)
 	{
+		ShowCraftingWidget();
+		HideGameWidget();
 		SetActionMode(EAction::CRAFT);
 		if (GEngine)
 		{
@@ -183,31 +270,23 @@ void APlayerControllerBase::SwitchModes_Implementation()
 	}
 	else
 	{
+		HideCraftingWidget();
+		ShowGameWidget();
 		SetActionMode(EAction::NONE);
 		for (int i = 0; i < SelectedItems.Num(); i++)
 		{
 			SelectedItems[i]->WidgetComponent->SetVisibility(false);
 		}
 		SelectedItems.Empty();
-		Outcomes.Empty();
-		OnRep_Outcomes();
+		RequiredParts.Empty();
+		CanCraft = false;
+		CraftingItem = nullptr;
+		SelectedTools.Empty();
+		//Outcomes.Empty();
+		//OnRep_Outcomes();
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("none")));
 		}
 	}
 }
-
-void APlayerControllerBase::CheckOutcomes_Implementation(const TArray<AItem*>& Items)
-{
-}
-
-void APlayerControllerBase::Craft_Implementation(int Index, const TArray<AItem*>& Items)
-{
-
-}
-
-/*void APlayerControllerBase::ActionCraft()
-{
-	SetActionMode(EAction::CRAFT);
-}*/

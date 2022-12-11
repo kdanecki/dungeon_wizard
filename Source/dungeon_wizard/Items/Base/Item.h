@@ -62,7 +62,8 @@ public:
 		UWidgetComponent* WidgetComponent;
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* StaticMesh;
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		UTexture2D* Image;
 	UFUNCTION(BlueprintCallable)
 	void SetDefaults(int Quantity);
 
@@ -82,7 +83,7 @@ public:
 	//UPROPERTY(EditAnywhere)
 	//	TMap<Element_type, int> MyMap;
 
-	void * Detail;
+	//void * Detail;
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 		int GetQuantity();
 	

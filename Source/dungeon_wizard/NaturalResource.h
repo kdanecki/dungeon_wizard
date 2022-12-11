@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "DynamicMeshActor.h"
-#include "ResourceBase.h"
-#include "Tool.h"
+#include "Items/Base/ResourceBase.h"
+#include "Items/Base/Tool.h"
 
 #include "NaturalResource.generated.h"
 

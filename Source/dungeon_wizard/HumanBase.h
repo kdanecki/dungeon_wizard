@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Tool.h"
-#include "ResourceBase.h"
-#include "Item.h"
-#include "Clothes.h"
-#include "ContainerBase.h"
-#include "Consumable.h"
+#include "Items/Base/Tool.h"
+#include "Items/Base/ResourceBase.h"
+#include "Items/Base/Item.h"
+#include "Items/Base/Clothes.h"
+#include "Items/Base/ContainerBase.h"
+#include "Items/Base/Consumable.h"
 #include "NaturalResource.h"
 
 #include "HumanBase.generated.h"

@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Room.h"
 #include "Passage.h"
-#include "Item.h"
+#include "Items/Base/Item.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "NaturalResource.h"
