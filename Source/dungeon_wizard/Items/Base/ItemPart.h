@@ -9,7 +9,28 @@
 
 class AToolBase;
 
+USTRUCT(BlueprintType)
+struct FPartStats
+{
+	GENERATED_BODY()
+	FPartStats()
+	{
+		
+	}
+	FPartStats(int Quality, int Durability, int UseSpeed)
+		: Quality(Quality),
+		  Durability(Durability),
+		  UseSpeed(UseSpeed)
+	{
+	}
 
+	UPROPERTY(BlueprintReadOnly)
+	int Quality;
+	UPROPERTY(BlueprintReadOnly)
+	int Durability;
+	UPROPERTY(BlueprintReadOnly)
+	int UseSpeed;
+};
 
 /**
  * 
@@ -22,6 +43,8 @@ class DUNGEON_WIZARD_API AItemPart : public AItem
 public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TSubclassOf<AToolBase> PartOf;
-
+	FPartStats Stats;
+	Skladnik* Details;
+	Skladnik* (*MixFunction)(Element*);
 	
 };

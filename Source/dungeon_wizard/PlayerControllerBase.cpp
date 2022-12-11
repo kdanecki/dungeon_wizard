@@ -280,6 +280,7 @@ void APlayerControllerBase::SwitchModes_Implementation()
 		SelectedItems.Empty();
 		RequiredParts.Empty();
 		CanCraft = false;
+		RequiredParts.Empty();
 		CraftingItem = nullptr;
 		SelectedTools.Empty();
 		//Outcomes.Empty();

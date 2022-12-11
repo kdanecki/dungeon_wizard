@@ -7,28 +7,7 @@
 #include "ItemPart.h"
 #include "ToolBase.generated.h"
 
-USTRUCT(BlueprintType)
-struct FPartStats
-{
-	GENERATED_BODY()
-	FPartStats()
-	{
-		
-	}
-	FPartStats(int Quality, int Durability, int UseSpeed)
-		: Quality(Quality),
-		  Durability(Durability),
-		  UseSpeed(UseSpeed)
-	{
-	}
 
-	UPROPERTY(BlueprintReadOnly)
-	int Quality;
-	UPROPERTY(BlueprintReadOnly)
-	int Durability;
-	UPROPERTY(BlueprintReadOnly)
-	int UseSpeed;
-};
 
 UENUM(BlueprintType)
 enum class EToolType : uint8 {
@@ -49,9 +28,9 @@ public:
 	/*UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TArray<TSubclassOf<AItemPart>> RequiredParts;
 	virtual void Craft(const TArray<AItemPart*>& Parts);*/
-	FPartStats Stats;
 	Skladnik* Details;
-	Skladnik* (*MixFunction)(Element*);
-	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<TSubclassOf<AItemPart>> RequiredParts;
+	virtual void Craft(const TArray<AItemPart*>& Parts);
 	
 };

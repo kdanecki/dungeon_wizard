@@ -6,6 +6,6 @@
 
 AStone::AStone()
 {
-	Detail = new Kamien();
+	Detail = new Kamien(100);
 	ResourceType = FString(TEXT("kamien"));
 }
