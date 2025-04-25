@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SplineMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Net/UnrealNetwork.h"
 
 #include "Passage.generated.h"
@@ -67,7 +68,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere)
-		USplineMeshComponent* Mesh;
+		USplineMeshComponent* SplineMesh;
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* StaticMesh;
 	UPROPERTY(EditAnywhere)
 		UStaticMesh* FloorMesh;
 	UPROPERTY(EditAnywhere)

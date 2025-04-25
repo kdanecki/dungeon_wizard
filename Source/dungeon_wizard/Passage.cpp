@@ -10,8 +10,10 @@ APassage::APassage()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
-	Mesh = CreateDefaultSubobject<USplineMeshComponent>(TEXT("Mesh"));
-	SetRootComponent(Mesh);
+	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	SplineMesh = CreateDefaultSubobject<USplineMeshComponent>(TEXT("Spline Mesh"));
+	SetRootComponent(StaticMesh);
+	SplineMesh->SetupAttachment(StaticMesh);
 	//Mesh->SetupAttachment(RootComponent);
 	//Mesh->SetStaticMesh(FloorMesh);
 	//Mesh->SetMaterial(0, FloorMaterial);
@@ -56,7 +58,7 @@ void APassage::CreatePassage(FVector EndWorldLocation, FVector EndDirection)
 
 void APassage::OnRep_MeshParams()
 {
-	Mesh->SetStartAndEnd(MeshParams.Start, MeshParams.StartTangent, MeshParams.End, MeshParams.EndTangent);
-	Mesh->SetStartScale(MeshParams.StartSize);
-	Mesh->SetEndScale(MeshParams.EndSize);
+	SplineMesh->SetStartAndEnd(MeshParams.Start, MeshParams.StartTangent, MeshParams.End, MeshParams.EndTangent);
+	SplineMesh->SetStartScale(MeshParams.StartSize);
+	SplineMesh->SetEndScale(MeshParams.EndSize);
 }

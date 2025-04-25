@@ -24,7 +24,7 @@ struct FPassageSave
 		PassageType = Passage->GetClass();
 		Transform = Passage->GetActorTransform();
 		MeshParams = Passage->MeshParams;
-		Material = Passage->Mesh->GetMaterial(0);
+		Material = Passage->StaticMesh->GetMaterial(0);
 	}
 	UPROPERTY()
 	TSubclassOf<APassage> PassageType;

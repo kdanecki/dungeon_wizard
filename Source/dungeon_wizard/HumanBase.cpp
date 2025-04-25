@@ -568,21 +568,21 @@ void AHumanBase::UseItem_Implementation(AItem* Item)
 	}
 }
 
-void AHumanBase::Gather_Implementation(ANaturalResource* Resource, ATool* Tool)
+void AHumanBase::Gather_Implementation(float Force, ANaturalResource* Resource, ATool* Tool)
 {
 	if (FVector::Distance(GetActorLocation(), Resource->GetActorLocation()) <= Tool->Range)
 	{
-		Resource->Gather(Tool, LookingAtLocation);
+		Resource->Gather(Force, Tool->ToolType, LookingAtLocation);
 	}
 }
 
-void AHumanBase::Attack_Implementation(AActor* Enemy, ATool* Weapon)
+void AHumanBase::Attack_Implementation(float Force, AActor* Enemy, ATool* Weapon)
 {
 	if (IsValid(Weapon))
 	{
 		if (FVector::Distance(GetActorLocation(), Enemy->GetActorLocation()) <= Weapon->Range)
 		{
-			Enemy->TakeDamage(Weapon->Damage, FDamageEvent(Weapon->DamageType), GetController(), Weapon);
+			Enemy->TakeDamage(Weapon->Damage * Force, FDamageEvent(Weapon->DamageType), GetController(), Weapon);
 		}
 	}
 	else

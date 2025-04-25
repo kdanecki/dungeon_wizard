@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "../Base/ItemPart.h"
+#include "../Base/ToolPart.h"
 #include "HammerHead.generated.h"
 
 UCLASS()
-class DUNGEON_WIZARD_API AHammerHead : public AItemPart
+class DUNGEON_WIZARD_API AHammerHead : public AToolPart
 {
 	GENERATED_BODY()
 

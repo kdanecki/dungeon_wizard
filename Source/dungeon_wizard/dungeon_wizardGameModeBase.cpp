@@ -46,7 +46,7 @@ void Adungeon_wizardGameModeBase::BeginPlay()
 			for (FPassageSave Info : PassagesSave->PassagesInfo)
 			{
 				APassage* Passage = GetWorld()->SpawnActor<APassage>(Info.PassageType, Info.Transform, SpawnParams);
-				Passage->Mesh->SetMaterial(0, Info.Material);
+				Passage->StaticMesh->SetMaterial(0, Info.Material);
 				//Passage->MeshParams = Info.MeshParams;
 				//Passage->OnRep_MeshParams();
 			}
@@ -71,7 +71,7 @@ void Adungeon_wizardGameModeBase::BeginPlay()
 	}
 	FTimerHandle UnusedHandle;
 	FTimerDelegate MyDelegate = FTimerDelegate::CreateUObject(this, &Adungeon_wizardGameModeBase::RoomLoader);
-	GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, 2, true);
+	GetWorldTimerManager().SetTimer(UnusedHandle, MyDelegate, RoomLoadingDelay, true);
 	//FTimerHandle UnusedHandle2;
 	//FTimerDelegate MyDelegate2 = FTimerDelegate::CreateUObject(this, &Adungeon_wizardGameModeBase::UpdateRooms);
 	//GetWorldTimerManager().SetTimer(UnusedHandle2, MyDelegate2, 1, true);

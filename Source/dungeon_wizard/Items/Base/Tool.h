@@ -3,11 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ToolBase.h"
+#include "Item.h"
+#include "ToolHandle.h"
+#include "ToolPart.h"
+
 #include "Tool.generated.h"
 
 UCLASS()
-class DUNGEON_WIZARD_API ATool : public AToolBase
+class DUNGEON_WIZARD_API ATool : public AItem
 {
 	GENERATED_BODY()
 	
@@ -22,13 +25,24 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void Craft(AToolHandle* PartHandle, AToolPart* Part);
 
 	UPROPERTY(EditAnywhere)
-		float Damage;
+	float Damage;
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<UDamageType> DamageType;
+	EToolType ToolType;
 	UPROPERTY(EditAnywhere)
-		float Range;
+	TSubclassOf<UDamageType> DamageType;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float Range;
 	UPROPERTY(EditAnywhere)
-		EToolType ToolType;
+	float Durability;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float EaseOfUse;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float Precision;
+	
+	AToolHandle *Handle;
+	AToolPart *Head;
+	
 };

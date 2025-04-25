@@ -193,13 +193,13 @@ public:
 	UFUNCTION(Server, Reliable)
 		void UseItem(AItem* Item);
 	UFUNCTION(Server, Reliable, BlueprintCallable)
-		void Gather(ANaturalResource* Resource, ATool* Tool);
+		void Gather(float Force, ANaturalResource* Resource, ATool* Tool);
 	UFUNCTION(BlueprintImplementableEvent)
-		void GatherAnimation(ANaturalResource* Resource, ATool* Tool);
+		void GatherAnimation(float Force, ANaturalResource* Resource, ATool* Tool);
 	UFUNCTION(Server, Reliable, BlueprintCallable)
-		void Attack(AActor* Enemy, ATool* Weapon);
+		void Attack(float Force, AActor* Enemy, ATool* Weapon);
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-		void AttackAnimation(AActor* Enemy, ATool* Weapon);
+		void AttackAnimation(float Force, AActor* Enemy, ATool* Weapon);
 	UFUNCTION(Server, Reliable)
 		void Eat(AConsumable* Food);
 

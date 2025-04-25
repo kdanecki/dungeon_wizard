@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Item.h"
-#include "ItemPart.h"
+//#include "ItemPart.h"
 #include "ToolBase.generated.h"
 
 
 
-UENUM(BlueprintType)
+/*UENUM(BlueprintType)
 enum class EToolType : uint8 {
 	PICKAXE,
 	SHOVEL,
 	SWORD
-};
+};*/
 
 /**
  * 
@@ -28,9 +28,9 @@ public:
 	/*UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TArray<TSubclassOf<AItemPart>> RequiredParts;
 	virtual void Craft(const TArray<AItemPart*>& Parts);*/
-	Skladnik* Details;
+	/*Skladnik* Details;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TArray<TSubclassOf<AItemPart>> RequiredParts;
-	virtual void Craft(const TArray<AItemPart*>& Parts);
+	virtual void Craft(const TArray<AItemPart*>& Parts);*/
 	
 };

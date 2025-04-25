@@ -3,9 +3,9 @@
 
 #include "StoneResource.h"
 
-void AStoneResource::Gather(ATool* Tool, FVector Location)
+void AStoneResource::Gather(float Force, EToolType ToolType, FVector Location)
 {
-	if (EffectiveTools.Contains(Tool->ToolType))
+	if (EffectiveTools.Contains(ToolType))
 	{
 		if (GEngine)
 		{

@@ -1,0 +1,34 @@
+------------------- Elementy ------------------------------
+kryształ
+kilof
+jabłko
+roslina
+kamien
+patyk
+noz
+
+
+Kamień:Element {
+//właściwości
+    ciężar
+    twardość
+    ostrość
+    wielkość
+}
+
+Patyk:Element {
+//właściwości
+    ciężar
+    twardość
+    długość
+}
+
+metal:Element {
+//właściwości
+    ciężar
+    twardość
+    długość
+    ostrość
+    gładkość
+}
+

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "DynamicMeshActor.h"
+//#include "GameFramework/Actor.h"
 #include "Items/Base/ResourceBase.h"
 #include "Items/Base/Tool.h"
 
@@ -26,6 +27,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UStaticMeshComponent* Mesh;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		UStaticMesh* StaticMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -40,6 +44,6 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void UpdateMesh(FVector Location, int Left);
-	virtual void Gather(ATool* Tool, FVector Location);
+	virtual void Gather(float Force, EToolType ToolType, FVector Location);
 	virtual AResourceBase* HandGather();
 };

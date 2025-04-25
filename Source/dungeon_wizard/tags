@@ -1,0 +1,764 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AAICharacterController	AICharacterController.h	/^class DUNGEON_WIZARD_API AAICharacterController : public AAIController$/;"	c
+ABlockade	Blockade.cpp	/^ABlockade::ABlockade()$/;"	f	class:ABlockade
+ABlockade	Blockade.h	/^class DUNGEON_WIZARD_API ABlockade : public AActor$/;"	c
+ABuildingBase	Buildings/BuildingBase.cpp	/^ABuildingBase::ABuildingBase()$/;"	f	class:ABuildingBase
+ABuildingBase	Buildings/BuildingBase.h	/^class DUNGEON_WIZARD_API ABuildingBase : public AActor$/;"	c
+AClay	Items/Derived/Clay.cpp	/^AClay::AClay()$/;"	f	class:AClay
+AClay	Items/Derived/Clay.h	/^class DUNGEON_WIZARD_API AClay : public AResourceBase$/;"	c
+AClothes	Items/Base/Clothes.h	/^class DUNGEON_WIZARD_API AClothes : public AToolBase$/;"	c	class:EBodyPart
+AConstructionSiteBase	Buildings/ConstructionSiteBase.cpp	/^AConstructionSiteBase::AConstructionSiteBase()$/;"	f	class:AConstructionSiteBase
+AConstructionSiteBase	Buildings/ConstructionSiteBase.h	/^class DUNGEON_WIZARD_API AConstructionSiteBase : public AActor$/;"	c
+AConsumable	Items/Base/Consumable.h	/^class DUNGEON_WIZARD_API AConsumable : public AResourceBase$/;"	c
+AContainerBase	Items/Base/ContainerBase.cpp	/^AContainerBase::AContainerBase()$/;"	f	class:AContainerBase
+AContainerBase	Items/Base/ContainerBase.h	/^class DUNGEON_WIZARD_API AContainerBase : public AClothes$/;"	c
+ADungeonGenerator	DungeonGenerator.cpp	/^ADungeonGenerator::ADungeonGenerator()$/;"	f	class:ADungeonGenerator
+ADungeonGenerator	DungeonGenerator.h	/^class DUNGEON_WIZARD_API ADungeonGenerator : public AActor$/;"	c
+AFaction	Faction.cpp	/^AFaction::AFaction()$/;"	f	class:AFaction
+AFaction	Faction.h	/^class DUNGEON_WIZARD_API AFaction : public AActor$/;"	c
+AFireplace	Buildings/Fireplace.cpp	/^AFireplace::AFireplace()$/;"	f	class:AFireplace
+AFireplace	Buildings/Fireplace.h	/^class DUNGEON_WIZARD_API AFireplace : public ABuildingBase$/;"	c
+AHammer	Items/Derived/Hammer.cpp	/^AHammer::AHammer()$/;"	f	class:AHammer
+AHammer	Items/Derived/Hammer.h	/^class DUNGEON_WIZARD_API AHammer : public ATool$/;"	c
+AHammerHead	Items/Derived/HammerHead.cpp	/^AHammerHead::AHammerHead()$/;"	f	class:AHammerHead
+AHammerHead	Items/Derived/HammerHead.h	/^class DUNGEON_WIZARD_API AHammerHead : public AToolPart$/;"	c
+AHumanBase	HumanBase.cpp	/^AHumanBase::AHumanBase()$/;"	f	class:AHumanBase
+AHumanBase	HumanBase.h	/^class DUNGEON_WIZARD_API AHumanBase : public ACharacter$/;"	c
+AItem	Items/Base/Item.cpp	/^AItem::AItem()$/;"	f	class:AItem
+AItem	Items/Base/Item.h	/^class DUNGEON_WIZARD_API AItem : public AActor$/;"	c
+AMetal	Items/Derived/Metal.cpp	/^AMetal::AMetal()$/;"	f	class:AMetal
+AMetal	Items/Derived/Metal.h	/^class DUNGEON_WIZARD_API AMetal : public AResourceBase$/;"	c
+AMyDynamicMeshActor	MyDynamicMeshActor.h	/^class DUNGEON_WIZARD_API AMyDynamicMeshActor : public ADynamicMeshActor$/;"	c
+ANaturalResource	NaturalResource.cpp	/^ANaturalResource::ANaturalResource()$/;"	f	class:ANaturalResource
+ANaturalResource	NaturalResource.h	/^class DUNGEON_WIZARD_API ANaturalResource : public ADynamicMeshActor$/;"	c
+APassage	Passage.cpp	/^APassage::APassage()$/;"	f	class:APassage
+APassage	Passage.h	/^class DUNGEON_WIZARD_API APassage : public AActor$/;"	c
+APlantResource	PlantResource.h	/^class DUNGEON_WIZARD_API APlantResource : public ANaturalResource$/;"	c
+APlayerControllerBase	PlayerControllerBase.cpp	/^APlayerControllerBase::APlayerControllerBase()$/;"	f	class:APlayerControllerBase
+APlayerControllerBase	PlayerControllerBase.h	/^class DUNGEON_WIZARD_API APlayerControllerBase : public APlayerController$/;"	c
+AResourceBase	Items/Base/ResourceBase.cpp	/^AResourceBase::AResourceBase()$/;"	f	class:AResourceBase
+AResourceBase	Items/Base/ResourceBase.h	/^class DUNGEON_WIZARD_API AResourceBase : public AItem$/;"	c
+ARoom	Room.cpp	/^ARoom::ARoom()$/;"	f	class:ARoom
+ARoom	Room.h	/^class DUNGEON_WIZARD_API ARoom : public AActor$/;"	c
+AStone	Items/Derived/Stone.cpp	/^AStone::AStone()$/;"	f	class:AStone
+AStone	Items/Derived/Stone.h	/^class DUNGEON_WIZARD_API AStone : public AResourceBase$/;"	c
+AStoneResource	StoneResource.h	/^class DUNGEON_WIZARD_API AStoneResource : public ANaturalResource$/;"	c
+ATool	Items/Base/Tool.cpp	/^ATool::ATool()$/;"	f	class:ATool
+ATool	Items/Base/Tool.h	/^class DUNGEON_WIZARD_API ATool : public AItem$/;"	c
+AToolBase	Items/Base/ToolBase.h	/^class DUNGEON_WIZARD_API AToolBase : public AItem$/;"	c
+AToolHandle	Items/Base/ToolHandle.cpp	/^AToolHandle::AToolHandle()$/;"	f	class:AToolHandle
+AToolHandle	Items/Base/ToolHandle.h	/^class DUNGEON_WIZARD_API AToolHandle : public AItem$/;"	c
+AToolPart	Items/Base/ToolPart.h	/^class DUNGEON_WIZARD_API AToolPart : public AItem$/;"	c
+AUEElement	UEElement.cpp	/^AUEElement::AUEElement()$/;"	f	class:AUEElement
+AUEElement	UEElement.h	/^class DUNGEON_WIZARD_API AUEElement : public AActor$/;"	c
+AWood	Items/Derived/Wood.cpp	/^AWood::AWood()$/;"	f	class:AWood
+AWood	Items/Derived/Wood.h	/^class DUNGEON_WIZARD_API AWood : public AResourceBase$/;"	c
+AcceptedTools	Buildings/ConstructionSiteBase.h	/^		TArray < TSubclassOf<ATool> > AcceptedTools;$/;"	m	class:AConstructionSiteBase
+Action	AICharacterController.h	/^		EAIAction Action;$/;"	m	class:AAICharacterController
+Action	HumanBase.cpp	/^void AHumanBase::Action()$/;"	f	class:AHumanBase
+Action	PlayerControllerBase.cpp	/^void APlayerControllerBase::Action()$/;"	f	class:APlayerControllerBase
+ActionMode	PlayerControllerBase.h	/^		EAction ActionMode;$/;"	m	class:APlayerControllerBase
+ActorSpotted	Faction.cpp	/^void AFaction::ActorSpotted(AActor* Actor)$/;"	f	class:AFaction
+AddItemToInventory	Items/Base/ContainerBase.cpp	/^void AContainerBase::AddItemToInventory(AItem* Item)$/;"	f	class:AContainerBase
+AddRooms	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::AddRooms(int Index, int Depth)$/;"	f	class:Adungeon_wizardGameModeBase
+AddToHotbar_Implementation	HumanBase.cpp	/^void AHumanBase::AddToHotbar_Implementation(AContainerBase* Container, int Index)$/;"	f	class:AHumanBase
+AddedWork	Buildings/ConstructionSiteBase.h	/^		float AddedWork;$/;"	m	struct:FRequiredResource
+Adungeon_wizardGameModeBase	dungeon_wizardGameModeBase.h	/^class DUNGEON_WIZARD_API Adungeon_wizardGameModeBase : public AGameModeBase$/;"	c
+Adungeon_wizardGameStateBase	dungeon_wizardGameStateBase.h	/^class DUNGEON_WIZARD_API Adungeon_wizardGameStateBase : public AGameStateBase$/;"	c
+Angle	Passage.h	/^		float Angle;$/;"	m	class:APassage
+Array	DungeonGenerator.h	/^	TArray<FPassageTypes> Array;$/;"	m	struct:FArrayLayer
+Attack_Implementation	HumanBase.cpp	/^void AHumanBase::Attack_Implementation(float Force, AActor* Enemy, ATool* Weapon)$/;"	f	class:AHumanBase
+BLABLA	Items/Base/Clothes.h	/^	BLABLA = 8$/;"	m	class:EBodyPart
+BODY	Items/Base/Clothes.h	/^	BODY = 4,$/;"	m	class:EBodyPart
+B_DLUGI	mixtures/properties.h	/^    B_KROTKI, KROTKI, DLUGI, B_DLUGI,$/;"	e	enum:Property_values
+B_KROTKI	mixtures/properties.h	/^    B_KROTKI, KROTKI, DLUGI, B_DLUGI,$/;"	e	enum:Property_values
+Basic_el	mixtures/el_list.h	/^    Basic_el(): next(nullptr) {}$/;"	f	class:Basic_el
+Basic_el	mixtures/el_list.h	/^class Basic_el$/;"	c
+BeginPlay	Blockade.cpp	/^void ABlockade::BeginPlay()$/;"	f	class:ABlockade
+BeginPlay	Buildings/BuildingBase.cpp	/^void ABuildingBase::BeginPlay()$/;"	f	class:ABuildingBase
+BeginPlay	Buildings/ConstructionSiteBase.cpp	/^void AConstructionSiteBase::BeginPlay()$/;"	f	class:AConstructionSiteBase
+BeginPlay	Buildings/Fireplace.cpp	/^void AFireplace::BeginPlay()$/;"	f	class:AFireplace
+BeginPlay	DungeonGenerator.cpp	/^void ADungeonGenerator::BeginPlay()$/;"	f	class:ADungeonGenerator
+BeginPlay	Faction.cpp	/^void AFaction::BeginPlay()$/;"	f	class:AFaction
+BeginPlay	HumanBase.cpp	/^void AHumanBase::BeginPlay()$/;"	f	class:AHumanBase
+BeginPlay	ItemSpawner.cpp	/^void UItemSpawner::BeginPlay()$/;"	f	class:UItemSpawner
+BeginPlay	Items/Base/ContainerBase.cpp	/^void AContainerBase::BeginPlay()$/;"	f	class:AContainerBase
+BeginPlay	Items/Base/Item.cpp	/^void AItem::BeginPlay()$/;"	f	class:AItem
+BeginPlay	Items/Base/ResourceBase.cpp	/^void AResourceBase::BeginPlay()$/;"	f	class:AResourceBase
+BeginPlay	Items/Base/Tool.cpp	/^void ATool::BeginPlay()$/;"	f	class:ATool
+BeginPlay	Items/Base/ToolHandle.cpp	/^void AToolHandle::BeginPlay()$/;"	f	class:AToolHandle
+BeginPlay	Items/Derived/Clay.cpp	/^void AClay::BeginPlay()$/;"	f	class:AClay
+BeginPlay	Items/Derived/Hammer.cpp	/^void AHammer::BeginPlay()$/;"	f	class:AHammer
+BeginPlay	Items/Derived/HammerHead.cpp	/^void AHammerHead::BeginPlay()$/;"	f	class:AHammerHead
+BeginPlay	Items/Derived/Metal.cpp	/^void AMetal::BeginPlay()$/;"	f	class:AMetal
+BeginPlay	Items/Derived/Wood.cpp	/^void AWood::BeginPlay()$/;"	f	class:AWood
+BeginPlay	NaturalResource.cpp	/^void ANaturalResource::BeginPlay()$/;"	f	class:ANaturalResource
+BeginPlay	Passage.cpp	/^void APassage::BeginPlay()$/;"	f	class:APassage
+BeginPlay	Room.cpp	/^void ARoom::BeginPlay()$/;"	f	class:ARoom
+BeginPlay	UEElement.cpp	/^void AUEElement::BeginPlay()$/;"	f	class:AUEElement
+BeginPlay	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::BeginPlay()$/;"	f	class:Adungeon_wizardGameModeBase
+BiomeIndex	Room.h	/^		int BiomeIndex;$/;"	m	class:ARoom
+BiomeIndex	RoomSave.h	/^		int BiomeIndex;$/;"	m	class:URoomSave
+Biomes	DungeonGenerator.h	/^		TArray<FBiome> Biomes;$/;"	m	class:ADungeonGenerator
+Blade	Items/Base/ToolPart.h	/^	Blade,$/;"	m	class:EToolType
+BlockadeType	PassagesSave.h	/^	TSubclassOf<AActor> BlockadeType;$/;"	m	struct:FBlockadeSave
+BlockadeTypes	DungeonGenerator.h	/^		TArray<TSubclassOf<ABlockade>> BlockadeTypes;$/;"	m	class:ADungeonGenerator
+BlockadesInfo	PassagesSave.h	/^	TArray<FBlockadeSave> BlockadesInfo;$/;"	m	class:UPassagesSave
+Body	HumanBase.h	/^		TArray<AClothes*> Body;$/;"	m	struct:FInventory
+BodyPart	Items/Base/Clothes.h	/^		EBodyPart BodyPart;$/;"	m	class:EBodyPart::AClothes
+Building	Buildings/ConstructionSiteBase.h	/^	TSubclassOf<ABuildingBase> Building;$/;"	m	class:AConstructionSiteBase
+Building	HumanBase.h	/^		float Building;$/;"	m	struct:FSkills
+CAT_BRAK	mixtures/categories_type.h	/^CAT_BRAK,$/;"	e	enum:Categories_type
+CAT_BRON	mixtures/categories_type.h	/^CAT_BRON,$/;"	e	enum:Categories_type
+CAT_BUDOWLA	mixtures/categories_type.h	/^CAT_BUDOWLA,$/;"	e	enum:Categories_type
+CAT_CZESC	mixtures/categories_type.h	/^CAT_CZESC,$/;"	e	enum:Categories_type
+CAT_JEDZENIE	mixtures/categories_type.h	/^CAT_JEDZENIE,$/;"	e	enum:Categories_type
+CAT_MAGIA	mixtures/categories_type.h	/^CAT_MAGIA,$/;"	e	enum:Categories_type
+CAT_MINERAL	mixtures/categories_type.h	/^CAT_MINERAL,$/;"	e	enum:Categories_type
+CAT_NARZEDZIE	mixtures/categories_type.h	/^CAT_NARZEDZIE,$/;"	e	enum:Categories_type
+CAT_NATURA	mixtures/categories_type.h	/^CAT_NATURA,$/;"	e	enum:Categories_type
+CAT_OSTATNIA	mixtures/categories_type.h	/^CAT_OSTATNIA$/;"	e	enum:Categories_type
+CAT_OWAD	mixtures/categories_type.h	/^CAT_OWAD,$/;"	e	enum:Categories_type
+CAT_POMIESZCZENIE	mixtures/categories_type.h	/^CAT_POMIESZCZENIE,$/;"	e	enum:Categories_type
+CAT_POTWOR	mixtures/categories_type.h	/^CAT_POTWOR,$/;"	e	enum:Categories_type
+CAT_ZIOLO	mixtures/categories_type.h	/^CAT_ZIOLO,$/;"	e	enum:Categories_type
+CAT_ZWIERZE	mixtures/categories_type.h	/^CAT_ZWIERZE,$/;"	e	enum:Categories_type
+CAT_ZYWIOL	mixtures/categories_type.h	/^CAT_ZYWIOL,$/;"	e	enum:Categories_type
+CIEMNY	mixtures/properties.h	/^    CIEMNY, JASNY, SWIECI,$/;"	e	enum:Property_values
+CIEZKI	mixtures/properties.h	/^    LEKKI, CIEZKI,$/;"	e	enum:Property_values
+CLASS_COUNT	mixtures/class_id.h	/^    CLASS_COUNT,$/;"	e	enum:Class_id
+CLASS_ELEMENT	mixtures/class_id.h	/^    CLASS_ELEMENT,$/;"	e	enum:Class_id
+CLASS_GLOWKA_MLOTKA	mixtures/class_id.h	/^    CLASS_GLOWKA_MLOTKA,$/;"	e	enum:Class_id
+CLASS_ID_H	mixtures/class_id.h	2;"	d
+CLASS_KAMIEN	mixtures/class_id.h	/^    CLASS_KAMIEN,$/;"	e	enum:Class_id
+CLASS_KRYSZTAL	mixtures/class_id.h	/^    CLASS_KRYSZTAL,$/;"	e	enum:Class_id
+CLASS_MLOTEK	mixtures/class_id.h	/^    CLASS_MLOTEK,$/;"	e	enum:Class_id
+CLASS_NAMES_H	mixtures/class_names.cpp	2;"	d	file:
+CLASS_NAMES_H	mixtures/class_names.h	2;"	d
+CLASS_NOZ	mixtures/class_id.h	/^    CLASS_NOZ,$/;"	e	enum:Class_id
+CLASS_OSTRZE_NOZA	mixtures/class_id.h	/^    CLASS_OSTRZE_NOZA,$/;"	e	enum:Class_id
+CLASS_OSTRZE_SIEKIERY	mixtures/class_id.h	/^    CLASS_OSTRZE_SIEKIERY,$/;"	e	enum:Class_id
+CLASS_PATYK	mixtures/class_id.h	/^    CLASS_PATYK,$/;"	e	enum:Class_id
+CLASS_RACZKA_MLOTKA	mixtures/class_id.h	/^    CLASS_RACZKA_MLOTKA,$/;"	e	enum:Class_id
+CLASS_RACZKA_NOZA	mixtures/class_id.h	/^    CLASS_RACZKA_NOZA,$/;"	e	enum:Class_id
+CLASS_RACZKA_SIEKIERY	mixtures/class_id.h	/^    CLASS_RACZKA_SIEKIERY,$/;"	e	enum:Class_id
+CLASS_SIEKIERA	mixtures/class_id.h	/^    CLASS_SIEKIERA,$/;"	e	enum:Class_id
+CLASS_WODA	mixtures/class_id.h	/^    CLASS_WODA,$/;"	e	enum:Class_id
+CanBePickedUp	Items/Base/Item.h	/^		bool CanBePickedUp;$/;"	m	class:AItem
+CanBePickedUp	RoomSave.h	/^		bool CanBePickedUp;$/;"	m	struct:FItemSave
+CanContain	Items/Base/ContainerBase.cpp	/^bool AContainerBase::CanContain(AItem* Item)$/;"	f	class:AContainerBase
+Capacity	Items/Base/ContainerBase.h	/^		float Capacity;$/;"	m	class:AContainerBase
+Carrying	HumanBase.h	/^		float Carrying;$/;"	m	struct:FSkills
+Categories_type	mixtures/categories_type.h	/^enum Categories_type$/;"	g
+ChangeItemContainer_Implementation	HumanBase.cpp	/^void AHumanBase::ChangeItemContainer_Implementation(AItem* Item, int NewId, AContainerBase* NewContainer, int OldId, AContainerBase* OldContainer)$/;"	f	class:AHumanBase
+CharacterType	RoomSave.h	/^		TSubclassOf<AHumanBase> CharacterType;$/;"	m	struct:FCharacterSave
+CheckForInventoryLoops	Items/Base/ContainerBase.cpp	/^bool AContainerBase::CheckForInventoryLoops(AContainerBase* Container, AContainerBase* MyContainer)$/;"	f	class:AContainerBase
+CheckIfContains	Items/Base/ContainerBase.cpp	/^bool AContainerBase::CheckIfContains(AItem* Item)$/;"	f	class:AContainerBase
+CheckParentContainer	Items/Base/ContainerBase.cpp	/^bool AContainerBase::CheckParentContainer(AItem* Item)$/;"	f	class:AContainerBase
+Class_id	mixtures/class_id.h	/^enum Class_id$/;"	g
+Clothes	HumanBase.h	/^		FInventory Clothes;$/;"	m	class:AHumanBase
+Collision	Room.h	/^		UBoxComponent* Collision;$/;"	m	class:ARoom
+ConeAngle	Room.h	/^	float ConeAngle;$/;"	m	struct:FResourceInfo
+ConeDirection	Room.h	/^	FVector ConeDirection;$/;"	m	struct:FResourceInfo
+Craft	HumanBase.cpp	/^void AHumanBase::Craft(TArray<AItem*> Items, FString str)$/;"	f	class:AHumanBase
+Craft	Items/Base/Tool.cpp	/^void ATool::Craft(AToolHandle* HandlePart, AToolPart* Part)$/;"	f	class:ATool
+CrossingTypes	DungeonGenerator.h	/^		TArray<TSubclassOf<ARoom>> CrossingTypes;$/;"	m	class:ADungeonGenerator
+Crystal	DungeonGenerator.h	/^	Crystal,$/;"	e	enum:EBiomeTypes
+CurrentRoom	DungeonSave.h	/^		int CurrentRoom;$/;"	m	class:UDungeonSave
+CurrentRoom	Items/Base/Item.h	/^	ARoom* CurrentRoom;$/;"	m	class:AItem
+CurrentRoom	PlayerControllerBase.h	/^		int CurrentRoom;$/;"	m	class:APlayerControllerBase
+DLUGI	mixtures/properties.h	/^    B_KROTKI, KROTKI, DLUGI, B_DLUGI,$/;"	e	enum:Property_values
+DUZY	mixtures/properties.h	/^    MALY, DUZY,$/;"	e	enum:Property_values
+Damage	Items/Base/Tool.h	/^	float Damage;$/;"	m	class:ATool
+DamageType	Items/Base/Tool.h	/^	TSubclassOf<UDamageType> DamageType;$/;"	m	class:ATool
+DeliverResource	Buildings/ConstructionSiteBase.cpp	/^float AConstructionSiteBase::DeliverResource(FString ItemType, float Quantity)$/;"	f	class:AConstructionSiteBase
+Detail	Items/Base/ResourceBase.h	/^	Element* Detail;$/;"	m	class:AResourceBase
+Detail	Items/Base/ToolPart.h	/^	Skladnik* Detail;$/;"	m	class:AToolPart
+Die_Implementation	HumanBase.cpp	/^void AHumanBase::Die_Implementation()$/;"	f	class:AHumanBase
+Dimensions	Room.h	/^		FVector Dimensions;$/;"	m	class:ARoom
+Direction	Room.h	/^		FVector Direction;$/;"	m	struct:FDoorInfo
+Doors	Room.h	/^		TArray<FDoorInfo> Doors;$/;"	m	class:ARoom
+Drop	HumanBase.cpp	/^void AHumanBase::Drop()$/;"	f	class:AHumanBase
+Drop2	HumanBase.cpp	/^void AHumanBase::Drop2()$/;"	f	class:AHumanBase
+Durability	Items/Base/PartStats.h	/^	int Durability;$/;"	m	struct:FPartStats
+Durability	Items/Base/Tool.h	/^	float Durability;$/;"	m	class:ATool
+EAIAction	AICharacterController.h	/^enum class EAIAction : uint8$/;"	c
+EAction	PlayerControllerBase.h	/^enum class EAction : uint8$/;"	c
+EBiomeTypes	DungeonGenerator.h	/^enum EBiomeTypes$/;"	g
+EBodyPart	Items/Base/Clothes.h	/^enum class EBodyPart : uint8$/;"	c
+ELEMENT_H	mixtures/element.h	2;"	d
+EL_LIST_H	mixtures/el_list.h	2;"	d
+ELoadingStatus	DungeonGenerator.h	/^enum ELoadingStatus$/;"	g
+EToolType	Items/Base/ToolPart.h	/^enum class EToolType : uint8 {$/;"	c
+EaseOfUse	Items/Base/Tool.h	/^	float EaseOfUse;$/;"	m	class:ATool
+Eat_Implementation	HumanBase.cpp	/^void AHumanBase::Eat_Implementation(AConsumable* Food)$/;"	f	class:AHumanBase
+EffectiveTools	NaturalResource.h	/^		TArray<EToolType> EffectiveTools;$/;"	m	class:ANaturalResource
+El_list	mixtures/el_list.h	/^    El_list(const char * n)$/;"	f	class:El_list
+El_list	mixtures/el_list.h	/^class El_list$/;"	c
+Element	mixtures/element.h	/^        Element(Class_id i, Categories_type cat )$/;"	f	class:Element
+Element	mixtures/element.h	/^        Element(Class_id i, Categories_type cat, int q )$/;"	f	class:Element
+Element	mixtures/element.h	/^class Element: public Basic_el$/;"	c
+Empty	DungeonGenerator.h	/^	Empty,$/;"	e	enum:EBiomeTypes
+End	Passage.h	/^		FVector End;$/;"	m	struct:FMeshParams
+EndRoom	DungeonGenerator.cpp	/^void ADungeonGenerator::EndRoom(ARoom* Starting)$/;"	f	class:ADungeonGenerator
+EndSize	Passage.h	/^		FVector2D EndSize;$/;"	m	struct:FMeshParams
+EndTangent	Passage.h	/^		FVector EndTangent;$/;"	m	struct:FMeshParams
+Equip_Implementation	HumanBase.cpp	/^void AHumanBase::Equip_Implementation(AClothes* Item)$/;"	f	class:AHumanBase
+FArrayLayer	DungeonGenerator.h	/^struct FArrayLayer$/;"	s
+FBiome	DungeonGenerator.h	/^struct FBiome$/;"	s
+FBlockadeSave	PassagesSave.h	/^	FBlockadeSave() {}$/;"	f	struct:FBlockadeSave
+FBlockadeSave	PassagesSave.h	/^	FBlockadeSave(ABlockade* Blockade)$/;"	f	struct:FBlockadeSave
+FBlockadeSave	PassagesSave.h	/^struct FBlockadeSave$/;"	s
+FCharacterSave	RoomSave.h	/^struct FCharacterSave$/;"	s
+FDoorInfo	Room.h	/^struct FDoorInfo$/;"	s
+FEET	Items/Base/Clothes.h	/^	FEET = 6,$/;"	m	class:EBodyPart
+FFactionSave	RoomSave.h	/^struct FFactionSave$/;"	s
+FInventory	HumanBase.h	/^struct FInventory$/;"	s
+FItemSave	RoomSave.h	/^	FItemSave()$/;"	f	struct:FItemSave
+FItemSave	RoomSave.h	/^	FItemSave(AItem* Item)$/;"	f	struct:FItemSave
+FItemSave	RoomSave.h	/^struct FItemSave$/;"	s
+FMeshParams	Passage.h	/^	FMeshParams()$/;"	f	struct:FMeshParams
+FMeshParams	Passage.h	/^	FMeshParams(FVector Start1, FVector StartTangent1, FVector End1, FVector EndTangent1, FVector2D StartSize1, FVector2D EndSize1)$/;"	f	struct:FMeshParams
+FMeshParams	Passage.h	/^struct FMeshParams$/;"	s
+FPartStats	Items/Base/PartStats.h	/^	FPartStats()$/;"	f	struct:FPartStats
+FPartStats	Items/Base/PartStats.h	/^	FPartStats(int Quality, int Durability, int UseSpeed, int UsePrecision)$/;"	f	struct:FPartStats
+FPartStats	Items/Base/PartStats.h	/^struct FPartStats$/;"	s
+FPassageSave	PassagesSave.h	/^	FPassageSave() {}$/;"	f	struct:FPassageSave
+FPassageSave	PassagesSave.h	/^	FPassageSave(APassage* Passage)$/;"	f	struct:FPassageSave
+FPassageSave	PassagesSave.h	/^struct FPassageSave$/;"	s
+FPassageTypes	DungeonGenerator.h	/^struct FPassageTypes$/;"	s
+FRequiredResource	Buildings/ConstructionSiteBase.h	/^struct FRequiredResource$/;"	s
+FResourceInfo	Room.h	/^struct FResourceInfo$/;"	s
+FResourceSave	Room.h	/^	FResourceSave()$/;"	f	struct:FResourceSave
+FResourceSave	Room.h	/^	FResourceSave(ANaturalResource* Resource)$/;"	f	struct:FResourceSave
+FResourceSave	Room.h	/^struct FResourceSave$/;"	s
+FSkills	HumanBase.h	/^struct FSkills$/;"	s
+FUN_GET	mixtures/properties.cpp	4;"	d	file:
+FUN_GET3	mixtures/properties.cpp	10;"	d	file:
+FUN_GET4	mixtures/properties.cpp	23;"	d	file:
+Faction	AICharacterController.h	/^		AFaction* Faction;$/;"	m	class:AAICharacterController
+FactionType	DungeonGenerator.h	/^		TSubclassOf<AFaction> FactionType;$/;"	m	class:ADungeonGenerator
+Farming	HumanBase.h	/^		float Farming;$/;"	m	struct:FSkills
+Feet	HumanBase.h	/^		TArray<AClothes*> Feet;$/;"	m	struct:FInventory
+Fighting	HumanBase.h	/^		float Fighting;$/;"	m	struct:FSkills
+FinishRoom	DungeonGenerator.cpp	/^void ADungeonGenerator::FinishRoom(ARoom* Starting\/*, URoomSave* Save1*\/)$/;"	f	class:ADungeonGenerator
+FinishedDoor	Room.h	/^	int FinishedDoor;$/;"	m	class:ARoom
+FinishedDoor	RoomSave.h	/^		int FinishedDoor;$/;"	m	class:URoomSave
+FloorMaterial	Passage.h	/^		UMaterialInterface* FloorMaterial;$/;"	m	class:APassage
+FloorMesh	Passage.h	/^		UStaticMesh* FloorMesh;$/;"	m	class:APassage
+Foraging	HumanBase.h	/^		float Foraging;$/;"	m	struct:FSkills
+ForceSpawnPassage	DungeonGenerator.cpp	/^APassage* ADungeonGenerator::ForceSpawnPassage(TSubclassOf<APassage> Type, FVector Location, FRotator Rotation, UMaterialInterface* Material)$/;"	f	class:ADungeonGenerator
+ForceUsed	PlayerControllerBase.h	/^	float ForceUsed;$/;"	m	class:APlayerControllerBase
+FruitGathering	HumanBase.h	/^		float FruitGathering;$/;"	m	struct:FSkills
+GLADKI	mixtures/properties.h	/^    GLADKI, SZORSTKI,$/;"	e	enum:Property_values
+GameName	DungeonGenerator.h	/^		FString GameName;$/;"	m	class:ADungeonGenerator
+GameName	dungeon_wizardGameModeBase.h	/^		FString GameName;$/;"	m	class:Adungeon_wizardGameModeBase
+Gather	NaturalResource.cpp	/^void ANaturalResource::Gather(float Force, EToolType ToolType, FVector Location)$/;"	f	class:ANaturalResource
+Gather	StoneResource.cpp	/^void AStoneResource::Gather(float Force, EToolType ToolType, FVector Location)$/;"	f	class:AStoneResource
+Gather_Implementation	HumanBase.cpp	/^void AHumanBase::Gather_Implementation(float Force, ANaturalResource* Resource, ATool* Tool)$/;"	f	class:AHumanBase
+Generate	DungeonGenerator.cpp	/^void ADungeonGenerator::Generate(TArray<int>& LoadedRooms)$/;"	f	class:ADungeonGenerator
+Generator	dungeon_wizardGameModeBase.h	/^	ADungeonGenerator* Generator;$/;"	m	class:Adungeon_wizardGameModeBase
+GeneratorType	dungeon_wizardGameModeBase.h	/^		TSubclassOf<ADungeonGenerator> GeneratorType;$/;"	m	class:Adungeon_wizardGameModeBase
+GetLifetimeReplicatedProps	HumanBase.cpp	/^void AHumanBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const$/;"	f	class:AHumanBase
+GetLifetimeReplicatedProps	Items/Base/ContainerBase.cpp	/^void AContainerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const$/;"	f	class:AContainerBase
+GetLifetimeReplicatedProps	Items/Base/Item.cpp	/^void AItem::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const$/;"	f	class:AItem
+GetLifetimeReplicatedProps	Passage.cpp	/^void APassage::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const$/;"	f	class:APassage
+GetLifetimeReplicatedProps	PlayerControllerBase.cpp	/^void APlayerControllerBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const$/;"	f	class:APlayerControllerBase
+GetQuantity	Items/Base/Item.cpp	/^int AItem::GetQuantity()$/;"	f	class:AItem
+Grow	PlantResource.cpp	/^void APlantResource::Grow()$/;"	f	class:APlantResource
+HANDS	Items/Base/Clothes.h	/^	HANDS = 7,$/;"	m	class:EBodyPart
+HEAD	Items/Base/Clothes.h	/^	HEAD = 3,$/;"	m	class:EBodyPart
+HP	HumanBase.h	/^		float HP;$/;"	m	class:AHumanBase
+HP	RoomSave.h	/^		float HP;$/;"	m	struct:FCharacterSave
+HandGather	NaturalResource.cpp	/^AResourceBase* ANaturalResource::HandGather()$/;"	f	class:ANaturalResource
+HandGather	PlantResource.cpp	/^AResourceBase* APlantResource::HandGather()$/;"	f	class:APlantResource
+Handle	Items/Base/Tool.h	/^	AToolHandle *Handle;$/;"	m	class:ATool
+Hands	HumanBase.h	/^		TArray<AClothes*> Hands;$/;"	m	struct:FInventory
+Head	HumanBase.h	/^		TArray<AClothes*> Head;$/;"	m	struct:FInventory
+Head	Items/Base/Tool.h	/^	AToolPart *Head;$/;"	m	class:ATool
+Hotbar	HumanBase.h	/^		TArray<AContainerBase*> Hotbar;$/;"	m	class:AHumanBase
+Idle	DungeonGenerator.h	/^	Idle,$/;"	e	enum:ELoadingStatus
+IgnoreArray	HumanBase.h	/^		TArray<TObjectPtr<AActor>> IgnoreArray;$/;"	m	class:AHumanBase
+Image	Items/Base/Item.h	/^		UTexture2D* Image;$/;"	m	class:AItem
+Index	Room.h	/^		int Index;$/;"	m	class:ARoom
+InitGame	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::InitGame(const FString& MapName, const FString& Options, FString&ErrorMessage)$/;"	f	class:Adungeon_wizardGameModeBase
+InventoryWeight	HumanBase.h	/^		float InventoryWeight;$/;"	m	class:AHumanBase
+IsFinished	Room.h	/^	bool IsFinished;$/;"	m	class:ARoom
+IsFinished	RoomSave.h	/^		bool IsFinished;$/;"	m	class:URoomSave
+IsUnique	Items/Base/ResourceBase.h	/^		bool IsUnique;$/;"	m	class:AResourceBase
+ItemSelected	PlayerControllerBase.cpp	/^void APlayerControllerBase::ItemSelected(AItem* Item)$/;"	f	class:APlayerControllerBase
+ItemType	Buildings/ConstructionSiteBase.h	/^		FString ItemType;$/;"	m	struct:FRequiredResource
+ItemType	Items/Base/ResourceBase.h	/^		FString ItemType;$/;"	m	class:AResourceBase
+ItemType	RoomSave.h	/^		TSubclassOf<AItem> ItemType;$/;"	m	struct:FItemSave
+Items	Items/Base/ContainerBase.h	/^		TArray<AItem*> Items;$/;"	m	class:AContainerBase
+Items	Room.h	/^	TArray<AItem*> Items;$/;"	m	class:ARoom
+ItemsInfo	RoomSave.h	/^		TArray<FItemSave> ItemsInfo;$/;"	m	class:URoomSave
+ItemsInfo	RoomSave.h	/^		TArray<FItemSave> ItemsInfo;$/;"	m	struct:FCharacterSave
+ItemsToSpawn	DungeonGenerator.h	/^		TArray<TSubclassOf<AItem>> ItemsToSpawn;$/;"	m	class:ADungeonGenerator
+ItemsToSpawn	Room.h	/^		TArray<UItemSpawner*> ItemsToSpawn;$/;"	m	class:ARoom
+JASNY	mixtures/properties.h	/^    CIEMNY, JASNY, SWIECI,$/;"	e	enum:Property_values
+KAMIEN_H	mixtures/kamien.h	2;"	d
+KROTKI	mixtures/properties.h	/^    B_KROTKI, KROTKI, DLUGI, B_DLUGI,$/;"	e	enum:Property_values
+KRYSZTAL_H	mixtures/krysztal.h	2;"	d
+Kamien	mixtures/kamien.cpp	/^Kamien::Kamien() : Element(CLASS_KAMIEN, CAT_MINERAL)$/;"	f	class:Kamien
+Kamien	mixtures/kamien.cpp	/^Kamien::Kamien(int q) : Element(CLASS_KAMIEN, CAT_MINERAL, q)$/;"	f	class:Kamien
+Kamien	mixtures/kamien.h	/^class Kamien: public Element$/;"	c
+Krysztal	mixtures/krysztal.cpp	/^Krysztal::Krysztal(int q) : Element(CLASS_KRYSZTAL, CAT_MINERAL, q)$/;"	f	class:Krysztal
+Krysztal	mixtures/krysztal.h	/^class Krysztal: public Element$/;"	c
+LEGS	Items/Base/Clothes.h	/^	LEGS = 5,$/;"	m	class:EBodyPart
+LEKKI	mixtures/properties.h	/^    LEKKI, CIEZKI,$/;"	e	enum:Property_values
+LeftDrop_Implementation	HumanBase.cpp	/^void AHumanBase::LeftDrop_Implementation()$/;"	f	class:AHumanBase
+LeftHand	HumanBase.h	/^		AItem* LeftHand;$/;"	m	class:AHumanBase
+LeftPickUp_Implementation	HumanBase.cpp	/^void AHumanBase::LeftPickUp_Implementation(AItem* Item)$/;"	f	class:AHumanBase
+LeftSelectServer_Implementation	HumanBase.cpp	/^void AHumanBase::LeftSelectServer_Implementation(int Index)$/;"	f	class:AHumanBase
+LeftSelectTool	HumanBase.cpp	/^void AHumanBase::LeftSelectTool(int Index)$/;"	f	class:AHumanBase
+LeftSelectTool0	HumanBase.cpp	/^void AHumanBase::LeftSelectTool0()$/;"	f	class:AHumanBase
+LeftSelectTool1	HumanBase.cpp	/^void AHumanBase::LeftSelectTool1()$/;"	f	class:AHumanBase
+LeftSelectTool2	HumanBase.cpp	/^void AHumanBase::LeftSelectTool2()$/;"	f	class:AHumanBase
+LeftSelectTool3	HumanBase.cpp	/^void AHumanBase::LeftSelectTool3()$/;"	f	class:AHumanBase
+LeftSelectTool4	HumanBase.cpp	/^void AHumanBase::LeftSelectTool4()$/;"	f	class:AHumanBase
+Legs	HumanBase.h	/^		TArray<AClothes*> Legs;$/;"	m	struct:FInventory
+Length	Passage.h	/^		FVector Length;$/;"	m	class:APassage
+LoadDistance	dungeon_wizardGameModeBase.h	/^		int LoadDistance;$/;"	m	class:Adungeon_wizardGameModeBase
+LoadRoom	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::LoadRoom(int Index, int Depth)$/;"	f	class:Adungeon_wizardGameModeBase
+LoadedRooms	dungeon_wizardGameModeBase.h	/^	TArray<int> LoadedRooms;$/;"	m	class:Adungeon_wizardGameModeBase
+Loading	DungeonGenerator.h	/^	Loading$/;"	e	enum:ELoadingStatus
+LoadingStatus	DungeonGenerator.h	/^	ELoadingStatus LoadingStatus = ELoadingStatus::Idle;$/;"	m	class:ADungeonGenerator
+LoadingTasks	DungeonGenerator.h	/^	int LoadingTasks = 0;$/;"	m	class:ADungeonGenerator
+Location	Room.h	/^		FVector Location;$/;"	m	struct:FDoorInfo
+LookHorizontal	HumanBase.cpp	/^void AHumanBase::LookHorizontal(float value)$/;"	f	class:AHumanBase
+LookVertical	HumanBase.cpp	/^void AHumanBase::LookVertical(float value)$/;"	f	class:AHumanBase
+LookingAt	HumanBase.h	/^		AActor* LookingAt;$/;"	m	class:AHumanBase
+LookingAtLocation	HumanBase.h	/^		FVector LookingAtLocation;$/;"	m	class:AHumanBase
+MALY	mixtures/properties.h	/^    MALY, DUZY,$/;"	e	enum:Property_values
+MATERIAL_H	mixtures/skladnik.h	2;"	d
+MIEKKI	mixtures/properties.h	/^    MIEKKI, TWARDY,$/;"	e	enum:Property_values
+ManageHunger	HumanBase.cpp	/^void AHumanBase::ManageHunger()$/;"	f	class:AHumanBase
+Material	NaturalResource.h	/^		UMaterialInterface* Material;$/;"	m	class:ANaturalResource
+Material	PassagesSave.h	/^	UMaterialInterface* Material;$/;"	m	struct:FBlockadeSave
+Material	PassagesSave.h	/^	UMaterialInterface* Material;$/;"	m	struct:FPassageSave
+MaxCapacity	Items/Base/ContainerBase.h	/^		float MaxCapacity;$/;"	m	class:AContainerBase
+MaxHP	HumanBase.h	/^		float MaxHP;$/;"	m	class:AHumanBase
+MaxNourishment	HumanBase.h	/^		float MaxNourishment;$/;"	m	class:AHumanBase
+MaxResources	PlantResource.h	/^		int MaxResources;$/;"	m	class:APlantResource
+Members	Faction.h	/^		TArray<AAICharacterController*> Members;$/;"	m	class:AFaction
+MembersInfo	RoomSave.h	/^		TArray<FCharacterSave> MembersInfo;$/;"	m	struct:FFactionSave
+Mesh	Blockade.h	/^	UStaticMeshComponent* Mesh;$/;"	m	class:ABlockade
+Mesh	NaturalResource.h	/^	UStaticMeshComponent* Mesh;$/;"	m	class:ANaturalResource
+Mesh	Room.h	/^		UStaticMeshComponent* Mesh;$/;"	m	class:ARoom
+MeshParams	Passage.h	/^		FMeshParams MeshParams;$/;"	m	class:APassage
+MeshParams	PassagesSave.h	/^	FMeshParams MeshParams;$/;"	m	struct:FPassageSave
+Migrate	Faction.cpp	/^void AFaction::Migrate()$/;"	f	class:AFaction
+Mining	HumanBase.h	/^		float Mining;$/;"	m	struct:FSkills
+MoveForward	HumanBase.cpp	/^void AHumanBase::MoveForward(float value)$/;"	f	class:AHumanBase
+MoveRight	HumanBase.cpp	/^void AHumanBase::MoveRight(float value)$/;"	f	class:AHumanBase
+MyAddImpulse	Items/Base/Item.cpp	/^void AItem::MyAddImpulse(FVector Direction)$/;"	f	class:AItem
+MyResources	dungeon_wizardGameModeBase.h	/^		TArray<TSubclassOf<AItem>> MyResources;$/;"	m	class:Adungeon_wizardGameModeBase
+MySetActorEnableCollision	Items/Base/Item.cpp	/^void AItem::MySetActorEnableCollision(bool Enabled, FVector Direction)$/;"	f	class:AItem
+NIC	mixtures/properties.h	/^    NIC,$/;"	e	enum:Property_values
+NONE	Items/Base/Clothes.h	/^	NONE = 0,$/;"	m	class:EBodyPart
+NONE	PlayerControllerBase.h	/^	NONE = 0,$/;"	m	class:EAction
+Name	DungeonGenerator.h	/^		FString Name;$/;"	m	struct:FBiome
+NaturalResources	Room.h	/^	TArray<ANaturalResource*> NaturalResources;$/;"	m	class:ARoom
+NeedToBeLoaded	dungeon_wizardGameModeBase.h	/^	TArray<int> NeedToBeLoaded;$/;"	m	class:Adungeon_wizardGameModeBase
+NeighborsIndex	Room.h	/^		TArray<int> NeighborsIndex;$/;"	m	class:ARoom
+NextRooms	RoomSave.h	/^		TArray<int> NextRooms;$/;"	m	class:URoomSave
+Nourishment	HumanBase.h	/^		float Nourishment;$/;"	m	class:AHumanBase
+Nourishment	RoomSave.h	/^		float Nourishment;$/;"	m	struct:FCharacterSave
+Nutrition	Items/Base/Consumable.h	/^		float Nutrition;$/;"	m	class:AConsumable
+OSTRY	mixtures/properties.h	/^    TEPY, OSTRY,$/;"	e	enum:Property_values
+OnBoxBeginOverlap	Room.cpp	/^void ARoom::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)$/;"	f	class:ARoom
+OnPossess	PlayerControllerBase.cpp	/^void APlayerControllerBase::OnPossess(APawn* InPawn)$/;"	f	class:APlayerControllerBase
+OnRep_IgnoreArray	HumanBase.cpp	/^void AHumanBase::OnRep_IgnoreArray()$/;"	f	class:AHumanBase
+OnRep_MeshParams	Passage.cpp	/^void APassage::OnRep_MeshParams()$/;"	f	class:APassage
+OnRep_PhysicsEnabled	Items/Base/Item.cpp	/^void AItem::OnRep_PhysicsEnabled()$/;"	f	class:AItem
+OpenInventory	HumanBase.cpp	/^void AHumanBase::OpenInventory()$/;"	f	class:AHumanBase
+PROPERTIES_H	mixtures/properties.h	2;"	d
+PROP_BRAK	mixtures/properties.h	/^    PROP_BRAK,$/;"	e	enum:Property_categories
+PROP_CIEZAR	mixtures/properties.h	/^    PROP_CIEZAR,$/;"	e	enum:Property_categories
+PROP_COUNT	mixtures/properties.h	/^    PROP_COUNT,$/;"	e	enum:Property_categories
+PROP_DLUGOSC	mixtures/properties.h	/^    PROP_DLUGOSC,$/;"	e	enum:Property_categories
+PROP_GLADKOSC	mixtures/properties.h	/^    PROP_GLADKOSC,$/;"	e	enum:Property_categories
+PROP_JASNOSC	mixtures/properties.h	/^    PROP_JASNOSC,$/;"	e	enum:Property_categories
+PROP_OSTROSC	mixtures/properties.h	/^    PROP_OSTROSC,$/;"	e	enum:Property_categories
+PROP_STAN_SKUPIENIA	mixtures/properties.h	/^    PROP_STAN_SKUPIENIA,$/;"	e	enum:Property_categories
+PROP_TWARDOSC	mixtures/properties.h	/^    PROP_TWARDOSC,$/;"	e	enum:Property_categories
+PROP_WIELKOSC	mixtures/properties.h	/^    PROP_WIELKOSC,$/;"	e	enum:Property_categories
+ParentContainer	Items/Base/ContainerBase.h	/^		AContainerBase* ParentContainer;$/;"	m	class:AContainerBase
+PassageType	PassagesSave.h	/^	TSubclassOf<APassage> PassageType;$/;"	m	struct:FPassageSave
+PassageTypes	DungeonGenerator.h	/^		TArray<TSubclassOf<APassage>> PassageTypes;$/;"	m	class:ADungeonGenerator
+Passages	DungeonGenerator.h	/^	TArray<TSubclassOf<APassage>> Passages;$/;"	m	struct:FPassageTypes
+PassagesInfo	PassagesSave.h	/^	TArray<FPassageSave> PassagesInfo;$/;"	m	class:UPassagesSave
+PassagesSave	DungeonGenerator.h	/^	UPassagesSave* PassagesSave;$/;"	m	class:ADungeonGenerator
+PassagesTypesNew	DungeonGenerator.h	/^	TArray<FArrayLayer> PassagesTypesNew;$/;"	m	class:ADungeonGenerator
+Patyk	mixtures/patyk.cpp	/^Patyk::Patyk() : Element(CLASS_PATYK, CAT_MINERAL)$/;"	f	class:Patyk
+Patyk	mixtures/patyk.cpp	/^Patyk::Patyk(int q) : Element(CLASS_PATYK, CAT_MINERAL, q)$/;"	f	class:Patyk
+Patyk	mixtures/patyk.h	/^class Patyk: public Element$/;"	c
+PhysicsEnabled	Items/Base/Item.h	/^		bool PhysicsEnabled;$/;"	m	class:AItem
+Plant	DungeonGenerator.h	/^	Plant,$/;"	e	enum:EBiomeTypes
+PlayerPawn	PlayerControllerBase.h	/^	AHumanBase* PlayerPawn;$/;"	m	class:APlayerControllerBase
+Point	Items/Base/ToolPart.h	/^	Point,$/;"	m	class:EToolType
+PossibleBiomes	DungeonGenerator.h	/^		TMap<TEnumAsByte<EBiomeTypes>, float> PossibleBiomes;$/;"	m	struct:FBiome
+PossibleItems	ItemSpawner.h	/^		TMap<TSubclassOf<AActor>, float> PossibleItems;$/;"	m	class:UItemSpawner
+PossibleResources	DungeonGenerator.h	/^		TArray<FResourceInfo> PossibleResources;$/;"	m	struct:FBiome
+Precision	Items/Base/Tool.h	/^	float Precision;$/;"	m	class:ATool
+Prop_list	mixtures/properties.h	/^        Prop_list(const char *n) : El_list(n) {}$/;"	f	class:Prop_list
+Prop_list	mixtures/properties.h	/^class Prop_list: public El_list$/;"	c
+Property	mixtures/properties.cpp	/^Property::Property(Property_categories id, Property_values v)$/;"	f	class:Property
+Property	mixtures/properties.h	/^    Property(Property_cat *p, Property_val *v) {$/;"	f	class:Property
+Property	mixtures/properties.h	/^class Property : public Basic_el$/;"	c
+Property_cat	mixtures/properties.h	/^struct Property_cat$/;"	s
+Property_categories	mixtures/properties.h	/^enum Property_categories$/;"	g
+Property_val	mixtures/properties.h	/^struct Property_val$/;"	s
+Property_values	mixtures/properties.h	/^enum Property_values$/;"	g
+Quality	Items/Base/PartStats.h	/^	int Quality;$/;"	m	struct:FPartStats
+Quantity	Buildings/ConstructionSiteBase.h	/^		float Quantity;$/;"	m	struct:FRequiredResource
+Quantity	Items/Base/ResourceBase.h	/^		float Quantity;$/;"	m	class:AResourceBase
+Races	DungeonGenerator.h	/^		TArray<TSubclassOf<AHumanBase>> Races;$/;"	m	class:ADungeonGenerator
+Range	Items/Base/Tool.h	/^	float Range;$/;"	m	class:ATool
+Rarity	Room.h	/^	float Rarity;$/;"	m	struct:FResourceInfo
+RedMaterial	DungeonGenerator.h	/^		UMaterialInterface* RedMaterial;$/;"	m	class:ADungeonGenerator
+Remove	HumanBase.h	/^	void Remove(AClothes* Item)$/;"	f	struct:FInventory
+RemoveFromHotbar_Implementation	HumanBase.cpp	/^void AHumanBase::RemoveFromHotbar_Implementation(AContainerBase* Container)$/;"	f	class:AHumanBase
+RemoveItemFromInventory	Items/Base/ContainerBase.cpp	/^void AContainerBase::RemoveItemFromInventory(AItem* Item)$/;"	f	class:AContainerBase
+RequiredResources	Buildings/ConstructionSiteBase.h	/^	TArray<FRequiredResource> RequiredResources;$/;"	m	class:AConstructionSiteBase
+RequiresTools	Buildings/ConstructionSiteBase.h	/^		bool RequiresTools;$/;"	m	class:AConstructionSiteBase
+ResourceId	Items/Base/Item.h	/^		int ResourceId;$/;"	m	class:AItem
+ResourceType	Items/Base/Item.h	/^		FString ResourceType;$/;"	m	class:AItem
+ResourceType	NaturalResource.h	/^		TSubclassOf<AResourceBase> ResourceType;$/;"	m	class:ANaturalResource
+ResourceType	Room.h	/^	TSubclassOf<ANaturalResource> ResourceType;$/;"	m	struct:FResourceInfo
+ResourceType	Room.h	/^	TSubclassOf<ANaturalResource> ResourceType;$/;"	m	struct:FResourceSave
+ResourcesInfo	RoomSave.h	/^		TArray<FResourceSave> ResourcesInfo;$/;"	m	class:URoomSave
+ResourcesLeft	NaturalResource.h	/^		int ResourcesLeft;$/;"	m	class:ANaturalResource
+ResourcesLeft	Room.h	/^	int ResourcesLeft;$/;"	m	struct:FResourceSave
+RightDrop_Implementation	HumanBase.cpp	/^void AHumanBase::RightDrop_Implementation()$/;"	f	class:AHumanBase
+RightHand	HumanBase.h	/^		AItem* RightHand;$/;"	m	class:AHumanBase
+RightPickUp_Implementation	HumanBase.cpp	/^void AHumanBase::RightPickUp_Implementation(AItem* Item)$/;"	f	class:AHumanBase
+RightSelectServer_Implementation	HumanBase.cpp	/^void AHumanBase::RightSelectServer_Implementation(int Index)$/;"	f	class:AHumanBase
+RightSelectTool	HumanBase.cpp	/^void AHumanBase::RightSelectTool(int Index)$/;"	f	class:AHumanBase
+RightSelectTool0	HumanBase.cpp	/^void AHumanBase::RightSelectTool0()$/;"	f	class:AHumanBase
+RightSelectTool1	HumanBase.cpp	/^void AHumanBase::RightSelectTool1()$/;"	f	class:AHumanBase
+RightSelectTool2	HumanBase.cpp	/^void AHumanBase::RightSelectTool2()$/;"	f	class:AHumanBase
+RightSelectTool3	HumanBase.cpp	/^void AHumanBase::RightSelectTool3()$/;"	f	class:AHumanBase
+RightSelectTool4	HumanBase.cpp	/^void AHumanBase::RightSelectTool4()$/;"	f	class:AHumanBase
+RoomCount	DungeonGenerator.h	/^		int RoomCount;$/;"	m	class:ADungeonGenerator
+RoomCount	DungeonSave.h	/^		int RoomCount;$/;"	m	class:UDungeonSave
+RoomLoader	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::RoomLoader()$/;"	f	class:Adungeon_wizardGameModeBase
+RoomLoadingDelay	dungeon_wizardGameModeBase.h	/^	float RoomLoadingDelay = 1;$/;"	m	class:Adungeon_wizardGameModeBase
+RoomMaterial	DungeonGenerator.h	/^		UMaterialInterface* RoomMaterial;$/;"	m	struct:FBiome
+RoomType	RoomSave.h	/^		TSubclassOf<ARoom> RoomType;$/;"	m	class:URoomSave
+RoomTypes	DungeonGenerator.h	/^		TArray<TSubclassOf<ARoom>> RoomTypes;$/;"	m	class:ADungeonGenerator
+RoomsLeft	DungeonGenerator.h	/^		int RoomsLeft;$/;"	m	class:ADungeonGenerator
+RoomsToLoad	dungeon_wizardGameModeBase.h	/^	TArray<int> RoomsToLoad;$/;"	m	class:Adungeon_wizardGameModeBase
+Root	Room.h	/^		USceneComponent* Root;$/;"	m	class:ARoom
+STAN_CIEKLY	mixtures/properties.h	/^    STAN_STALY, STAN_CIEKLY, STAN_GAZOWY,$/;"	e	enum:Property_values
+STAN_GAZOWY	mixtures/properties.h	/^    STAN_STALY, STAN_CIEKLY, STAN_GAZOWY,$/;"	e	enum:Property_values
+STAN_STALY	mixtures/properties.h	/^    STAN_STALY, STAN_CIEKLY, STAN_GAZOWY,$/;"	e	enum:Property_values
+SWIECI	mixtures/properties.h	/^    CIEMNY, JASNY, SWIECI,$/;"	e	enum:Property_values
+SZORSTKI	mixtures/properties.h	/^    GLADKI, SZORSTKI,$/;"	e	enum:Property_values
+SaveAllRooms	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::SaveAllRooms()$/;"	f	class:Adungeon_wizardGameModeBase
+SaveGame	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::SaveGame()$/;"	f	class:Adungeon_wizardGameModeBase
+SavePassages	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::SavePassages()$/;"	f	class:Adungeon_wizardGameModeBase
+SaveRoom	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::SaveRoom(int Index)$/;"	f	class:Adungeon_wizardGameModeBase
+SecondaryAction	HumanBase.cpp	/^void AHumanBase::SecondaryAction()$/;"	f	class:AHumanBase
+SecondaryAction	PlayerControllerBase.cpp	/^void APlayerControllerBase::SecondaryAction()$/;"	f	class:APlayerControllerBase
+SetAction	AICharacterController.cpp	/^void AAICharacterController::SetAction(EAIAction NewAction, AActor* Actor, FVector Location)$/;"	f	class:AAICharacterController
+SetActionMode_Implementation	PlayerControllerBase.cpp	/^void APlayerControllerBase::SetActionMode_Implementation(EAction Mode)$/;"	f	class:APlayerControllerBase
+SetDefaults	Items/Base/Item.cpp	/^void AItem::SetDefaults(int Quantity)$/;"	f	class:AItem
+SetupInputComponent	PlayerControllerBase.cpp	/^void APlayerControllerBase::SetupInputComponent()$/;"	f	class:APlayerControllerBase
+SetupPlayerInputComponent	HumanBase.cpp	/^void AHumanBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)$/;"	f	class:AHumanBase
+Shutdown	MyGameInstance.cpp	/^void UMyGameInstance::Shutdown()$/;"	f	class:UMyGameInstance
+Size	Room.h	/^		FVector2D Size;$/;"	m	struct:FDoorInfo
+Size	Room.h	/^		float Size;$/;"	m	class:ARoom
+Skladnik	mixtures/skladnik.h	/^    Skladnik(Class_id i, Categories_type cat, int q): Element(i, cat, q)$/;"	f	class:Skladnik
+Skladnik	mixtures/skladnik.h	/^class Skladnik: public Element$/;"	c
+SpawnLoaded	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::SpawnLoaded(const FString& SlotName, const int32 UserIndex, USaveGame* LoadedGame, int Index)$/;"	f	class:Adungeon_wizardGameModeBase
+SpawnPassage	DungeonGenerator.cpp	/^void ADungeonGenerator::SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActors, UMaterialInterface* Material)$/;"	f	class:ADungeonGenerator
+SpawnRoomFromSave	dungeon_wizardGameModeBase.cpp	/^ARoom* Adungeon_wizardGameModeBase::SpawnRoomFromSave(URoomSave* RoomSave)$/;"	f	class:Adungeon_wizardGameModeBase
+SpawnedRooms	DungeonGenerator.h	/^	TArray<ARoom*> SpawnedRooms;$/;"	m	class:ADungeonGenerator
+SplineMesh	Passage.h	/^		USplineMeshComponent* SplineMesh;$/;"	m	class:APassage
+Start	Passage.h	/^		FVector Start;$/;"	m	struct:FMeshParams
+StartSize	Passage.h	/^		FVector2D StartSize;$/;"	m	struct:FMeshParams
+StartTangent	Passage.h	/^		FVector StartTangent;$/;"	m	struct:FMeshParams
+StartingBiome	DungeonGenerator.h	/^		int StartingBiome;$/;"	m	class:ADungeonGenerator
+StartingRoom	DungeonGenerator.h	/^		int StartingRoom;$/;"	m	class:ADungeonGenerator
+StaticMesh	Items/Base/Item.h	/^		UStaticMeshComponent* StaticMesh;$/;"	m	class:AItem
+StaticMesh	NaturalResource.h	/^		UStaticMesh* StaticMesh;$/;"	m	class:ANaturalResource
+StaticMesh	Passage.h	/^	UStaticMeshComponent* StaticMesh;$/;"	m	class:APassage
+Stats	Items/Base/ToolHandle.h	/^	FPartStats Stats;$/;"	m	class:AToolHandle
+Stats	Items/Base/ToolPart.h	/^	FPartStats Stats;$/;"	m	class:AToolPart
+StoneGathering	HumanBase.h	/^		float StoneGathering;$/;"	m	struct:FSkills
+StoneWastes	DungeonGenerator.h	/^	StoneWastes$/;"	e	enum:EBiomeTypes
+SwitchModes_Implementation	PlayerControllerBase.cpp	/^void APlayerControllerBase::SwitchModes_Implementation()$/;"	f	class:APlayerControllerBase
+TEPY	mixtures/properties.h	/^    TEPY, OSTRY,$/;"	e	enum:Property_values
+TWARDY	mixtures/properties.h	/^    MIEKKI, TWARDY,$/;"	e	enum:Property_values
+TakeDamage	HumanBase.cpp	/^float AHumanBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)$/;"	f	class:AHumanBase
+Talk	HumanBase.cpp	/^void AHumanBase::Talk()$/;"	f	class:AHumanBase
+Tick	Blockade.cpp	/^void ABlockade::Tick(float DeltaTime)$/;"	f	class:ABlockade
+Tick	Buildings/BuildingBase.cpp	/^void ABuildingBase::Tick(float DeltaTime)$/;"	f	class:ABuildingBase
+Tick	Buildings/ConstructionSiteBase.cpp	/^void AConstructionSiteBase::Tick(float DeltaTime)$/;"	f	class:AConstructionSiteBase
+Tick	Buildings/Fireplace.cpp	/^void AFireplace::Tick(float DeltaTime)$/;"	f	class:AFireplace
+Tick	DungeonGenerator.cpp	/^void ADungeonGenerator::Tick(float DeltaTime)$/;"	f	class:ADungeonGenerator
+Tick	HumanBase.cpp	/^void AHumanBase::Tick(float DeltaTime)$/;"	f	class:AHumanBase
+Tick	Items/Base/Item.cpp	/^void AItem::Tick(float DeltaTime)$/;"	f	class:AItem
+Tick	Items/Base/ResourceBase.cpp	/^void AResourceBase::Tick(float DeltaTime)$/;"	f	class:AResourceBase
+Tick	Items/Base/Tool.cpp	/^void ATool::Tick(float DeltaTime)$/;"	f	class:ATool
+Tick	Items/Base/ToolHandle.cpp	/^void AToolHandle::Tick(float DeltaTime)$/;"	f	class:AToolHandle
+Tick	Items/Derived/Clay.cpp	/^void AClay::Tick(float DeltaTime)$/;"	f	class:AClay
+Tick	Items/Derived/Hammer.cpp	/^void AHammer::Tick(float DeltaTime)$/;"	f	class:AHammer
+Tick	Items/Derived/HammerHead.cpp	/^void AHammerHead::Tick(float DeltaTime)$/;"	f	class:AHammerHead
+Tick	Items/Derived/Metal.cpp	/^void AMetal::Tick(float DeltaTime)$/;"	f	class:AMetal
+Tick	Items/Derived/Wood.cpp	/^void AWood::Tick(float DeltaTime)$/;"	f	class:AWood
+Tick	NaturalResource.cpp	/^void ANaturalResource::Tick(float DeltaTime)$/;"	f	class:ANaturalResource
+Tick	Passage.cpp	/^void APassage::Tick(float DeltaTime)$/;"	f	class:APassage
+Tick	Room.cpp	/^void ARoom::Tick(float DeltaTime)$/;"	f	class:ARoom
+Tick	UEElement.cpp	/^void AUEElement::Tick(float DeltaTime)$/;"	f	class:AUEElement
+Tick	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::Tick(float DeltaTime)$/;"	f	class:Adungeon_wizardGameModeBase
+TickComponent	ItemSpawner.cpp	/^void UItemSpawner::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)$/;"	f	class:UItemSpawner
+ToolType	Items/Base/Tool.h	/^	EToolType ToolType;$/;"	m	class:ATool
+TraceVisibility	DungeonGenerator.h	/^		TEnumAsByte<EDrawDebugTrace::Type> TraceVisibility;$/;"	m	class:ADungeonGenerator
+Transform	PassagesSave.h	/^	FTransform Transform;$/;"	m	struct:FBlockadeSave
+Transform	PassagesSave.h	/^	FTransform Transform;$/;"	m	struct:FPassageSave
+Transform	Room.h	/^	FTransform Transform;$/;"	m	struct:FResourceSave
+Transform	RoomSave.h	/^		FTransform Transform;$/;"	m	class:URoomSave
+Transform	RoomSave.h	/^		FTransform Transform;$/;"	m	struct:FCharacterSave
+Transform	RoomSave.h	/^		FTransform Transform;$/;"	m	struct:FItemSave
+Type	Items/Base/ToolPart.h	/^	EToolType Type;$/;"	m	class:AToolPart
+UDungeonSave	DungeonSave.cpp	/^UDungeonSave::UDungeonSave()$/;"	f	class:UDungeonSave
+UDungeonSave	DungeonSave.h	/^class DUNGEON_WIZARD_API UDungeonSave : public USaveGame$/;"	c
+UItemSpawner	ItemSpawner.cpp	/^UItemSpawner::UItemSpawner()$/;"	f	class:UItemSpawner
+UItemSpawner	ItemSpawner.h	/^class DUNGEON_WIZARD_API UItemSpawner : public USceneComponent$/;"	c
+UMyGameInstance	MyGameInstance.h	/^class DUNGEON_WIZARD_API UMyGameInstance : public UGameInstance$/;"	c
+UPassagesSave	PassagesSave.h	/^class DUNGEON_WIZARD_API UPassagesSave : public USaveGame$/;"	c
+URoomSave	RoomSave.cpp	/^URoomSave::URoomSave()$/;"	f	class:URoomSave
+URoomSave	RoomSave.h	/^class DUNGEON_WIZARD_API URoomSave : public USaveGame$/;"	c
+UeSkills	HumanBase.h	/^		FSkills UeSkills;$/;"	m	class:AHumanBase
+UnfinishedRooms	DungeonGenerator.h	/^	TArray<ARoom*> UnfinishedRooms;$/;"	m	class:ADungeonGenerator
+UnloadRoom	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::UnloadRoom(int Index)$/;"	f	class:Adungeon_wizardGameModeBase
+UpdateRooms	dungeon_wizardGameModeBase.cpp	/^void Adungeon_wizardGameModeBase::UpdateRooms()$/;"	f	class:Adungeon_wizardGameModeBase
+UseItem_Implementation	HumanBase.cpp	/^void AHumanBase::UseItem_Implementation(AItem* Item)$/;"	f	class:AHumanBase
+UsePrecision	Items/Base/PartStats.h	/^	int UsePrecision;$/;"	m	struct:FPartStats
+UseSpeed	Items/Base/PartStats.h	/^	int UseSpeed;$/;"	m	struct:FPartStats
+VAL_COUNT	mixtures/properties.h	/^    VAL_COUNT$/;"	e	enum:Property_values
+WODA_H	mixtures/woda.h	2;"	d
+Weight	Items/Base/Item.h	/^		float Weight;$/;"	m	class:AItem
+WeightPerQuantity	Items/Base/ResourceBase.h	/^		float WeightPerQuantity;$/;"	m	class:AResourceBase
+WidgetComponent	Items/Base/Item.h	/^		UWidgetComponent* WidgetComponent;$/;"	m	class:AItem
+Woda	mixtures/woda.cpp	/^Woda::Woda():Element(CLASS_WODA, CAT_MINERAL)$/;"	f	class:Woda
+Woda	mixtures/woda.cpp	/^Woda::Woda(int q):Element(CLASS_WODA, CAT_MINERAL, q)$/;"	f	class:Woda
+Woda	mixtures/woda.h	/^class Woda : public Element$/;"	c
+WoodCutting	HumanBase.h	/^		float WoodCutting;$/;"	m	struct:FSkills
+WorkDone	Buildings/ConstructionSiteBase.cpp	/^float AConstructionSiteBase::WorkDone(float Skill, ATool* Tool)$/;"	f	class:AConstructionSiteBase
+WorkToBeDone	Buildings/ConstructionSiteBase.h	/^	float WorkToBeDone;$/;"	m	class:AConstructionSiteBase
+__CATEGORIES_TYPE__H	mixtures/categories_type.h	2;"	d
+add	mixtures/el_list.cpp	/^Basic_el * El_list::add(Basic_el *el)$/;"	f	class:El_list
+add	mixtures/el_list.h	/^    void add(Basic_el *el) { next=el; }$/;"	f	class:Basic_el
+add_prop	mixtures/element.h	/^        void add_prop(Property *p)$/;"	f	class:Element
+add_properties	mixtures/kamien.cpp	/^void Kamien::add_properties()$/;"	f	class:Kamien
+add_properties	mixtures/patyk.cpp	/^void Patyk::add_properties()$/;"	f	class:Patyk
+add_properties	mixtures/woda.cpp	/^void Woda::add_properties()$/;"	f	class:Woda
+b_dlugi	mixtures/properties.cpp	/^    &b_krotki, &krotki, &dlugi, &b_dlugi,$/;"	m	struct:property_val_table	file:
+b_dlugi	mixtures/properties.cpp	/^struct Property_val b_dlugi = {B_DLUGI, "bardzo długi"};$/;"	v	typeref:struct:Property_val
+b_krotki	mixtures/properties.cpp	/^    &b_krotki, &krotki, &dlugi, &b_dlugi,$/;"	m	struct:property_val_table	file:
+b_krotki	mixtures/properties.cpp	/^struct Property_val b_krotki = {B_KROTKI, "bardzo krótki"};$/;"	v	typeref:struct:Property_val
+categories_names	mixtures/categories_names.h	/^const char * categories_names[]=$/;"	v
+category	mixtures/element.h	/^    Categories_type category;$/;"	m	class:Element
+check_prop	mixtures/element.h	/^        bool check_prop(Property_categories c) {$/;"	f	class:Element
+check_prop_val	mixtures/element.h	/^        bool check_prop_val(Property_categories cat, Property_values val)$/;"	f	class:Element
+check_props	mixtures/element.h	/^        bool check_props(int cnt, Property_categories * cat) {$/;"	f	class:Element
+check_val	mixtures/properties.h	/^    bool check_val(Property_values v)$/;"	f	class:Property
+cialo_stale	mixtures/properties.cpp	/^    &cialo_stale, &plyn, &gaz,$/;"	m	struct:property_val_table	file:
+cialo_stale	mixtures/properties.cpp	/^struct Property_val cialo_stale = {STAN_STALY, "ciało stałe"};$/;"	v	typeref:struct:Property_val
+ciemny	mixtures/properties.cpp	/^    &ciemny, &jasny, &swieci,$/;"	m	struct:property_val_table	file:
+ciemny	mixtures/properties.cpp	/^struct Property_val ciemny = {CIEMNY, "ciemny"};$/;"	v	typeref:struct:Property_val
+ciezar	mixtures/properties.cpp	/^    &ciezar,$/;"	m	struct:property_cat_table	file:
+ciezar	mixtures/properties.cpp	/^struct Property_cat ciezar = {PROP_CIEZAR, "ciężar"};$/;"	v	typeref:struct:Property_cat
+ciezki	mixtures/properties.cpp	/^    &lekki, &ciezki,$/;"	m	struct:property_val_table	file:
+ciezki	mixtures/properties.cpp	/^struct Property_val ciezki = {CIEZKI, "ciężki"};$/;"	v	typeref:struct:Property_val
+class_names	mixtures/class_names.cpp	/^const char * class_names[]=$/;"	v
+clone_prop	mixtures/properties.h	/^    Property * clone_prop() {$/;"	f	class:Property
+clrscr	mixtures/el_list.cpp	/^const char *clrscr="\\033[H\\033[J";$/;"	v
+colorBlue	mixtures/el_list.cpp	/^const char *colorBlue="\\033[2;34m";$/;"	v
+colorBlueBold	mixtures/el_list.cpp	/^const char *colorBlueBold="\\033[1;34m";$/;"	v
+colorCyan	mixtures/el_list.cpp	/^const char *colorCyan="\\033[2;36m";$/;"	v
+colorGray	mixtures/el_list.cpp	/^const char *colorGray="\\033[1;30m";$/;"	v
+colorGreen	mixtures/el_list.cpp	/^const char *colorGreen="\\033[2;32m";$/;"	v
+colorGreenBold	mixtures/el_list.cpp	/^const char *colorGreenBold="\\033[1;32m";$/;"	v
+colorMagenta	mixtures/el_list.cpp	/^const char *colorMagenta="\\033[2;35m";$/;"	v
+colorNormal	mixtures/el_list.cpp	/^const char *colorNormal="\\033[0m";$/;"	v
+colorRed	mixtures/el_list.cpp	/^const char *colorRed="\\033[2;31m";$/;"	v
+colorRedBold	mixtures/el_list.cpp	/^const char *colorRedBold="\\033[1;31m";$/;"	v
+colorWhite	mixtures/el_list.cpp	/^const char *colorWhite="\\033[1;37m";$/;"	v
+colorYellow	mixtures/el_list.cpp	/^const char *colorYellow="\\033[2;33m";$/;"	v
+colorYellowBold	mixtures/el_list.cpp	/^const char *colorYellowBold="\\033[1;33m";$/;"	v
+copy	mixtures/el_list.h	/^    void virtual copy(Basic_el *el) {}$/;"	f	class:El_list
+copy_elements	mixtures/el_list.cpp	/^void El_list::copy_elements(El_list * dst)$/;"	f	class:El_list
+cos	Faction.h	/^	UClass* cos;$/;"	m	class:AFaction
+dlugi	mixtures/properties.cpp	/^    &b_krotki, &krotki, &dlugi, &b_dlugi,$/;"	m	struct:property_val_table	file:
+dlugi	mixtures/properties.cpp	/^struct Property_val dlugi = {DLUGI, "długi"};$/;"	v	typeref:struct:Property_val
+dlugosc	mixtures/properties.cpp	/^    &dlugosc,$/;"	m	struct:property_cat_table	file:
+dlugosc	mixtures/properties.cpp	/^struct Property_cat dlugosc = {PROP_DLUGOSC, "długość"};$/;"	v	typeref:struct:Property_cat
+dungeon_wizard	dungeon_wizard.Build.cs	/^	public dungeon_wizard(ReadOnlyTargetRules Target) : base(Target)$/;"	m	class:dungeon_wizard
+dungeon_wizard	dungeon_wizard.Build.cs	/^public class dungeon_wizard : ModuleRules$/;"	c
+duzy	mixtures/properties.cpp	/^    &maly, &duzy,$/;"	m	struct:property_val_table	file:
+duzy	mixtures/properties.cpp	/^struct Property_val duzy = {DUZY, "duży"};$/;"	v	typeref:struct:Property_val
+find	mixtures/el_list.cpp	/^Basic_el * El_list::find(void * what)$/;"	f	class:El_list
+find_at	mixtures/el_list.cpp	/^Basic_el * El_list::find_at(void * pos)$/;"	f	class:El_list
+find_at_check	mixtures/el_list.h	/^    bool virtual find_at_check(Basic_el *el, void * pos) { return false; }$/;"	f	class:El_list
+find_check	mixtures/el_list.h	/^    bool virtual find_check(Basic_el *el, void * what) { return false; }$/;"	f	class:El_list
+find_check	mixtures/properties.h	/^        bool find_check(Basic_el *el, void * what) { $/;"	f	class:Prop_list
+find_prop	mixtures/element.h	/^        Property * find_prop(Property_categories cat)$/;"	f	class:Element
+gaz	mixtures/properties.cpp	/^    &cialo_stale, &plyn, &gaz,$/;"	m	struct:property_val_table	file:
+gaz	mixtures/properties.cpp	/^struct Property_val gaz = {STAN_GAZOWY, "gaz"};$/;"	v	typeref:struct:Property_val
+get_cat	mixtures/properties.h	/^    Property_categories get_cat() {$/;"	f	class:Property
+get_class_name	mixtures/element.h	/^        const char * get_class_name() { return class_names[id]; }$/;"	f	class:Element
+get_prop	mixtures/element.h	/^        Property *get_prop(Property_categories i)$/;"	f	class:Element
+get_prop_and_clone	mixtures/element.h	/^        Property *get_prop_and_clone(Property_categories i) {$/;"	f	class:Element
+get_prop_val	mixtures/element.h	/^        int get_prop_val(Property_categories i)$/;"	f	class:Element
+get_property_cat_name	mixtures/properties.cpp	/^const char * get_property_cat_name(Property_categories c)$/;"	f
+get_val	mixtures/properties.h	/^    Property_values get_val() {$/;"	f	class:Property
+gladki	mixtures/properties.cpp	/^    &gladki, &szorstki,$/;"	m	struct:property_val_table	file:
+gladki	mixtures/properties.cpp	/^struct Property_val gladki = {GLADKI, "gładki"};$/;"	v	typeref:struct:Property_val
+gladkosc	mixtures/properties.cpp	/^    &gladkosc,$/;"	m	struct:property_cat_table	file:
+gladkosc	mixtures/properties.cpp	/^struct Property_cat gladkosc = {PROP_GLADKOSC, "gładkość"};$/;"	v	typeref:struct:Property_cat
+id	mixtures/element.h	/^    Class_id id;$/;"	m	class:Element
+id	mixtures/properties.h	/^    Property_categories id;$/;"	m	struct:Property_cat
+id	mixtures/properties.h	/^    Property_values id;$/;"	m	struct:Property_val
+initialize	mixtures/element.h	/^    void initialize(Class_id i, Categories_type cat, int q)$/;"	f	class:Element
+jasnosc	mixtures/properties.cpp	/^    &jasnosc,$/;"	m	struct:property_cat_table	file:
+jasnosc	mixtures/properties.cpp	/^struct Property_cat jasnosc = {PROP_JASNOSC, "jasność"};$/;"	v	typeref:struct:Property_cat
+jasny	mixtures/properties.cpp	/^    &ciemny, &jasny, &swieci,$/;"	m	struct:property_val_table	file:
+jasny	mixtures/properties.cpp	/^struct Property_val jasny = {JASNY, "jasny"};$/;"	v	typeref:struct:Property_val
+krotki	mixtures/properties.cpp	/^    &b_krotki, &krotki, &dlugi, &b_dlugi,$/;"	m	struct:property_val_table	file:
+krotki	mixtures/properties.cpp	/^struct Property_val krotki = {KROTKI, "krótki"};$/;"	v	typeref:struct:Property_val
+latwosc_uzycia	mixtures/skladnik.h	/^    int latwosc_uzycia; \/\/ [0..15] łatwy..trudny$/;"	m	class:Skladnik
+lekki	mixtures/properties.cpp	/^    &lekki, &ciezki,$/;"	m	struct:property_val_table	file:
+lekki	mixtures/properties.cpp	/^struct Property_val lekki ={LEKKI, "lekki"};$/;"	v	typeref:struct:Property_val
+list	mixtures/el_list.h	/^    Basic_el * list;$/;"	m	class:El_list
+load	mixtures/el_list.h	/^    virtual int load(FILE *f) { return 1;}$/;"	f	class:El_list
+maly	mixtures/properties.cpp	/^    &maly, &duzy,$/;"	m	struct:property_val_table	file:
+maly	mixtures/properties.cpp	/^struct Property_val maly = {MALY, "mały"};$/;"	v	typeref:struct:Property_val
+miekki	mixtures/properties.cpp	/^    &miekki, &twardy,$/;"	m	struct:property_val_table	file:
+miekki	mixtures/properties.cpp	/^struct Property_val miekki = {MIEKKI, "miękki"};$/;"	v	typeref:struct:Property_val
+mix_Glowka_mlotka	mixtures/glowka_mlotka.cpp	/^Skladnik * mix_Glowka_mlotka(Element * m)$/;"	f
+mix_Ostrze_noza	mixtures/ostrze_noza.cpp	/^Skladnik * mix_Ostrze_noza(Element* m)$/;"	f
+mix_Ostrze_siekiery	mixtures/ostrze_siekiery.cpp	/^Skladnik * mix_Ostrze_siekiery(Element * m)$/;"	f
+mix_Raczka_mlotka	mixtures/raczka_mlotka.cpp	/^Skladnik * mix_Raczka_mlotka(Element * m)$/;"	f
+mix_Raczka_noza	mixtures/raczka_noza.cpp	/^Skladnik * mix_Raczka_noza(Element * m)$/;"	f
+mix_Raczka_siekiery	mixtures/raczka_siekiery.cpp	/^Skladnik * mix_Raczka_siekiery(Element * m)$/;"	f
+mix_ciezar	mixtures/properties.cpp	/^Property * mix_ciezar(Skladnik * s1, Skladnik * s2)$/;"	f
+mix_twardosc	mixtures/properties.cpp	/^Property * mix_twardosc(Skladnik * s1, Skladnik *s2)$/;"	f
+mix_wielkosc	mixtures/properties.cpp	/^Property * mix_wielkosc(Skladnik * s1, Skladnik *s2)$/;"	f
+mixed	mixtures/element.h	/^    bool mixed;$/;"	m	class:Element
+name	mixtures/el_list.h	/^    const char * name;$/;"	m	class:El_list
+name	mixtures/properties.h	/^    const char * name;$/;"	m	struct:Property_cat
+name	mixtures/properties.h	/^    const char * name;$/;"	m	struct:Property_val
+next	mixtures/el_list.h	/^    Basic_el * next;$/;"	m	class:Basic_el
+nr_elements	mixtures/el_list.h	/^    int nr_elements;$/;"	m	class:El_list
+nullptr	mixtures/properties.cpp	/^    nullptr,$/;"	m	struct:property_cat_table	file:
+nullptr	mixtures/properties.cpp	/^    nullptr,$/;"	m	struct:property_val_table	file:
+number	Room.h	/^		int number;$/;"	m	class:ARoom
+operator *	Items/Base/PartStats.h	/^	FPartStats operator*(FPartStats other)$/;"	f	struct:FPartStats
+ostrosc	mixtures/properties.cpp	/^    &ostrosc,$/;"	m	struct:property_cat_table	file:
+ostrosc	mixtures/properties.cpp	/^struct Property_cat ostrosc = {PROP_OSTROSC, "ostrość"};$/;"	v	typeref:struct:Property_cat
+ostry	mixtures/properties.cpp	/^    &tepy, &ostry,$/;"	m	struct:property_val_table	file:
+ostry	mixtures/properties.cpp	/^struct Property_val ostry = {OSTRY, "ostry"};$/;"	v	typeref:struct:Property_val
+override	Blockade.h	/^	virtual void BeginPlay() override;$/;"	m	class:ABlockade
+override	Blockade.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ABlockade
+override	Buildings/BuildingBase.h	/^	virtual void BeginPlay() override;$/;"	m	class:ABuildingBase
+override	Buildings/BuildingBase.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ABuildingBase
+override	Buildings/ConstructionSiteBase.h	/^	virtual void BeginPlay() override;$/;"	m	class:AConstructionSiteBase
+override	Buildings/ConstructionSiteBase.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AConstructionSiteBase
+override	Buildings/Fireplace.h	/^	virtual void BeginPlay() override;$/;"	m	class:AFireplace
+override	Buildings/Fireplace.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AFireplace
+override	DungeonGenerator.h	/^	virtual void BeginPlay() override;$/;"	m	class:ADungeonGenerator
+override	DungeonGenerator.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ADungeonGenerator
+override	Faction.h	/^	virtual void BeginPlay() override;$/;"	m	class:AFaction
+override	HumanBase.h	/^	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;$/;"	m	class:AHumanBase
+override	HumanBase.h	/^	virtual void BeginPlay() override;$/;"	m	class:AHumanBase
+override	HumanBase.h	/^	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProperty) const override;$/;"	m	class:AHumanBase
+override	HumanBase.h	/^	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;$/;"	m	class:AHumanBase
+override	HumanBase.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AHumanBase
+override	ItemSpawner.h	/^	virtual void BeginPlay() override;$/;"	m	class:UItemSpawner
+override	ItemSpawner.h	/^	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;$/;"	m	class:UItemSpawner
+override	Items/Base/ContainerBase.h	/^	virtual void BeginPlay() override;$/;"	m	class:AContainerBase
+override	Items/Base/ContainerBase.h	/^	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProperty) const override;$/;"	m	class:AContainerBase
+override	Items/Base/Item.h	/^	virtual void BeginPlay() override;$/;"	m	class:AItem
+override	Items/Base/Item.h	/^	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProperty) const override;$/;"	m	class:AItem
+override	Items/Base/Item.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AItem
+override	Items/Base/ResourceBase.h	/^	virtual void BeginPlay() override;$/;"	m	class:AResourceBase
+override	Items/Base/ResourceBase.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AResourceBase
+override	Items/Base/Tool.h	/^	virtual void BeginPlay() override;$/;"	m	class:ATool
+override	Items/Base/Tool.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ATool
+override	Items/Base/ToolHandle.h	/^	virtual void BeginPlay() override;$/;"	m	class:AToolHandle
+override	Items/Base/ToolHandle.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AToolHandle
+override	Items/Derived/Clay.h	/^	virtual void BeginPlay() override;$/;"	m	class:AClay
+override	Items/Derived/Clay.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AClay
+override	Items/Derived/Hammer.h	/^	virtual void BeginPlay() override;$/;"	m	class:AHammer
+override	Items/Derived/Hammer.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AHammer
+override	Items/Derived/HammerHead.h	/^	virtual void BeginPlay() override;$/;"	m	class:AHammerHead
+override	Items/Derived/HammerHead.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AHammerHead
+override	Items/Derived/Metal.h	/^	virtual void BeginPlay() override;$/;"	m	class:AMetal
+override	Items/Derived/Metal.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AMetal
+override	Items/Derived/Wood.h	/^	virtual void BeginPlay() override;$/;"	m	class:AWood
+override	Items/Derived/Wood.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AWood
+override	MyGameInstance.h	/^	virtual void Shutdown() override;$/;"	m	class:UMyGameInstance
+override	NaturalResource.h	/^	virtual void BeginPlay() override;$/;"	m	class:ANaturalResource
+override	NaturalResource.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ANaturalResource
+override	Passage.h	/^	virtual void BeginPlay() override;$/;"	m	class:APassage
+override	Passage.h	/^	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProperty) const override;$/;"	m	class:APassage
+override	Passage.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:APassage
+override	PlantResource.h	/^	virtual AResourceBase* HandGather() override;$/;"	m	class:APlantResource
+override	PlayerControllerBase.h	/^	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProperty) const override;$/;"	m	class:APlayerControllerBase
+override	PlayerControllerBase.h	/^	virtual void OnPossess(APawn* InPawn) override;$/;"	m	class:APlayerControllerBase
+override	PlayerControllerBase.h	/^	virtual void SetupInputComponent() override;$/;"	m	class:APlayerControllerBase
+override	Room.h	/^	virtual void BeginPlay() override;$/;"	m	class:ARoom
+override	Room.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:ARoom
+override	StoneResource.h	/^	virtual void Gather(float Force, EToolType ToolType, FVector Location) override;$/;"	m	class:AStoneResource
+override	UEElement.h	/^	virtual void BeginPlay() override;$/;"	m	class:AUEElement
+override	UEElement.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:AUEElement
+override	dungeon_wizardGameModeBase.h	/^	virtual void BeginPlay() override;$/;"	m	class:Adungeon_wizardGameModeBase
+override	dungeon_wizardGameModeBase.h	/^	virtual void InitGame(const FString& MapName, const FString& Options, FString&ErrorMessage) override;$/;"	m	class:Adungeon_wizardGameModeBase
+override	dungeon_wizardGameModeBase.h	/^	virtual void Tick(float DeltaTime) override;$/;"	m	class:Adungeon_wizardGameModeBase
+plyn	mixtures/properties.cpp	/^    &cialo_stale, &plyn, &gaz,$/;"	m	struct:property_val_table	file:
+plyn	mixtures/properties.cpp	/^struct Property_val plyn = {STAN_CIEKLY, "płyn"};$/;"	v	typeref:struct:Property_val
+prop	mixtures/properties.h	/^    Property_cat *prop;$/;"	m	class:Property
+property_cat_table	mixtures/properties.cpp	/^struct Property_cat * property_cat_table[PROP_COUNT]$/;"	s	file:
+property_val_table	mixtures/properties.cpp	/^struct Property_val * property_val_table[VAL_COUNT]$/;"	s	file:
+props	mixtures/element.h	/^    Prop_list *props;$/;"	m	class:Element
+quality	mixtures/skladnik.h	/^    int quality; \/\/[0..100] slaby..najlepszy$/;"	m	class:Skladnik
+quantity	mixtures/element.h	/^    int quantity;$/;"	m	class:Element
+remove	mixtures/el_list.cpp	/^Basic_el * El_list::remove(Basic_el *el)$/;"	f	class:El_list
+set_val	mixtures/properties.h	/^    void set_val(Property_val *new_val)$/;"	f	class:Property
+set_val	mixtures/properties.h	/^    void set_val(Property_values new_val)$/;"	f	class:Property
+show	mixtures/el_list.cpp	/^void El_list::show(bool details)$/;"	f	class:El_list
+show	mixtures/el_list.h	/^    virtual void show(bool details=true) {}$/;"	f	class:Basic_el
+show	mixtures/element.h	/^        void show(bool details=true) {$/;"	f	class:Element
+show	mixtures/properties.h	/^    void show(bool details=true) {$/;"	f	class:Property
+show	mixtures/skladnik.h	/^    void show(bool details=true) {$/;"	f	class:Skladnik
+skladnik	mixtures/skladnik.h	/^    Element * skladnik;$/;"	m	class:Skladnik
+stan_skupienia	mixtures/properties.cpp	/^    &stan_skupienia,$/;"	m	struct:property_cat_table	file:
+stan_skupienia	mixtures/properties.cpp	/^struct Property_cat stan_skupienia = {PROP_STAN_SKUPIENIA, "stan skupienia"};$/;"	v	typeref:struct:Property_cat
+swieci	mixtures/properties.cpp	/^    &ciemny, &jasny, &swieci,$/;"	m	struct:property_val_table	file:
+swieci	mixtures/properties.cpp	/^struct Property_val swieci = {SWIECI, "świeci"};$/;"	v	typeref:struct:Property_val
+szorstki	mixtures/properties.cpp	/^    &gladki, &szorstki,$/;"	m	struct:property_val_table	file:
+szorstki	mixtures/properties.cpp	/^struct Property_val szorstki = {SZORSTKI, "szorstki"};$/;"	v	typeref:struct:Property_val
+tail	mixtures/el_list.h	/^    Basic_el * tail;$/;"	m	class:El_list
+tepy	mixtures/properties.cpp	/^    &tepy, &ostry,$/;"	m	struct:property_val_table	file:
+tepy	mixtures/properties.cpp	/^struct Property_val tepy = {TEPY, "tępy"};$/;"	v	typeref:struct:Property_val
+transform	mixtures/skladnik.h	/^    bool transform(Element *m, int cnt, Property_categories * cat)$/;"	f	class:Skladnik
+twardosc	mixtures/properties.cpp	/^    &twardosc,$/;"	m	struct:property_cat_table	file:
+twardosc	mixtures/properties.cpp	/^struct Property_cat twardosc = {PROP_TWARDOSC, "twardość"};$/;"	v	typeref:struct:Property_cat
+twardy	mixtures/properties.cpp	/^    &miekki, &twardy,$/;"	m	struct:property_val_table	file:
+twardy	mixtures/properties.cpp	/^struct Property_val twardy = {TWARDY, "twardy"};$/;"	v	typeref:struct:Property_val
+val	mixtures/properties.h	/^    Property_val *val;$/;"	m	class:Property
+wielkosc	mixtures/properties.cpp	/^    &wielkosc,$/;"	m	struct:property_cat_table	file:
+wielkosc	mixtures/properties.cpp	/^struct Property_cat wielkosc = {PROP_WIELKOSC, "wielkość"};$/;"	v	typeref:struct:Property_cat
+wytrzymalosc	mixtures/skladnik.h	/^    int wytrzymalosc; \/\/ [0..100] wytrzymaly..słaby$/;"	m	class:Skladnik
+~Basic_el	mixtures/el_list.h	/^    virtual ~Basic_el() {}$/;"	f	class:Basic_el
+~El_list	mixtures/el_list.h	/^    virtual ~El_list() {}$/;"	f	class:El_list

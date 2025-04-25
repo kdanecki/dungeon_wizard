@@ -15,5 +15,5 @@ class DUNGEON_WIZARD_API AStoneResource : public ANaturalResource
 	GENERATED_BODY()
 	
 public:
-	virtual void Gather(ATool* Tool, FVector Location) override;
+	virtual void Gather(float Force, EToolType ToolType, FVector Location) override;
 };

@@ -9,7 +9,9 @@ ANaturalResource::ANaturalResource()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
+	RootComponent = Mesh;
+	DynamicMeshComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -26,7 +28,7 @@ void ANaturalResource::Tick(float DeltaTime)
 
 }
 
-void ANaturalResource::Gather(ATool* Tool, FVector Location)
+void ANaturalResource::Gather(float Force, EToolType ToolType, FVector Location)
 {
 }
 

@@ -5,8 +5,9 @@
 
 #include "AIHelpers.h"
 #include "Items/Derived/Hammer.h"
-#include "Items/Derived/HammerHandle.h"
+#include "Items/Base/ToolHandle.h"
 #include "Items/Derived/HammerHead.h"
+#include "Items/Base/Tool.h"
 
 APlayerControllerBase::APlayerControllerBase()
 {
@@ -70,11 +71,11 @@ void APlayerControllerBase::Action()
 		{
 			if (ANaturalResource* Resource = Cast<ANaturalResource>(PlayerPawn->LookingAt))
 			{
-				PlayerPawn->GatherAnimation(Resource, Tool);
+				PlayerPawn->GatherAnimation(ForceUsed, Resource, Tool);
 			}
 			else
 			{
-				PlayerPawn->AttackAnimation(nullptr, Tool);
+				PlayerPawn->AttackAnimation(ForceUsed, nullptr, Tool);
 			}
 		}
 		else if (AConsumable* Food = Cast<AConsumable>(PlayerPawn->RightHand))
@@ -175,7 +176,7 @@ void APlayerControllerBase::SecondaryAction()
 
 void APlayerControllerBase::ItemSelected(AItem* Item)
 {
-	if (SelectedItems.Num() > 0)
+	/*if (SelectedItems.Num() > 0)
 	{
 		if (Cast<AResourceBase>(SelectedItems[0]))
 		{
@@ -229,14 +230,14 @@ void APlayerControllerBase::ItemSelected(AItem* Item)
 			
 			UpdateWidget();
 		}
-	}
+	}*/
 }
 
-void APlayerControllerBase::CraftItem(int Index, const TArray<AItemPart*>& ItemParts)
+/*void APlayerControllerBase::CraftItem(int Index, const TArray<AItemPart*>& ItemParts)
 {
 	FActorSpawnParameters SpawnParameters;
 	AToolBase* Tool = GetWorld()->SpawnActor<AToolBase>(KnownTools[Index], PlayerPawn->GetActorLocation() + FVector(100, 0, 0), PlayerPawn->GetActorRotation(), SpawnParameters);
-	Tool->Craft(ItemParts);
+	Tool->Craft(ItemParts);#1#
 }
 
 void APlayerControllerBase::CraftPart(int Index, AResourceBase* Resource)
@@ -249,7 +250,7 @@ void APlayerControllerBase::CraftPart(int Index, AResourceBase* Resource)
 		Part->Details = skladnik;
 		Resource->Destroy();
 	}
-}
+}*/
 
 void APlayerControllerBase::SetActionMode_Implementation(EAction Mode)
 {
@@ -260,17 +261,17 @@ void APlayerControllerBase::SwitchModes_Implementation()
 {
 	if (ActionMode == EAction::NONE)
 	{
-		ShowCraftingWidget();
+		/*ShowCraftingWidget();
 		HideGameWidget();
 		SetActionMode(EAction::CRAFT);
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("craft")));
-		}
+		}*/
 	}
 	else
 	{
-		HideCraftingWidget();
+		/*HideCraftingWidget();
 		ShowGameWidget();
 		SetActionMode(EAction::NONE);
 		for (int i = 0; i < SelectedItems.Num(); i++)
@@ -288,6 +289,6 @@ void APlayerControllerBase::SwitchModes_Implementation()
 		if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Blue, FString::Printf(TEXT("none")));
-		}
+		}*/
 	}
 }

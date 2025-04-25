@@ -3,8 +3,8 @@
 #pragma once
 
 #include "../Base/Tool.h"
-#include "HammerHandle.h"
-#include "HammerHead.h"
+/*#include "HammerHandle.h"
+#include "HammerHead.h"*/
 
 #include "Hammer.generated.h"
 
@@ -24,7 +24,7 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	virtual void Craft(const TArray<AItemPart*>& Parts) override;
+	/*virtual void Craft(const TArray<AItemPart*>& Parts) override;
 	FPartStats Head;
-	FPartStats Handle;
+	FPartStats Handle;*/
 };

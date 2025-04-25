@@ -82,22 +82,27 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting/*, URoomSave* Save1*/)
 		FVector Dimensions = RoomTypes[SelectedType].GetDefaultObject()->Dimensions;
 		int SelectedDoor = RandomInt(0, RoomTypes[SelectedType].GetDefaultObject()->Doors.Num() - 1);
 		FDoorInfo NextExit = RoomTypes[SelectedType].GetDefaultObject()->Doors[SelectedDoor];
-		int SelectedPassage = RandomInt(0, PassageTypes.Num() - 1);
+		//int SelectedPassage = RandomInt(0, PassageTypes.Num() - 1);
+		TSubclassOf<APassage> SelectedPassageType = PassagesTypesNew[Exit.Size.X].Array[NextExit.Size.X].Passages[RandomInt(0, PassagesTypesNew[Exit.Size.X].Array[NextExit.Size.X].Passages.Num()-1)];
+		APassage* SelectedPassage = SelectedPassageType.GetDefaultObject();
 		
 		float PassageLength = 400 + RandomFloat(0, 2000); //200 + (0, 2000)
 
-		FVector sel = RoomTypes[SelectedType].GetDefaultObject()->Doors[SelectedDoor].Direction;
-		FVector V = Rotation.RotateVector(Exit.Direction);
-		float cos = FVector::DotProduct(NextExit.Direction, -V);
+		FVector dir = Exit.Direction;
+		dir.Normalize();
+		FVector sel = NextExit.Direction;
+		sel.Normalize();
+		FVector V = Rotation.RotateVector(dir);
+		float cos = FVector::DotProduct(sel, -V);
 		float rad = FMath::Acos(cos);
-		FVector axis = FVector::CrossProduct(NextExit.Direction, -V);
+		FVector axis = FVector::CrossProduct(sel, -V);
 		axis.Normalize();
 		FVector V1 = FVector(1, 0, 0);
 		FVector V2 = V1.RotateAngleAxis(FMath::RadiansToDegrees(rad), axis);
 	
-		FRotator NextRotation = V2.ToOrientationRotator() + FRotator(0, PassageTypes[SelectedPassage].GetDefaultObject()->Angle, 0);
+		FRotator NextRotation = V2.ToOrientationRotator() + FRotator(0, /*PassageTypes[SelectedPassage].GetDefaultObject()*/SelectedPassage->Angle, 0);
 		
-		FVector NextLocation = Location + Rotation.RotateVector(Exit.Location) - NextRotation.RotateVector(NextExit.Location) + V.ToOrientationRotator().RotateVector(PassageTypes[SelectedPassage].GetDefaultObject()->Length);
+		FVector NextLocation = Location + Rotation.RotateVector(Exit.Location) - NextRotation.RotateVector(NextExit.Location) + V.ToOrientationRotator().RotateVector(/*PassageTypes[SelectedPassage].GetDefaultObject()*/SelectedPassage->Length);
 		
 		//FVector NextLocation = ;
 		//FRotator NextRotation;
@@ -158,25 +163,41 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting/*, URoomSave* Save1*/)
 			}
 			Room->NeighborsIndex.Add(Starting->Index);
 			Starting->NeighborsIndex.Add(Room->Index);
-			if (RandomFloat(0, 1) > 0.5)
+			float sum = 0;
+			for (auto& Pair : Biomes[Starting->BiomeIndex].PossibleBiomes)
+			{
+				sum += Pair.Value;
+			}
+			float Rand = RandomFloat(0, sum);
+			sum = 0;
+			for (auto& Pair : Biomes[Starting->BiomeIndex].PossibleBiomes)
+			{
+				sum += Pair.Value;
+				if (sum > Rand)
+				{
+					Room->BiomeIndex = static_cast<int>(Pair.Key);
+					break;
+				}
+			}
+			/*if (RandomFloat(0, 1) > 0.5)
 			{
 				Room->BiomeIndex = Starting->BiomeIndex;
 			}
 			else
 			{
 				Room->BiomeIndex = RandomInt(0, Biomes.Num() - 1);
-			}
+			}*/
 			UMaterialInterface* Material = Biomes[Starting->BiomeIndex].RoomMaterial;
 			TArray<AActor*> IgnoredActors;
 			Starting->Collision->GetOverlappingActors(IgnoredActors);
 			IgnoredActors.Add(Starting);
 			IgnoredActors.Add(Room);
-			ForceSpawnPassage(SelectedPassage, Location + Rotation.RotateVector(Exit.Location), V.ToOrientationRotator(), Material);
+			ForceSpawnPassage(SelectedPassageType, Location + Rotation.RotateVector(Exit.Location), V.ToOrientationRotator(), Material);
 			Room->FinishedDoor = SelectedDoor;
 		}
 		else
 		{
-			FVector V123 = Rotation.RotateVector(Exit.Direction);
+			FVector V123 = Rotation.RotateVector(dir);
 			ABlockade* Blockade = GetWorld()->SpawnActor<ABlockade>(BlockadeTypes[0], (Location + Rotation.RotateVector(Exit.Location)), (-V123).ToOrientationRotator());
 			Blockade->Mesh->SetMaterial(0, Biomes[Starting->BiomeIndex].RoomMaterial);
 		}
@@ -185,7 +206,7 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting/*, URoomSave* Save1*/)
 	Starting->IsFinished = true;
 	
 	// Faction
-	if (RandomFloat(0, 1) > 0.9)
+	/*if (RandomFloat(0, 1) > 0.9)
 	{
 		AFaction *Faction = GetWorld()->SpawnActor<AFaction>(FactionType, Starting->GetActorLocation(), FRotator(0, 0, 0));
 		int num = RandomInt(1, 5);
@@ -196,7 +217,7 @@ void ADungeonGenerator::FinishRoom(ARoom* Starting/*, URoomSave* Save1*/)
 			Faction->Members.Add(Controller);
 			Controller->Faction = Faction;
 		}
-	}
+	}*/
 
 
 	// Biome
@@ -294,11 +315,11 @@ void ADungeonGenerator::SpawnPassage(FVector Location, FVector StartTangent, FVe
 	}*/
 }
 
-APassage* ADungeonGenerator::ForceSpawnPassage(int Type, FVector Location, FRotator Rotation, UMaterialInterface* Material)
+APassage* ADungeonGenerator::ForceSpawnPassage(TSubclassOf<APassage> Type, FVector Location, FRotator Rotation, UMaterialInterface* Material)
 {
 	FActorSpawnParameters PassSpawnParams;
-	APassage* Passage = GetWorld()->SpawnActor<APassage>(PassageTypes[Type], Location, Rotation, PassSpawnParams);
-	Passage->Mesh->SetMaterial(0, Material);
+	APassage* Passage = GetWorld()->SpawnActor<APassage>(Type, Location, Rotation, PassSpawnParams);
+	Passage->StaticMesh->SetMaterial(0, Material);
 	//Passage->MeshParams = FMeshParams(FVector(0, 0, 0), StartTangent, End, EndTangent, StartSize, EndSize);
 	//Passage->OnRep_MeshParams();
 	//return Passage;

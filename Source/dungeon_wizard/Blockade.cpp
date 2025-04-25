@@ -17,7 +17,6 @@ ABlockade::ABlockade()
 void ABlockade::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

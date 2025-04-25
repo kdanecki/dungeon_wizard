@@ -13,7 +13,7 @@ AHammerHead::AHammerHead()
 	PrimaryActorTick.bCanEverTick = true;
 	//PartOf = AHammer::StaticClass();
 	ResourceType = FString(TEXT("glowka mlotka"));
-	MixFunction = mix_Glowka_mlotka;
+//	MixFunction = mix_Glowka_mlotka;
 }
 
 // Called when the game starts or when spawned

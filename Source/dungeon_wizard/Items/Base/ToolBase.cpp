@@ -4,7 +4,9 @@
 #include "ToolBase.h"
 
 
+/*
 void AToolBase::Craft(const TArray<AItemPart*>& Parts)
 {
 	
 }
+*/

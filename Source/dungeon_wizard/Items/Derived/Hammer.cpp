@@ -28,6 +28,7 @@ void AHammer::Tick(float DeltaTime)
 }
 
 
+/*
 void AHammer::Craft(const TArray<AItemPart*>& Parts)
 {
 	if (Parts[0]->IsA(AHammerHead::StaticClass()))
@@ -41,5 +42,6 @@ void AHammer::Craft(const TArray<AItemPart*>& Parts)
 		Handle = Parts[0]->Stats;
 	}
 }
+*/
 
 

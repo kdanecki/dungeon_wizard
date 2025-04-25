@@ -25,6 +25,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		TArray<AAICharacterController*> Members;
+	UClass* cos;
 	UFUNCTION(BlueprintCallable)
 		void ActorSpotted(AActor* Actor);
 	UFUNCTION(BlueprintImplementableEvent)

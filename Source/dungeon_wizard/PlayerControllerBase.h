@@ -31,7 +31,7 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProperty) const override;
 	virtual void OnPossess(APawn* InPawn) override;
 
-
+	
 public:
 	UPROPERTY(Replicated)
 	AHumanBase* PlayerPawn;
@@ -39,15 +39,16 @@ public:
 	
 	void Action();
 	void SecondaryAction();
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float ForceUsed;
 	UPROPERTY(BlueprintReadOnly, Replicated)
 		EAction ActionMode;
 	//UFUNCTION(BlueprintImplementableEvent)
 	void ItemSelected(AItem* Item);
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	/*UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TArray<TSubclassOf<AToolBase>> KnownTools;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
-	TArray<TSubclassOf<AItemPart>> KnownItemParts;
+	TArray<TSubclassOf<AItemPart>> KnownItemParts;*/
 
 	// Widgets
 	UFUNCTION(BlueprintImplementableEvent)
@@ -60,7 +61,7 @@ public:
 	void HideGameWidget();
 
 	// crafting stuff
-	UPROPERTY(BlueprintReadOnly)
+	/*UPROPERTY(BlueprintReadOnly)
 	bool CanCraft;
 	UPROPERTY(BlueprintReadOnly)
 	TArray<AItem*> SelectedItems;
@@ -76,7 +77,7 @@ public:
 	void CraftPart(int Index, AResourceBase* Resource);
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void UpdateWidget();
+	void UpdateWidget();*/
 
 	UPROPERTY(BlueprintReadWrite)
 		int CurrentRoom;

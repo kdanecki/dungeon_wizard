@@ -19,7 +19,14 @@
 
 #include "DungeonGenerator.generated.h"
 
-
+UENUM()
+enum EBiomeTypes
+{
+	Empty,
+	Plant,
+	Crystal,
+	StoneWastes
+};
 
 USTRUCT(BlueprintType)
 struct FBiome
@@ -32,7 +39,24 @@ struct FBiome
 		UMaterialInterface* RoomMaterial;
 	UPROPERTY(EditAnywhere)
 		TArray<FResourceInfo> PossibleResources;
+	UPROPERTY(EditAnywhere)
+		TMap<TEnumAsByte<EBiomeTypes>, float> PossibleBiomes;
+};
 
+USTRUCT(BlueprintType)
+struct FPassageTypes
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<APassage>> Passages;
+};
+
+USTRUCT(BlueprintType)
+struct FArrayLayer
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere)
+	TArray<FPassageTypes> Array;
 };
 
 UENUM()
@@ -71,6 +95,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<APassage>> PassageTypes;
 	UPROPERTY(EditAnywhere)
+	TArray<FArrayLayer> PassagesTypesNew;
+	UPROPERTY(EditAnywhere)
 		TArray<TSubclassOf<ABlockade>> BlockadeTypes;
 	UPROPERTY(EditAnywhere)
 		int RoomsLeft;
@@ -100,7 +126,7 @@ public:
 	void FinishRoom(ARoom* Starting/*, URoomSave* Save*/);
 	void EndRoom(ARoom* Starting);
 	void SpawnPassage(FVector Location, FVector StartTangent, FVector End, FVector EndTangent, FVector2D StartSize, FVector2D EndSize, TArray<AActor*> IgnoreActor, UMaterialInterface* Material);
-	APassage* ForceSpawnPassage(int Type, FVector Location, FRotator Rotation, UMaterialInterface* Material);
+	APassage* ForceSpawnPassage(TSubclassOf<APassage> Type, FVector Location, FRotator Rotation, UMaterialInterface* Material);
 	TArray<ARoom*> UnfinishedRooms;
 	TArray<ARoom*> SpawnedRooms;
 	ELoadingStatus LoadingStatus = ELoadingStatus::Idle;

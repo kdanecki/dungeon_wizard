@@ -35,10 +35,10 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
-	
 	
 	void RoomLoader();
+	UPROPERTY(EditAnywhere)
+	float RoomLoadingDelay = 1;
 	UPROPERTY(VisibleAnywhere)
 	TArray<int> LoadedRooms;
 	TArray<int> RoomsToLoad;
